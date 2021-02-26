@@ -10,6 +10,7 @@ public class Sprite
     public double rotation; // degrees
     public Rectangle boundary;
     public javafx.scene.image.Image image;
+    public int hp;
 
     public Sprite()
     {
@@ -17,6 +18,7 @@ public class Sprite
         this.velocity = new Vector();
         this.rotation = 0;
         this.boundary = new Rectangle();
+        this.hp=100;
     }
 
     public Sprite(String imageFileName)
@@ -92,6 +94,13 @@ public class Sprite
     public void updateBullet()
     {
         this.deleteBullet(1200,800);
+    }
+    
+    public boolean isShot(Sprite bullet) {
+    	if(this.overlaps(bullet)) {
+    		return true;
+    	} else 
+    		return false;
     }
 
     public void render(GraphicsContext context)

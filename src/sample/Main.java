@@ -27,7 +27,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import sample.Sprite;
 
-
 public class Main extends Application
 {
 
@@ -64,11 +63,12 @@ public class Main extends Application
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Tank Battle Login");
-		primaryStage.setWidth(500);
-		primaryStage.setHeight(575);
+		//primaryStage.setWidth(500);
+		//primaryStage.setHeight(575);
+		primaryStage.setMaximized(true);
 		primaryStage.setResizable(false);
 		primaryStage.show();
-		
+
 		login.setOnAction(new EventHandler<ActionEvent>()
 		{
 
@@ -83,7 +83,8 @@ public class Main extends Application
 					myWindow window = new myWindow(name);
 					primaryStage.close();
 
-				} else
+				}
+				else
 				{
 					Alert warning = new Alert(AlertType.WARNING);
 					warning.setHeaderText("Login failed!");
@@ -104,7 +105,19 @@ class myWindow
 	public myWindow(String name)
 	{
 
-		int hp = 100;
+		Sprite background = new Sprite("imagesProjectAI/space.png");
+		background.position.set(600, 400);
+
+		Sprite tank = new Sprite("imagesProjectAI/tank.png");
+		tank.position.set(100, 300);
+
+		Sprite enemy = new Sprite("imagesProjectAI/enemy.png");
+		enemy.position.set(900, 700);
+		
+		
+		//System.out.println(enemy.getBoundary().toString());
+
+		//int hp = 100;
 		int Shield = 100;
 		String str = "Fire speed up";
 		String coMode = "Co-operative Mode";
@@ -120,7 +133,7 @@ class myWindow
 
 			// Label
 			Label COMode = new Label("Mode: " + coMode);
-			Label hpB = new Label("HP: " + hp);
+			Label hpB = new Label("HP: " + enemy.hp);
 			Label shield = new Label("Shield: " + Shield);
 			Label boost = new Label("Boost: " + str);
 
@@ -149,22 +162,20 @@ class myWindow
 			MenuItem networkMode = new MenuItem("Network Mode");
 			SeparatorMenuItem separator = new SeparatorMenuItem();
 			mode.getItems().addAll(aiMode, playerMode, separator, networkMode);
-            
+
 			// Pane
 			BorderPane root = new BorderPane();
 			root.setTop(menuBar);
 			root.setBottom(hpBar);
 
 			// Scene
-			Scene scene = new Scene(root, 800, 600);
+			Scene scene = new Scene(root, 1800, 850);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			stage.setMaximized(true);
 			stage.setScene(scene);
 			stage.show();
 
-			
-			
-			
-			Canvas canvas = new Canvas(800, 545);
+			Canvas canvas = new Canvas(1800, 850);
 			GraphicsContext context = canvas.getGraphicsContext2D();
 			root.setCenter(canvas);
 
@@ -174,8 +185,7 @@ class myWindow
 			// handle unique inputs (once per key press)
 			ArrayList<String> keyJustPressedList = new ArrayList<>();
 
-			scene.setOnKeyPressed((KeyEvent event) ->
-			{
+			scene.setOnKeyPressed((KeyEvent event) -> {
 				String keyName = event.getCode().toString();
 				// avoid adding duplicates to the list
 				if (!keyPressedList.contains(keyName))
@@ -185,21 +195,14 @@ class myWindow
 
 			});
 
-			scene.setOnKeyReleased((KeyEvent event) ->
-			{
+			scene.setOnKeyReleased((KeyEvent event) -> {
 				String keyName = event.getCode().toString();
 				if (keyPressedList.contains(keyName))
 					keyPressedList.remove(keyName);
 			});
 
-			Sprite background = new Sprite("imagesProjectAI/space.png");
-			background.position.set(600, 400);
-
-			Sprite spaceShip = new Sprite("imagesProjectAI/tank.png");
-			spaceShip.position.set(100, 300);
-
 			ArrayList<Sprite> laserList = new ArrayList<Sprite>();
-			ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
+			//ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
 			AnimationTimer gameloop = new AnimationTimer()
 			{
@@ -208,50 +211,75 @@ class myWindow
 					// process user input
 					if (keyPressedList.contains("LEFT"))
 					{
-						spaceShip.rotation -= 3;
+						tank.rotation -= 3;
 					}
 
 					if (keyPressedList.contains("RIGHT"))
-						spaceShip.rotation += 3;
+						tank.rotation += 3;
 
 					if (keyPressedList.contains("UP"))
 					{
-						spaceShip.velocity.setLength(150);
-						spaceShip.velocity.setAngle(spaceShip.rotation);
-					} else
+						tank.velocity.setLength(150);
+						tank.velocity.setAngle(tank.rotation);
+					}
+					else
 					{
-						spaceShip.velocity.setLength(0);
+
+						if (keyPressedList.contains("DOWN"))
+						{
+							tank.velocity.setLength(-150);
+							tank.velocity.setAngle(tank.rotation);
+						}
+						else
+						{
+							tank.velocity.setLength(0);
+						}
 					}
 
 					if (keyPressedList.contains("SPACE"))
 					{
 						context.save();
-						
+
 						Sprite laser = new Sprite("imagesProjectAI/red-circle.png");
-						
-						laser.position.set(spaceShip.position.x, spaceShip.position.y);
+
+						laser.position.set(tank.position.x, tank.position.y);
 						laser.velocity.setLength(400);
-						laser.velocity.setAngle(spaceShip.rotation);
+						laser.velocity.setAngle(tank.rotation);
 						laserList.add(laser);
 
 					}
-					spaceShip.update(1 / 60.0);
+					tank.update(1 / 60.0);
 					for (Sprite laser : laserList)
 					{
 						laser.update(1 / 60.0);
+						if (enemy.isShot(laser))
+						{
+							System.out.println("hit");
+							enemy.hp -= 5;
+							System.out.println(enemy.hp);
+							laserList.remove(laser);
+							break;
+
+						}
 						laser.updateBullet();
 					}
 
 					background.render(context);
-					spaceShip.render(context);
+					tank.render(context);
+					if(enemy.hp>0) {
+						enemy.render(context);
+					}
 					for (Sprite laser : laserList)
+					{
 						laser.render(context);
+					}
 				}
 			};
-			
+
 			gameloop.start();
 
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
