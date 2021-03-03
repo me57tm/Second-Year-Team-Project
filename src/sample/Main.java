@@ -105,13 +105,13 @@ class myWindow
 	public myWindow(String name)
 	{
 
-		Sprite background = new Sprite("imagesProjectAI/space.png");
+		Sprite background = new Sprite("grimfandango-art/gf-islandbackground.png");
 		background.position.set(600, 400);
 
 		Sprite tank = new Sprite("imagesProjectAI/tank.png");
 		tank.position.set(100, 300);
 
-		Sprite enemy = new Sprite("imagesProjectAI/enemy.png");
+		Sprite enemy = new Sprite("imagesProjectAI/tank.png");
 		enemy.position.set(900, 700);
 		
 		
@@ -170,7 +170,7 @@ class myWindow
 
 			// Scene
 			Scene scene = new Scene(root, 1800, 850);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			stage.setMaximized(true);
 			stage.setScene(scene);
 			stage.show();
