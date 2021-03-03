@@ -1,5 +1,7 @@
 package application;
 
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,6 +20,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -26,21 +30,26 @@ public class Main extends Application {
 
 		launch(args);
 	}
-
+	
+	static TextField fusername = new TextField();
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
 		Stage appStage = primaryStage;
 		
+		//image
 		Image img = new Image("application/tank1.png");
 		ImageView im = new ImageView();
 		im.setImage(img);
 
+		//Button
 		Button login = new Button("Start");
 		
+		//HBox
 		HBox hb = new HBox();
 		Label username = new Label("UserName:");
-		TextField fusername = new TextField();
+		
 		
 		hb.setAlignment(Pos.CENTER);
 		hb.setSpacing(20);
@@ -50,7 +59,7 @@ public class Main extends Application {
 		BorderPane root = new BorderPane();
 		root.setBottom(hb);
 		root.setCenter(im);
-
+		
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Tank Battle Login");
@@ -58,8 +67,8 @@ public class Main extends Application {
 		primaryStage.setHeight(575);
 		primaryStage.setResizable(false);
 		primaryStage.show();
+		
 
-		//这一部分实现的页面跳转。
 		login.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -80,6 +89,11 @@ public class Main extends Application {
 			}
 		});
 	}
+	
+	public static String getName() {
+		String names = fusername.getText();
+		return names;
+	}
 
 }
 
@@ -93,8 +107,17 @@ class myWindow {
 		int Shield = 100;
 		String str = "Fire speed up";
 		
+		//Music
+		URL url = this.getClass().getClassLoader().getResource("application/music.mp3");
+		
+		Media media = new Media(url.toExternalForm());
+		MediaPlayer mp = new MediaPlayer(media);
+		
 		try
 		{	
+			String player = Main.getName();
+			mp.play();
+			
 			//Welcome!
 			Alert warning = new Alert(AlertType.INFORMATION);
 			warning.setHeaderText("Welcome!");
@@ -102,6 +125,7 @@ class myWindow {
 			warning.showAndWait();
 			
 			//Label
+			Label intro = new Label("Introduction: how to play the game.");
 			Label hpB = new Label("HP: "+ hp);
 			Label shield = new Label("Shield: "+ Shield);
 			Label boost = new Label("Boost: "+ str);
@@ -123,29 +147,89 @@ class myWindow {
 			MenuItem author = new MenuItem("Author");
 			help.getItems().addAll(author);
 			
-			MenuItem volume = new MenuItem("Volume");
-			settings.getItems().addAll(volume);
+			MenuItem volume = new MenuItem("Music off");
+			MenuItem volume1 = new MenuItem("Music on");
+			settings.getItems().addAll(volume,volume1);
+			
+			MenuItem player0 = new MenuItem("Player List");
+			players.getItems().addAll(player0);
 			
 			MenuItem aiMode = new MenuItem("Co-operative Mode");
 	        MenuItem playerMode = new MenuItem("Player Confrontation Mode");
 	        MenuItem networkMode = new MenuItem("Network Mode");
 	        SeparatorMenuItem separator = new SeparatorMenuItem();
 	        mode.getItems().addAll(aiMode,playerMode ,separator,networkMode);
-			
+	        
+	        aiMode.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0)
+				{
+					Co_Mode comode = new Co_Mode(null);
+				}
+	        });
+	        
+	        playerMode.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0)
+				{
+					PC_Mode nomode = new PC_Mode(null);
+				}
+	        });
+	        
+	        networkMode.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0)
+				{
+					N_Mode nomode = new N_Mode(null);
+				}
+	        });
+	        
+	        volume.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0)
+				{
+					mp.stop();
+				}
+	        });
+	        
+	        volume1.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0)
+				{
+					mp.play();
+				}
+	        });
+	        
+	        players.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0)
+				{
+					Player nomode = new Player(null);
+				}
+	        });
+	        
 			//Pane
 			BorderPane root = new BorderPane();
 			root.setTop(menuBar);
-			root.setBottom(hpBar);
+			root.setCenter(intro);
 			
 			//Scene
 			Scene scene = new Scene(root, 800, 600);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			stage.setScene(scene);
+			stage.setTitle("Main Stage");
 			stage.show();
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 	}
+
 	}
 
