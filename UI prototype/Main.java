@@ -15,13 +15,25 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -38,27 +50,64 @@ public class Main extends Application {
 
 		Stage appStage = primaryStage;
 		
+		//Shadow
+		DropShadow dropshadow = new DropShadow();
+        dropshadow.setRadius(10);
+        dropshadow.setOffsetX(0);
+        dropshadow.setOffsetY(0);
+        dropshadow.setSpread(0.1);
+        dropshadow.setColor(Color.BLACK);
+        
+		
+		//Label
+		Label lb = new Label("Tank Battle");
+		Font f = new Font("Segoe Print", 70);
+		lb.setFont(f);
+		lb.setTextFill(Paint.valueOf("#f2eada"));
+		
 		//image
 		Image img = new Image("application/tank1.png");
 		ImageView im = new ImageView();
 		im.setImage(img);
-
+		
+		//Background
+		BackgroundImage bgi = new BackgroundImage(img, null, null, null, null);
+		Background bg = new Background(bgi);		
+		
+		//Border
+		BorderStroke bs = new BorderStroke(Paint.valueOf("#4e72b8"), null, new CornerRadii(10), new BorderWidths(2));
+		Border br = new Border(bs);
+		
 		//Button
 		Button login = new Button("Start");
+		login.setFont(Font.font("Segoe Print"));
+		login.setBorder(br);
+		
+		//TextField
+		fusername.setBorder(br);
+		Font f1 = new Font("Segoe Print", 15);
+		fusername.setFont(f1);
 		
 		//HBox
 		HBox hb = new HBox();
+		VBox vb = new VBox();
 		Label username = new Label("UserName:");
-		
+		username.setFont(f1);
+		username.setTextFill(Paint.valueOf("#fffffb"));
 		
 		hb.setAlignment(Pos.CENTER);
 		hb.setSpacing(20);
 		hb.getChildren().addAll(username,fusername,login);
 		
+		vb.getChildren().addAll(lb);
+		vb.setAlignment(Pos.CENTER);
+		vb.setSpacing(10);
 		
 		BorderPane root = new BorderPane();
+		root.setBackground(bg);
 		root.setBottom(hb);
-		root.setCenter(im);
+		root.setCenter(vb);
+		root.setEffect(dropshadow);
 		
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
@@ -107,6 +156,13 @@ class myWindow {
 		int Shield = 100;
 		String str = "Fire speed up";
 		
+		DropShadow dropshadow = new DropShadow();
+        dropshadow.setRadius(10);
+        dropshadow.setOffsetX(0);
+        dropshadow.setOffsetY(0);
+        dropshadow.setSpread(0.1);
+        dropshadow.setColor(Color.BLACK);
+		
 		//Music
 		URL url = this.getClass().getClassLoader().getResource("application/music.mp3");
 		
@@ -126,15 +182,7 @@ class myWindow {
 			
 			//Label
 			Label intro = new Label("Introduction: how to play the game.");
-			Label hpB = new Label("HP: "+ hp);
-			Label shield = new Label("Shield: "+ Shield);
-			Label boost = new Label("Boost: "+ str);
-			
-			//HBox
-			HBox hpBar = new HBox();
-			hpBar.getChildren().addAll(hpB,shield,boost);
-			hpBar.setAlignment(Pos.CENTER);
-			hpBar.setSpacing(40);			
+			intro.setFont(Font.font("Segoe Print"));		
 			
 			//Menu
 			MenuBar menuBar = new MenuBar();
@@ -205,7 +253,7 @@ class myWindow {
 				}
 	        });
 	        
-	        players.setOnAction(new EventHandler<ActionEvent>() {
+	        player0.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
 				public void handle(ActionEvent arg0)
@@ -213,17 +261,28 @@ class myWindow {
 					Player nomode = new Player(null);
 				}
 	        });
+	        ;
+	        
+	        author.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0)
+				{
+					Author au = new Author(null);
+				}
+	        });
 	        
 			//Pane
 			BorderPane root = new BorderPane();
 			root.setTop(menuBar);
 			root.setCenter(intro);
+			root.setEffect(dropshadow);
 			
 			//Scene
-			Scene scene = new Scene(root, 800, 600);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Scene scene = new Scene(root, 640, 480);
 			stage.setScene(scene);
 			stage.setTitle("Main Stage");
+			stage.setResizable(false);
 			stage.show();
 		} catch (Exception e)
 		{
