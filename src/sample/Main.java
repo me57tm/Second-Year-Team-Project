@@ -1,6 +1,7 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -20,6 +21,7 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
@@ -99,11 +101,19 @@ public class Main extends Application
 
 class myWindow
 {
+	HashMap<String,String> controls = new HashMap<String,String>();
+	
 
 	private final Stage stage = new Stage();
 
 	public myWindow(String name)
 	{
+		
+		controls.put("FORWARD", "UP");//Current hardcoded Default bindings, arrowkeys and space
+		controls.put("BACKWARD", "DOWN");
+		controls.put("LEFT", "LEFT");
+		controls.put("RIGHT", "RIGHT");
+		controls.put("FIRE", "SPACE");
 
 		Sprite background = new Sprite("grimfandango-art/gf-islandbackground.png");
 		background.position.set(600, 400);
@@ -121,6 +131,7 @@ class myWindow
 		int Shield = 100;
 		String str = "Fire speed up";
 		String coMode = "Co-operative Mode";
+		
 
 		try
 		{
@@ -209,15 +220,15 @@ class myWindow
 				public void handle(long nanotime)
 				{
 					// process user input
-					if (keyPressedList.contains("LEFT"))
+					if (keyPressedList.contains(controls.get("LEFT")))
 					{
 						tank.rotation -= 3;
 					}
 
-					if (keyPressedList.contains("RIGHT"))
+					if (keyPressedList.contains(controls.get("RIGHT")))
 						tank.rotation += 3;
 
-					if (keyPressedList.contains("UP"))
+					if (keyPressedList.contains(controls.get("FORWARD")))
 					{
 						tank.velocity.setLength(150);
 						tank.velocity.setAngle(tank.rotation);
@@ -225,10 +236,10 @@ class myWindow
 					else
 					{
 
-						if (keyPressedList.contains("DOWN"))
+						if (keyPressedList.contains(controls.get("BACKWARD")))
 						{
-							tank.velocity.setLength(-150);
 							tank.velocity.setAngle(tank.rotation);
+							tank.velocity.setLength(-150);
 						}
 						else
 						{
@@ -236,7 +247,7 @@ class myWindow
 						}
 					}
 
-					if (keyPressedList.contains("SPACE"))
+					if (keyPressedList.contains(controls.get("FIRE")))
 					{
 						context.save();
 
@@ -283,5 +294,8 @@ class myWindow
 		{
 			e.printStackTrace();
 		}
+	}
+	public void setControl(String ctrl, String key) {
+		controls.put(ctrl, key);
 	}
 }
