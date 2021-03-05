@@ -13,22 +13,34 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Co_Mode
 {
 	private final Stage stage = new Stage();
+	
 
 	public Co_Mode(String name) {
 
 		int hp = 100;
 		int Shield = 100;
+		int score = 99;
 		String str = "Fire speed up";
 		String mode = "Co-operative Mode";
+		
+		DropShadow dropshadow = new DropShadow();
+        dropshadow.setRadius(10);
+        dropshadow.setOffsetX(0);
+        dropshadow.setOffsetY(0);
+        dropshadow.setSpread(0.1);
+        dropshadow.setColor(Color.BLACK);
 		
 		URL url = this.getClass().getClassLoader().getResource("application/music.mp3");
 		
@@ -44,13 +56,18 @@ public class Co_Mode
 			warning.showAndWait();
 			
 			//Label
+			Label score1 = new Label("Score: " + score);
+			score1.setFont(Font.font("Segoe Print"));
 			Label hpB = new Label("HP: "+ hp);
-			Label shield = new Label("Armor: "+ Shield);
+			hpB.setFont(Font.font("Segoe Print"));
+			Label shield = new Label("Shield: "+ Shield);
+			shield.setFont(Font.font("Segoe Print"));
 			Label boost = new Label("Boost: "+ str);
+			boost.setFont(Font.font("Segoe Print"));
 			
 			//HBox
 			HBox hpBar = new HBox();
-			hpBar.getChildren().addAll(hpB,shield,boost);
+			hpBar.getChildren().addAll(hpB,shield,boost,score1);
 			hpBar.setAlignment(Pos.CENTER);
 			hpBar.setSpacing(40);			
 			
@@ -82,6 +99,7 @@ public class Co_Mode
 			BorderPane root = new BorderPane();
 			root.setTop(menuBar);
 			root.setBottom(hpBar);
+			root.setEffect(dropshadow);
 			
 	        playerMode.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -121,7 +139,7 @@ public class Co_Mode
 				}
 	        });
 	        
-	        players.setOnAction(new EventHandler<ActionEvent>() {
+	        player0.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
 				public void handle(ActionEvent arg0)
@@ -129,10 +147,10 @@ public class Co_Mode
 					Player nomode = new Player(null);
 				}
 	        });
+	        
 			
 			//Scene
-			Scene scene = new Scene(root, 800, 600);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+	        Scene scene = new Scene(root, 640, 480);
 			stage.setScene(scene);
 			stage.setTitle("Co-operative Mode");
 			stage.show();
