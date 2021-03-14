@@ -240,48 +240,7 @@ public class N_Mode
 				
 				public void handle(long nanotime)
 				{
-					//enemy
 					
-					if(Math.random()< 0.015) {
-						
-						int rN = randomN();												
-						enemy.rotation += rN;												
-						enemy.velocity.setAngle(enemy.rotation);
-						enemy.velocity.setLength(10);
-												
-					}
-					
-					if(Math.random()< 0.05) {
-						
-					context.save();		
-					
-					Sprite laserE = new Sprite("imagesProjectAI/red-circle.png");						
-					laserE.position.set(enemy.position.x, enemy.position.y);
-					laserE.velocity.setLength(200);
-					laserE.velocity.setAngle(enemy.rotation);
-					laserListE.add(laserE);
-					
-					for (Sprite laser1 : laserListE)
-					{
-						laser1.update(1 / 60.0);
-						
-						if (tank.isShot(laser1))
-						{
-							System.out.println("tank hit");
-							tank.hp -= 10;
-							System.out.println(tank.hp);
-							laserListE.remove(laser1);
-							break;
-
-						}
-						laser1.updateBullet();
-					}
-					for (Sprite laser2 : laserListE)
-					{
-						laser2.render(context);
-					}
-			
-					}
 					// process user input
 					if (keyPressedList.contains("LEFT"))
 					{
