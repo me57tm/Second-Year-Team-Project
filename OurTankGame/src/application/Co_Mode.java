@@ -1,13 +1,19 @@
 package application;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 import application.Sprite;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,6 +26,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -28,6 +35,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView; 
 
 public class Co_Mode
 {
@@ -60,9 +69,12 @@ public class Co_Mode
 
 		Sprite tank = new Sprite("imagesProjectAI/tank.png");
 		tank.position.set(150, 300);
-
+		
+		Sprite bulletPowerup = new Sprite("imagesProjectAI/bulletpowerup.png");
+		bulletPowerup.position.set(150,500);
+		
 		Sprite enemy = new Sprite("imagesProjectAI/tank.png");
-		enemy.position.set(500, 400);
+		enemy.position.set(150, 325);
 		
 		int hp = 100;
 		int Shield = 100;
@@ -282,8 +294,8 @@ public class Co_Mode
 
 					if (keyPressedList.contains("RIGHT"))
 						tank.rotation += 3;
-
-					if (keyPressedList.contains("UP"))
+					
+					if (keyPressedList.contains("UP") && bulletPowerup.hp > 1)
 					{
 						tank.velocity.setAngle(tank.rotation);
 						tank.velocity.setLength(50);
@@ -292,14 +304,25 @@ public class Co_Mode
 					else
 					{
 
-						if (keyPressedList.contains("DOWN"))
+						if (keyPressedList.contains("DOWN") && bulletPowerup.hp > 1)
 						{
 							tank.velocity.setAngle(tank.rotation);
 							tank.velocity.setLength(-50);
 							
 						}
-						else
+						else if (keyPressedList.contains("UP") && (bulletPowerup.hp < 1))
 						{
+							tank.velocity.setAngle(tank.rotation);
+							tank.velocity.setLength(150);
+							
+						}
+						else if (keyPressedList.contains("DOWN") && bulletPowerup.hp < 1)
+						{
+							tank.velocity.setAngle(tank.rotation);
+							tank.velocity.setLength(-150);
+							
+						}
+						else {
 							tank.velocity.setLength(0);
 						}
 					}
@@ -342,11 +365,24 @@ public class Co_Mode
 							break;
 
 						}
+						if(bulletPowerup.isShot(laser)) {
+							System.out.println("bullet hit");
+							bulletPowerup.hp -= 100;
+							System.out.println(bulletPowerup.hp);
+							laserListT.remove(laser);
+							break;
+						}
 						laser.updateBullet();
 					}
 
 					background.render(context);
 					tank.render(context);
+					if(bulletPowerup.hp > 0) {
+						bulletPowerup.render(context);
+					}
+					if(bulletPowerup.hp < 0) {
+						tank.velocity.setLength(800);
+					}
 					if(enemy.hp>0) {
 						enemy.render(context);
 					}
@@ -354,6 +390,7 @@ public class Co_Mode
 					{
 						laser.render(context);
 					}
+					
 				}
 			};
 
