@@ -210,9 +210,10 @@ public class Co_Mode
 				String keyName = event.getCode().toString();
 				// avoid adding duplicates to the list
 				if (!keyPressedList.contains(keyName))
+				{
 					keyPressedList.add(keyName);
-				if (!keyJustPressedList.contains(keyName))
 					keyJustPressedList.add(keyName);
+				}
 
 			});
 
@@ -303,7 +304,7 @@ public class Co_Mode
 						}
 					}
 
-					if (keyPressedList.contains("SPACE"))
+					if (keyJustPressedList.contains("SPACE"))
 					{
 						context.save();
 
@@ -316,12 +317,22 @@ public class Co_Mode
 
 					}
 					
+					// after processing user input, clear keyJustPressedList
+					keyJustPressedList.clear();
+					
+					
+					
 					tank.update(1 / 60.0);
 					enemy.update(1 / 60.0);
 					
-					for (Sprite laser : laserListT)
+					for (int n = 0; n < laserListT.size(); n++)
 					{
+						Sprite laser = laserListT.get(n);
 						laser.update(1 / 60.0);
+						if(laser.elapsedTime > 3) {
+							laserListT.remove(n);
+						}
+						
 						if (enemy.isShot(laser))
 						{
 							System.out.println("enemy hit");

@@ -11,6 +11,7 @@ public class Sprite
     public Rectangle boundary;
     public javafx.scene.image.Image image;
     public int hp;
+    public double elapsedTime; //seconds
 
     public Sprite()
     {
@@ -19,6 +20,8 @@ public class Sprite
         this.rotation = 0;
         this.boundary = new Rectangle();
         this.hp=100;
+        // when we create a sprite, we set the elapsedTime to 0
+        this.elapsedTime = 0;
     }
 
     public Sprite(String imageFileName)
@@ -85,6 +88,8 @@ public class Sprite
 
     public void update(double deltaTime)
     {
+    	// increase elapsed time for this sprite
+    	this.elapsedTime += deltaTime;
         // update position according to velocity
         this.position.add(this.velocity.x * deltaTime, this.velocity.y * deltaTime);
         // wrap around screen

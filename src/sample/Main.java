@@ -196,21 +196,28 @@ class myWindow
 			// handle unique inputs (once per key press)
 			ArrayList<String> keyJustPressedList = new ArrayList<>();
 
-			scene.setOnKeyPressed((KeyEvent event) -> {
+			scene.setOnKeyPressed(
+				(KeyEvent event) -> 
+				{
 				String keyName = event.getCode().toString();
 				// avoid adding duplicates to the list
 				if (!keyPressedList.contains(keyName))
-					keyPressedList.add(keyName);
-				if (!keyJustPressedList.contains(keyName))
-					keyJustPressedList.add(keyName);
+					{
+						keyPressedList.add(keyName);
+						keyJustPressedList.add(keyName);
+					}
 
-			});
+				}
+			);
 
-			scene.setOnKeyReleased((KeyEvent event) -> {
+			scene.setOnKeyReleased(
+				(KeyEvent event) -> 
+				{
 				String keyName = event.getCode().toString();
 				if (keyPressedList.contains(keyName))
 					keyPressedList.remove(keyName);
-			});
+					}
+			);
 
 			ArrayList<Sprite> laserList = new ArrayList<Sprite>();
 			//ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
@@ -247,7 +254,7 @@ class myWindow
 						}
 					}
 
-					if (keyPressedList.contains(controls.get("FIRE")))
+					if (keyJustPressedList.contains(controls.get("FIRE")))
 					{
 						context.save();
 
@@ -259,6 +266,10 @@ class myWindow
 						laserList.add(laser);
 
 					}
+					
+					// after processing user input, clear JustPressedList
+					keyJustPressedList.clear();
+					
 					tank.update(1 / 60.0);
 					for (Sprite laser : laserList)
 					{
