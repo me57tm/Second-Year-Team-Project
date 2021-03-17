@@ -66,7 +66,6 @@ public class Co_Mode
 		Sprite background = new Sprite("grimfandango-art/gf-islandbackground.png");
 		background.position.set(500, 300);
 		
-
 		Sprite tank = new Sprite("imagesProjectAI/tank.png");
 		tank.position.set(150, 300);
 		
@@ -280,6 +279,7 @@ public class Co_Mode
 						}
 						laser1.updateBullet();
 					}
+					
 					for (Sprite laser2 : laserListE)
 					{
 						laser2.render(context);
