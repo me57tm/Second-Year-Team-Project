@@ -1,5 +1,7 @@
 # Default ignored files
 /shelf/
+.recommenders
+bin/
 /workspace.xml
 .classpath
 .project
