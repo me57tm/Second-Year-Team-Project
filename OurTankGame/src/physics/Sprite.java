@@ -1,4 +1,4 @@
-package application;
+package physics;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -67,25 +67,6 @@ public class Sprite
         }
     }
 
-    public void deleteBullet(double screenWidth, double screenHeight)
-    {
-        double halfWidth = this.image.getWidth()/2;
-        double halfHeight = this.image.getHeight()/2;
-
-        if (this.position.x >= screenWidth - halfWidth) {
-            this.position.x = 2*screenWidth;
-        }
-        if (this.position.x <= halfWidth) {
-            this.position.x = (-2)*halfWidth;
-        }
-        if (this.position.y >= screenHeight - halfHeight) {
-            this.position.y = 2*screenHeight;
-        }
-        if (this.position.y <= halfHeight) {
-            this.position.y = (-2)*halfHeight;
-        }
-    }
-
     public void update(double deltaTime)
     {
     	// increase elapsed time for this sprite
@@ -94,11 +75,6 @@ public class Sprite
         this.position.add(this.velocity.x * deltaTime, this.velocity.y * deltaTime);
         // wrap around screen
         this.limitFrame(1200,800);
-    }
-
-    public void updateBullet()
-    {
-        this.deleteBullet(1200,800);
     }
     
     public boolean isShot(Sprite bullet) {
@@ -118,6 +94,14 @@ public class Sprite
         context.drawImage(this.image, 0, 0);
 
         context.restore();
+    }
+    
+    //It is expected most physics objects will overwrite this method.
+    public boolean collide(Sprite s) {
+    	if (this.hp <= 0 || s.hp<=0){
+			return false;
+		}
+    	return overlaps(s);
     }
 
 }

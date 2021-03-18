@@ -1,4 +1,4 @@
-package application;
+package physics;
 
 public class Rectangle
 {
