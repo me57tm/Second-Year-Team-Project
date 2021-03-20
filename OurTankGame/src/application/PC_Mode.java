@@ -27,6 +27,10 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import physics.Bullet;
+import physics.PowerUp;
+import physics.Sprite;
+import physics.Tank;
 
 public class PC_Mode
 {
@@ -56,12 +60,14 @@ public class PC_Mode
 		Sprite background = new Sprite("grimfandango-art/gf-islandbackground.png");
 		background.position.set(500, 300);
 		
-
-		Sprite tank = new Sprite("imagesProjectAI/tank.png");
+		Tank tank = new Tank("imagesProjectAI/tank.png");
 		tank.position.set(150, 300);
-
-		Sprite enemy = new Sprite("imagesProjectAI/tank.png");
-		enemy.position.set(500, 400);
+		
+		PowerUp bulletPowerup = new PowerUp("Speed");
+		bulletPowerup.position.set(150,500);
+		
+		Tank enemy = new Tank("imagesProjectAI/tank.png");
+		enemy.position.set(500, 325);
 		
 		int hp = 100;
 		int Shield = 100;
@@ -230,8 +236,9 @@ public class PC_Mode
 						keyPressedList.remove(keyName);
 				});
 
-				ArrayList<Sprite> laserListT = new ArrayList<Sprite>();
-				ArrayList<Sprite> laserListE = new ArrayList<Sprite>();
+				ArrayList<Bullet> laserListT = new ArrayList<Bullet>();
+				ArrayList<Bullet> laserListE = new ArrayList<Bullet>();
+				ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 				//ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
 				AnimationTimer gameloop = new AnimationTimer()
@@ -250,72 +257,23 @@ public class PC_Mode
 													
 						}
 						
-						if(Math.random()< 0.05) {
-							
-						context.save();		
-						
-						Sprite laserE = new Sprite("imagesProjectAI/red-circle.png");						
-						laserE.position.set(enemy.position.x, enemy.position.y);
-						laserE.velocity.setLength(200);
-						laserE.velocity.setAngle(enemy.rotation);
-						laserListE.add(laserE);
-						
-						for (Sprite laser1 : laserListE)
-						{
-							laser1.update(1 / 60.0);
-							
-							if (tank.isShot(laser1))
-							{
-								System.out.println("tank hit");
-								tank.hp -= 10;
-								System.out.println(tank.hp);
-								laserListE.remove(laser1);
-								break;
-
-							}
-							laser1.updateBullet();
-						}
-						for (Sprite laser2 : laserListE)
-						{
-							laser2.render(context);
-						}
-				
-						}
-						// process user input
-						if (keyPressedList.contains("LEFT"))
-						{
-							tank.rotation -= 3;
-						}
-
-						if (keyPressedList.contains("RIGHT"))
-							tank.rotation += 3;
-
-						if (keyPressedList.contains("UP"))
-						{
-							tank.velocity.setAngle(tank.rotation);
-							tank.velocity.setLength(50);
-							
-						}
-						else
-						{
-
-							if (keyPressedList.contains("DOWN"))
-							{
-								tank.velocity.setAngle(tank.rotation);
-								tank.velocity.setLength(-50);
+						if(Math.random()< 0.008) {
 								
-							}
-							else
-							{
-								tank.velocity.setLength(0);
-							}
+							context.save();		
+							
+							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);						
+							laserE.position.set(enemy.position.x, enemy.position.y);
+							laserE.velocity.setLength(200);
+							laserE.velocity.setAngle(enemy.rotation);
+							laserListE.add(laserE);
 						}
 
-						if (keyPressedList.contains("SPACE"))
+						tank.move(keyPressedList);
+						if (keyJustPressedList.contains("SPACE"))
 						{
 							context.save();
 
-							Sprite laser = new Sprite("imagesProjectAI/red-circle.png");
+							Bullet laser = new Bullet("imagesProjectAI/red-circle.png",tank);
 
 							laser.position.set(tank.position.x, tank.position.y);
 							laser.velocity.setLength(200);
@@ -323,27 +281,51 @@ public class PC_Mode
 							laserListT.add(laser);
 
 						}
+							
+							
+						// after processing user input, clear keyJustPressedList
+						keyJustPressedList.clear();
+						
+						
 						
 						tank.update(1 / 60.0);
 						enemy.update(1 / 60.0);
 						
-						for (Sprite laser : laserListT)
+						
+						//Collision Detection for Bullets
+						for (Bullet laser1 : laserListE)
 						{
-							laser.update(1 / 60.0);
-							if (enemy.isShot(laser))
-							{
-								System.out.println("enemy hit");
-								enemy.hp -= 5;
-								System.out.println(enemy.hp);
-								laserListT.remove(laser);
-								break;
-
-							}
-							laser.updateBullet();
+							laser1.update(1 / 60.0);
+							tank.collide(laser1);
+							bulletPowerup.collide(laser1);
 						}
-
+						
+						for (int n = 0; n < laserListT.size(); n++)
+						{
+							Bullet laser = laserListT.get(n);
+							laser.update(1 / 60.0);
+							
+							enemy.collide(laser); //TODO: this is a marker that I edited this one
+							
+							bulletPowerup.collide(laser);
+						}
+						
+						//Remove Bullets that have collided with something
+						for (Bullet b : laserListT) if (b.hp < 0) oldBullets.add(b);
+						for (Bullet b : laserListE) if (b.hp < 0) oldBullets.add(b);
+						laserListT.removeAll(oldBullets);
+						laserListE.removeAll(oldBullets);
+						oldBullets.clear();
+						
+						//Render everything
 						background.render(context);
 						tank.render(context);
+						if(bulletPowerup.hp > 1) {
+							bulletPowerup.render(context);
+						}
+						if(bulletPowerup.hp < 1) {
+							tank.velocity.setLength(800);
+						}
 						if(enemy.hp>0) {
 							enemy.render(context);
 						}
@@ -351,11 +333,16 @@ public class PC_Mode
 						{
 							laser.render(context);
 						}
+						for (Sprite laser : laserListE)
+						{
+							laser.render(context);
+						}
+						
 					}
 				};
 
 				gameloop.start();
-
+				
 		} catch (Exception e)
 		{
 			e.printStackTrace();
