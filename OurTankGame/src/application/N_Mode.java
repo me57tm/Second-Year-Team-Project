@@ -31,197 +31,188 @@ import physics.Bullet;
 import physics.PowerUp;
 import physics.Sprite;
 import physics.Tank;
+import tankUI.Player;
+import tankUI.TankMenu;
 
 public class N_Mode
 {
 	private final Stage stage = new Stage();
-	
-	static int randomN(){
 
-	    Random random = new Random();
-	    int n = random.nextInt(10);
+	static int randomN()
+	{
 
-	   	if(n==1||n==3||n==5||n==7||n==9){
+		Random random = new Random();
+		int n = random.nextInt(10);
 
-	         String str = "-"+random.nextInt(45);
-	         int a = Integer.parseInt(str);
-	         return a;
-	         
-	       }else{
+		if (n == 1 || n == 3 || n == 5 || n == 7 || n == 9)
+		{
 
-	               int a = random.nextInt(45);
-	               return a;
-	               
-	              }
-	    }
-	
-	public N_Mode(String name) {
-		
+			String str = "-" + random.nextInt(45);
+			int a = Integer.parseInt(str);
+			return a;
+
+		} else
+		{
+
+			int a = random.nextInt(45);
+			return a;
+
+		}
+	}
+
+	public N_Mode(String name)
+	{
+
 		Sprite background = new Sprite("grimfandango-art/gf-islandbackground.png");
 		background.position.set(500, 300);
-		
+
 		Tank tank = new Tank("imagesProjectAI/tank.png");
 		tank.position.set(150, 300);
-		
+
 		PowerUp bulletPowerup = new PowerUp("Speed");
-		bulletPowerup.position.set(150,500);
-		
-		Tank enemy = new Tank("imagesProjectAI/tank.png");
+		bulletPowerup.position.set(150, 500);
+
+		Tank enemy = new Tank("grimfandango-art/tank-red.png");
 		enemy.position.set(500, 325);
-		
+
 		int hp = 100;
 		int Shield = 100;
 		int score = 99;
 		String str = "Fire speed up";
-		String mode = "Network Mode";
-		
-		
+
 		DropShadow dropshadow = new DropShadow();
-        dropshadow.setRadius(10);
-        dropshadow.setOffsetX(0);
-        dropshadow.setOffsetY(0);
-        dropshadow.setSpread(0.1);
-        dropshadow.setColor(Color.BLACK);
-		
+		dropshadow.setRadius(10);
+		dropshadow.setOffsetX(0);
+		dropshadow.setOffsetY(0);
+		dropshadow.setSpread(0.1);
+		dropshadow.setColor(Color.BLACK);
+
 		URL url = this.getClass().getClassLoader().getResource("application/music.mp3");
-		
+
 		Media media = new Media(url.toExternalForm());
 		MediaPlayer mp = new MediaPlayer(media);
-		
+
 		try
-		{	
-			//Welcome!
-			Alert warning = new Alert(AlertType.INFORMATION);
-			warning.setHeaderText("Welcome!");
-			warning.setContentText("Welcome to Network Mode");
-			warning.showAndWait();
-			
-			//Label
+		{
+
+			// Label
 			Label score1 = new Label("Score: " + score);
 			score1.setFont(Font.font("Segoe Print"));
-			Label hpB = new Label("HP: "+ hp);
+			Label hpB = new Label("HP: " + hp);
 			hpB.setFont(Font.font("Segoe Print"));
-			Label shield = new Label("Shield: "+ Shield);
+			Label shield = new Label("Shield: " + Shield);
 			shield.setFont(Font.font("Segoe Print"));
-			Label boost = new Label("Boost: "+ str);
+			Label boost = new Label("Boost: " + str);
 			boost.setFont(Font.font("Segoe Print"));
-			
-			//HBox
+
+			// HBox
 			HBox hpBar = new HBox();
-			hpBar.getChildren().addAll(hpB,shield,boost,score1);
+			hpBar.getChildren().addAll(hpB, shield, boost, score1);
 			hpBar.setAlignment(Pos.CENTER);
-			hpBar.setSpacing(40);			
-			
-			//Menu
+			hpBar.setSpacing(40);
+
+			// Menu
 			MenuBar menuBar = new MenuBar();
-			Menu cccmode = new Menu("Game Mode");
+			Menu rq = new Menu("Quit or Return");
 			Menu players = new Menu("Player");
-			Menu settings = new Menu("Settings");
+			Menu Audio = new Menu("Audio");
 			Menu help = new Menu("Help");
-			menuBar.getMenus().addAll(cccmode,players,settings,help);
+			menuBar.getMenus().addAll(players, Audio, help, rq);
 			
-			MenuItem author = new MenuItem("Author");
-			help.getItems().addAll(author);
+
+			MenuItem quit = new MenuItem("Quit Game");
+			MenuItem returnM = new MenuItem("Return to Meun");
+			rq.getItems().addAll(quit, returnM);
 			
+			returnM.setOnAction(new EventHandler<ActionEvent>()
+			{
+
+				@Override
+				public void handle(ActionEvent arg0)
+				{
+					TankMenu m1 = new TankMenu();
+					stage.close();
+				}
+			});
+			
+			quit.setOnAction(new EventHandler<ActionEvent>()
+			{
+
+				@Override
+				public void handle(ActionEvent arg0)
+				{
+					stage.close();
+				}
+			});
+
 			MenuItem volume = new MenuItem("Music off");
 			MenuItem volume1 = new MenuItem("Music on");
-			settings.getItems().addAll(volume,volume1);
-			
+			Audio.getItems().addAll(volume, volume1);
+
 			MenuItem player0 = new MenuItem("Player List");
 			players.getItems().addAll(player0);
-			
-			MenuItem aiMode = new MenuItem("Co-operative Mode");
-	        MenuItem playerMode = new MenuItem("Player Confrontation Mode");
-	        MenuItem networkMode = new MenuItem("Network Mode");
-	        SeparatorMenuItem separator = new SeparatorMenuItem();
-	        cccmode.getItems().addAll(aiMode,playerMode ,separator,networkMode);
-			
-			//Pane
+
+			// Pane
 			BorderPane root = new BorderPane();
 			root.setTop(menuBar);
 			root.setBottom(hpBar);
 			root.setEffect(dropshadow);
-			
-			aiMode.setOnAction(new EventHandler<ActionEvent>() {
 
-				@Override
-				public void handle(ActionEvent arg0)
-				{
-					Co_Mode comode = new Co_Mode(null);
-					stage.close();
-				}
-	        });
-	        
-	        playerMode.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent arg0)
-				{
-					PC_Mode nomode = new PC_Mode(null);
-					stage.close();
-				}
-	        });
-	        
-	        volume.setOnAction(new EventHandler<ActionEvent>() {
+			volume.setOnAction(new EventHandler<ActionEvent>()
+			{
 
 				@Override
 				public void handle(ActionEvent arg0)
 				{
 					mp.stop();
 				}
-	        });
-	        
-	        volume1.setOnAction(new EventHandler<ActionEvent>() {
+			});
+
+			volume1.setOnAction(new EventHandler<ActionEvent>()
+			{
 
 				@Override
 				public void handle(ActionEvent arg0)
 				{
 					mp.play();
 				}
-	        });
-	        
-	        player0.setOnAction(new EventHandler<ActionEvent>() {
+			});
+
+			player0.setOnAction(new EventHandler<ActionEvent>()
+			{
 
 				@Override
 				public void handle(ActionEvent arg0)
 				{
 					Player nomode = new Player(null);
 				}
-	        });
-	        
-	        author.setOnAction(new EventHandler<ActionEvent>() {
+			});
 
-				@Override
-				public void handle(ActionEvent arg0)
-				{
-					Author au = new Author(null);
-				}
-	        });
-			
-	        root.setTop(menuBar);
+			root.setTop(menuBar);
 			root.setBottom(hpBar);
 
 			// Scene
 			Scene scene = new Scene(root, 985, 690);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			//stage.setMaximized(true);
+			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			// stage.setMaximized(true);
 			stage.setResizable(false);
 			stage.setScene(scene);
-			stage.setTitle("Network Mode");
+			stage.setTitle("Player Confrontation Mode");
 			stage.show();
-			
+
 			Canvas canvas = new Canvas(1000, 640);
 			GraphicsContext context = canvas.getGraphicsContext2D();
-			//Change setCenter to setLeft
+			// Change setCenter to setLeft
 			root.setLeft(canvas);
-			
+
 			// handle continuous inputs (as long as key is pressed)
 			ArrayList<String> keyPressedList = new ArrayList<>();
 
 			// handle unique inputs (once per key press)
 			ArrayList<String> keyJustPressedList = new ArrayList<>();
 
-			scene.setOnKeyPressed((KeyEvent event) -> {
+			scene.setOnKeyPressed((KeyEvent event) ->
+			{
 				String keyName = event.getCode().toString();
 				// avoid adding duplicates to the list
 				if (!keyPressedList.contains(keyName))
@@ -231,7 +222,8 @@ public class N_Mode
 
 			});
 
-			scene.setOnKeyReleased((KeyEvent event) -> {
+			scene.setOnKeyReleased((KeyEvent event) ->
+			{
 				String keyName = event.getCode().toString();
 				if (keyPressedList.contains(keyName))
 					keyPressedList.remove(keyName);
@@ -240,29 +232,31 @@ public class N_Mode
 			ArrayList<Bullet> laserListT = new ArrayList<Bullet>();
 			ArrayList<Bullet> laserListE = new ArrayList<Bullet>();
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
-			//ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
+			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
 			AnimationTimer gameloop = new AnimationTimer()
 			{
-				
+
 				public void handle(long nanotime)
 				{
-					//enemy
-					
-					if(Math.random()< 0.015) {
-						
-						int rN = randomN();												
-						enemy.rotation += rN;												
+					// enemy
+
+					if (Math.random() < 0.015)
+					{
+
+						int rN = randomN();
+						enemy.rotation += rN;
 						enemy.velocity.setAngle(enemy.rotation);
 						enemy.velocity.setLength(10);
-												
+
 					}
-					
-					if(Math.random()< 0.008) {
-							
-						context.save();		
-						
-						Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);						
+
+					if (Math.random() < 0.008)
+					{
+
+						context.save();
+
+						Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
 						laserE.position.set(enemy.position.x, enemy.position.y);
 						laserE.velocity.setLength(200);
 						laserE.velocity.setAngle(enemy.rotation);
@@ -274,7 +268,7 @@ public class N_Mode
 					{
 						context.save();
 
-						Bullet laser = new Bullet("imagesProjectAI/red-circle.png",tank);
+						Bullet laser = new Bullet("imagesProjectAI/red-circle.png", tank);
 
 						laser.position.set(tank.position.x, tank.position.y);
 						laser.velocity.setLength(200);
@@ -282,52 +276,55 @@ public class N_Mode
 						laserListT.add(laser);
 
 					}
-						
-						
+
 					// after processing user input, clear keyJustPressedList
 					keyJustPressedList.clear();
-					
-					
-					
+
 					tank.update(1 / 60.0);
 					enemy.update(1 / 60.0);
-					
-					
-					//Collision Detection for Bullets
+
+					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE)
 					{
 						laser1.update(1 / 60.0);
 						tank.collide(laser1);
 						bulletPowerup.collide(laser1);
 					}
-					
+
 					for (int n = 0; n < laserListT.size(); n++)
 					{
 						Bullet laser = laserListT.get(n);
 						laser.update(1 / 60.0);
-						
-						enemy.collide(laser); //TODO: this is a marker that I edited this one
-						
+
+						enemy.collide(laser); // TODO: this is a marker that I edited this one
+
 						bulletPowerup.collide(laser);
 					}
-					
-					//Remove Bullets that have collided with something
-					for (Bullet b : laserListT) if (b.hp < 0) oldBullets.add(b);
-					for (Bullet b : laserListE) if (b.hp < 0) oldBullets.add(b);
+
+					// Remove Bullets that have collided with something
+					for (Bullet b : laserListT)
+						if (b.hp < 0)
+							oldBullets.add(b);
+					for (Bullet b : laserListE)
+						if (b.hp < 0)
+							oldBullets.add(b);
 					laserListT.removeAll(oldBullets);
 					laserListE.removeAll(oldBullets);
 					oldBullets.clear();
-					
-					//Render everything
+
+					// Render everything
 					background.render(context);
 					tank.render(context);
-					if(bulletPowerup.hp > 1) {
+					if (bulletPowerup.hp > 1)
+					{
 						bulletPowerup.render(context);
 					}
-					if(bulletPowerup.hp < 1) {
+					if (bulletPowerup.hp < 1)
+					{
 						tank.velocity.setLength(800);
 					}
-					if(enemy.hp>0) {
+					if (enemy.hp > 0)
+					{
 						enemy.render(context);
 					}
 					for (Sprite laser : laserListT)
@@ -338,18 +335,16 @@ public class N_Mode
 					{
 						laser.render(context);
 					}
-					
+
 				}
 			};
 
 			gameloop.start();
-			
+
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 	}
-	
-
 
 }
