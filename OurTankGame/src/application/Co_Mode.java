@@ -18,6 +18,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -25,6 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import physics.Bullet;
@@ -34,33 +36,28 @@ import physics.Tank;
 import tankUI.Player;
 import tankUI.TankMenu;
 
-public class Co_Mode
-{
+public class Co_Mode {
 	private final Stage stage = new Stage();
 
-	static int randomN()
-	{
+	static int randomN() {
 
 		Random random = new Random();
 		int n = random.nextInt(10);
 
-		if (n == 1 || n == 3 || n == 5 || n == 7 || n == 9)
-		{
+		if (n == 1 || n == 3 || n == 5 || n == 7 || n == 9) {
 
 			String str = "-" + random.nextInt(45);
 			int a = Integer.parseInt(str);
 			return a;
 
-		} else
-		{
+		} else {
 			int a = random.nextInt(45);
 			return a;
 
 		}
 	}
 
-	public Co_Mode(String name)
-	{
+	public Co_Mode(String name) {
 
 		Sprite background = new Sprite("grimfandango-art/gf-islandbackground.png");
 		background.position.set(500, 300);
@@ -91,8 +88,7 @@ public class Co_Mode
 		Media media = new Media(url.toExternalForm());
 		MediaPlayer mp = new MediaPlayer(media);
 
-		try
-		{
+		try {
 
 			// Label
 			Label score1 = new Label("Score: " + score);
@@ -117,29 +113,24 @@ public class Co_Mode
 			Menu Audio = new Menu("Audio");
 			Menu help = new Menu("Help");
 			menuBar.getMenus().addAll(players, Audio, help, rq);
-			
 
 			MenuItem quit = new MenuItem("Quit Game");
 			MenuItem returnM = new MenuItem("Return to Meun");
 			rq.getItems().addAll(quit, returnM);
-			
-			returnM.setOnAction(new EventHandler<ActionEvent>()
-			{
+
+			returnM.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					TankMenu m1 = new TankMenu();
 					stage.close();
 				}
 			});
-			
-			quit.setOnAction(new EventHandler<ActionEvent>()
-			{
+
+			quit.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					stage.close();
 				}
 			});
@@ -157,32 +148,26 @@ public class Co_Mode
 			root.setBottom(hpBar);
 			root.setEffect(dropshadow);
 
-			volume.setOnAction(new EventHandler<ActionEvent>()
-			{
+			volume.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					mp.stop();
 				}
 			});
 
-			volume1.setOnAction(new EventHandler<ActionEvent>()
-			{
+			volume1.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					mp.play();
 				}
 			});
 
-			player0.setOnAction(new EventHandler<ActionEvent>()
-			{
+			player0.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					Player nomode = new Player(null);
 				}
 			});
@@ -210,8 +195,7 @@ public class Co_Mode
 			// handle unique inputs (once per key press)
 			ArrayList<String> keyJustPressedList = new ArrayList<>();
 
-			scene.setOnKeyPressed((KeyEvent event) ->
-			{
+			scene.setOnKeyPressed((KeyEvent event) -> {
 				String keyName = event.getCode().toString();
 				// avoid adding duplicates to the list
 				if (!keyPressedList.contains(keyName))
@@ -221,8 +205,7 @@ public class Co_Mode
 
 			});
 
-			scene.setOnKeyReleased((KeyEvent event) ->
-			{
+			scene.setOnKeyReleased((KeyEvent event) -> {
 				String keyName = event.getCode().toString();
 				if (keyPressedList.contains(keyName))
 					keyPressedList.remove(keyName);
@@ -233,38 +216,68 @@ public class Co_Mode
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
-			AnimationTimer gameloop = new AnimationTimer()
-			{
+			
+					
+			AnimationTimer gameloop = new AnimationTimer() {
 
-				public void handle(long nanotime)
-				{
-					// enemy
+				int times = 0;
+			    int framesForNow = 0;
+				int oneOrMinOne  = 0;
 
-					if (Math.random() < 0.015)
-					{
+				public void handle(long nanotime) {
+//					// enemy
+//
+//					if (Math.random() < 0.015)
+//					{
+//
+//						int rN = randomN();
+//						enemy.rotation += rN;
+//						enemy.velocity.setAngle(enemy.rotation);
+//						enemy.velocity.setLength(10);
+//
+//					}
+//
 
-						int rN = randomN();
-						enemy.rotation += rN;
+					double checkRotation = enemy.rotation % 90;
+					System.out.println(enemy.rotation);
+					if (checkRotation == 0) {
+						oneOrMinOne = 0;
+						if (Math.random() < 0.01) {
+
+							context.save();
+
+							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
+							laserE.position.set(enemy.position.x, enemy.position.y);
+							laserE.velocity.setLength(200);
+							laserE.velocity.setAngle(enemy.rotation);
+							laserListE.add(laserE);
+						}
+
+						times++;
+						int i = times % 210;
+						double randomNumber = Math.random();
 						enemy.velocity.setAngle(enemy.rotation);
 						enemy.velocity.setLength(10);
-
+						if (i == 0) {
+							if (randomNumber < 0.5) {
+								enemy.rotation += 2;
+								oneOrMinOne = 1;
+							} else if (randomNumber > 0.5) {
+								enemy.rotation -= 2;
+								oneOrMinOne = -1;
+							} 
+						}
 					}
-
-					if (Math.random() < 0.008)
-					{
-
-						context.save();
-
-						Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
-						laserE.position.set(enemy.position.x, enemy.position.y);
-						laserE.velocity.setLength(200);
-						laserE.velocity.setAngle(enemy.rotation);
-						laserListE.add(laserE);
+					 if (oneOrMinOne == 1){
+						enemy.rotation += 2;
 					}
-
+					 if (oneOrMinOne == -1) {
+						enemy.rotation -= 2;
+					}
+					
+					
 					tank.move(keyPressedList);
-					if (keyJustPressedList.contains("SPACE"))
-					{
+					if (keyJustPressedList.contains("SPACE")) {
 						context.save();
 
 						Bullet laser = new Bullet("imagesProjectAI/red-circle.png", tank);
@@ -283,15 +296,13 @@ public class Co_Mode
 					enemy.update(1 / 60.0);
 
 					// Collision Detection for Bullets
-					for (Bullet laser1 : laserListE)
-					{
+					for (Bullet laser1 : laserListE) {
 						laser1.update(1 / 60.0);
 						tank.collide(laser1);
 						bulletPowerup.collide(laser1);
 					}
 
-					for (int n = 0; n < laserListT.size(); n++)
-					{
+					for (int n = 0; n < laserListT.size(); n++) {
 						Bullet laser = laserListT.get(n);
 						laser.update(1 / 60.0);
 
@@ -314,24 +325,19 @@ public class Co_Mode
 					// Render everything
 					background.render(context);
 					tank.render(context);
-					if (bulletPowerup.hp > 1)
-					{
+					if (bulletPowerup.hp > 1) {
 						bulletPowerup.render(context);
 					}
-					if (bulletPowerup.hp < 1)
-					{
+					if (bulletPowerup.hp < 1) {
 						tank.velocity.setLength(800);
 					}
-					if (enemy.hp > 0)
-					{
+					if (enemy.hp > 0) {
 						enemy.render(context);
 					}
-					for (Sprite laser : laserListT)
-					{
+					for (Sprite laser : laserListT) {
 						laser.render(context);
 					}
-					for (Sprite laser : laserListE)
-					{
+					for (Sprite laser : laserListE) {
 						laser.render(context);
 					}
 
@@ -340,8 +346,7 @@ public class Co_Mode
 
 			gameloop.start();
 
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
