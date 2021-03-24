@@ -234,45 +234,60 @@ public class Solo_Mode
 
 			AnimationTimer gameloop = new AnimationTimer()
 			{
-
+				int times = 0;
+			    int framesForNow = 0;
+				int oneOrMinOne  = 0;
+				
 				public void handle(long nanotime)
 				{
-					// enemy
+//					// enemy
+//
+//					if (Math.random() < 0.015)
+//					{
+//
+//						int rN = randomN();
+//						enemy.rotation += rN;
+//						enemy.velocity.setAngle(enemy.rotation);
+//						enemy.velocity.setLength(10);
+//
+//					}
+//
 
-					if (Math.random() < 0.015)
-					{
+					double checkRotation = enemy.rotation % 90;
+					
+					if (checkRotation == 0) {
+						oneOrMinOne = 0;
+						if (Math.random() < 0.01) {
 
-						int rN = randomN();
-						enemy.rotation += rN;
+							context.save();
+
+							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
+							laserE.position.set(enemy.position.x, enemy.position.y);
+							laserE.velocity.setLength(200);
+							laserE.velocity.setAngle(enemy.rotation);
+							laserListE.add(laserE);
+						}
+
+						times++;
+						int i = times % 210;
+						double randomNumber = Math.random();
 						enemy.velocity.setAngle(enemy.rotation);
 						enemy.velocity.setLength(10);
-
+						if (i == 0) {
+							if (randomNumber < 0.5) {
+								enemy.rotation += 2;
+								oneOrMinOne = 1;
+							} else if (randomNumber > 0.5) {
+								enemy.rotation -= 2;
+								oneOrMinOne = -1;
+							} 
+						}
 					}
-
-					if (Math.random() < 0.008)
-					{
-
-						context.save();
-
-						Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
-						laserE.position.set(enemy.position.x, enemy.position.y);
-						laserE.velocity.setLength(200);
-						laserE.velocity.setAngle(enemy.rotation);
-						laserListE.add(laserE);
+					 if (oneOrMinOne == 1){
+						enemy.rotation += 2;
 					}
-
-					tank.move(keyPressedList);
-					if (keyJustPressedList.contains("SPACE"))
-					{
-						context.save();
-
-						Bullet laser = new Bullet("imagesProjectAI/red-circle.png", tank);
-
-						laser.position.set(tank.position.x, tank.position.y);
-						laser.velocity.setLength(200);
-						laser.velocity.setAngle(tank.rotation);
-						laserListT.add(laser);
-
+					 if (oneOrMinOne == -1) {
+						enemy.rotation -= 2;
 					}
 
 					// after processing user input, clear keyJustPressedList
