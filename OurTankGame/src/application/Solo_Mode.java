@@ -3,7 +3,6 @@ package application;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
-
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,13 +10,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -27,38 +23,35 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import physics.*;
+import physics.Bullet;
+import physics.PowerUp;
+import physics.Sprite;
+import physics.Tank;
 import tankUI.Player;
 import tankUI.TankMenu;
 
-public class Solo_Mode
-{
+public class Solo_Mode {
 	private final Stage stage = new Stage();
 
-	static int randomN()
-	{
+	static int randomN() {
 
 		Random random = new Random();
 		int n = random.nextInt(10);
 
-		if (n == 1 || n == 3 || n == 5 || n == 7 || n == 9)
-		{
+		if (n == 1 || n == 3 || n == 5 || n == 7 || n == 9) {
 
 			String str = "-" + random.nextInt(45);
 			int a = Integer.parseInt(str);
 			return a;
 
-		} else
-		{
-
+		} else {
 			int a = random.nextInt(45);
 			return a;
 
 		}
 	}
 
-	public Solo_Mode(String name)
-	{
+	public Solo_Mode(String name) {
 
 		Sprite background = new Sprite("grimfandango-art/gf-islandbackground.png");
 		background.position.set(500, 300);
@@ -89,8 +82,7 @@ public class Solo_Mode
 		Media media = new Media(url.toExternalForm());
 		MediaPlayer mp = new MediaPlayer(media);
 
-		try
-		{
+		try {
 
 			// Label
 			Label score1 = new Label("Score: " + score);
@@ -115,33 +107,28 @@ public class Solo_Mode
 			Menu Audio = new Menu("Audio");
 			Menu help = new Menu("Help");
 			menuBar.getMenus().addAll(players, Audio, help, rq);
-			
 
 			MenuItem quit = new MenuItem("Quit Game");
 			MenuItem returnM = new MenuItem("Return to Meun");
 			rq.getItems().addAll(quit, returnM);
-			
-			returnM.setOnAction(new EventHandler<ActionEvent>()
-			{
+
+			returnM.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					TankMenu m1 = new TankMenu();
 					stage.close();
 				}
 			});
-			
-			quit.setOnAction(new EventHandler<ActionEvent>()
-			{
+
+			quit.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					stage.close();
 				}
 			});
-			
+
 			MenuItem volume = new MenuItem("Music off");
 			MenuItem volume1 = new MenuItem("Music on");
 			Audio.getItems().addAll(volume, volume1);
@@ -155,32 +142,26 @@ public class Solo_Mode
 			root.setBottom(hpBar);
 			root.setEffect(dropshadow);
 
-			volume.setOnAction(new EventHandler<ActionEvent>()
-			{
+			volume.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					mp.stop();
 				}
 			});
 
-			volume1.setOnAction(new EventHandler<ActionEvent>()
-			{
+			volume1.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					mp.play();
 				}
 			});
 
-			player0.setOnAction(new EventHandler<ActionEvent>()
-			{
+			player0.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					Player nomode = new Player(null);
 				}
 			});
@@ -194,7 +175,7 @@ public class Solo_Mode
 			// stage.setMaximized(true);
 			stage.setResizable(false);
 			stage.setScene(scene);
-			stage.setTitle("Solo Mode");
+			stage.setTitle("Co-operative Mode");
 			stage.show();
 
 			Canvas canvas = new Canvas(1000, 640);
@@ -208,20 +189,17 @@ public class Solo_Mode
 			// handle unique inputs (once per key press)
 			ArrayList<String> keyJustPressedList = new ArrayList<>();
 
-			scene.setOnKeyPressed((KeyEvent event) ->
-			{
+			scene.setOnKeyPressed((KeyEvent event) -> {
 				String keyName = event.getCode().toString();
 				// avoid adding duplicates to the list
 				if (!keyPressedList.contains(keyName))
-				{
 					keyPressedList.add(keyName);
+				if (!keyJustPressedList.contains(keyName))
 					keyJustPressedList.add(keyName);
-				}
 
 			});
 
-			scene.setOnKeyReleased((KeyEvent event) ->
-			{
+			scene.setOnKeyReleased((KeyEvent event) -> {
 				String keyName = event.getCode().toString();
 				if (keyPressedList.contains(keyName))
 					keyPressedList.remove(keyName);
@@ -232,29 +210,18 @@ public class Solo_Mode
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
-			AnimationTimer gameloop = new AnimationTimer()
-			{
+			
+					
+			AnimationTimer gameloop = new AnimationTimer() {
+
 				int times = 0;
 			    int framesForNow = 0;
 				int oneOrMinOne  = 0;
-				
-				public void handle(long nanotime)
-				{
-//					// enemy
-//
-//					if (Math.random() < 0.015)
-//					{
-//
-//						int rN = randomN();
-//						enemy.rotation += rN;
-//						enemy.velocity.setAngle(enemy.rotation);
-//						enemy.velocity.setLength(10);
-//
-//					}
-//
+
+				public void handle(long nanotime) {
 
 					double checkRotation = enemy.rotation % 90;
-					
+					System.out.println(enemy.rotation);
 					if (checkRotation == 0) {
 						oneOrMinOne = 0;
 						if (Math.random() < 0.01) {
@@ -289,6 +256,11 @@ public class Solo_Mode
 					 if (oneOrMinOne == -1) {
 						enemy.rotation -= 2;
 					}
+					
+					
+					tank.move(keyPressedList,keyJustPressedList,context,laserListT);
+					tank.setBulletMsg(0);
+					
 
 					// after processing user input, clear keyJustPressedList
 					keyJustPressedList.clear();
@@ -297,15 +269,13 @@ public class Solo_Mode
 					enemy.update(1 / 60.0);
 
 					// Collision Detection for Bullets
-					for (Bullet laser1 : laserListE)
-					{
+					for (Bullet laser1 : laserListE) {
 						laser1.update(1 / 60.0);
 						tank.collide(laser1);
 						bulletPowerup.collide(laser1);
 					}
 
-					for (int n = 0; n < laserListT.size(); n++)
-					{
+					for (int n = 0; n < laserListT.size(); n++) {
 						Bullet laser = laserListT.get(n);
 						laser.update(1 / 60.0);
 
@@ -328,24 +298,19 @@ public class Solo_Mode
 					// Render everything
 					background.render(context);
 					tank.render(context);
-					if (bulletPowerup.hp > 1)
-					{
+					if (bulletPowerup.hp > 1) {
 						bulletPowerup.render(context);
 					}
-					if (bulletPowerup.hp < 1)
-					{
+					if (bulletPowerup.hp < 1) {
 						tank.velocity.setLength(800);
 					}
-					if (enemy.hp > 0)
-					{
+					if (enemy.hp > 0) {
 						enemy.render(context);
 					}
-					for (Sprite laser : laserListT)
-					{
+					for (Sprite laser : laserListT) {
 						laser.render(context);
 					}
-					for (Sprite laser : laserListE)
-					{
+					for (Sprite laser : laserListE) {
 						laser.render(context);
 					}
 
@@ -354,8 +319,7 @@ public class Solo_Mode
 
 			gameloop.start();
 
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

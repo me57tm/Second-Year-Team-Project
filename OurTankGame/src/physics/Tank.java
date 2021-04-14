@@ -1,69 +1,97 @@
 package physics;
 
 import java.util.ArrayList;
+import javafx.scene.canvas.GraphicsContext;
 
 public class Tank extends Sprite {
+	private int id;
+	public double bulletMsg;
+	private boolean good;
+	private double x, y, fifty;
+	private String name;
+
 	protected double speedModifier = 1;
 	protected PowerUp pow;
-	
+
 	public Tank(String imageFileName) {
 		super(imageFileName);
 	}
-	
-	
-	
-	
-	public void move(ArrayList<String> keyPressedList) {//TODO: name this something that makes more sense
-		if (keyPressedList.contains("LEFT") )
-		{
+
+	public Tank(double x, double y, boolean good, String imageFileName) {
+		super(imageFileName);
+		this.x = x;
+		this.y = y;
+		this.good = good;
+
+	}
+
+	public Tank(String name, int x, int y, boolean good) {
+		this.x = x;
+		this.y = y;
+		this.good = good;
+		this.name = name;
+
+	}
+
+	public void move(ArrayList<String> keyPressedList, ArrayList<String> keyJustPressedList, GraphicsContext context,
+			ArrayList<Bullet> laserListT) {
+
+		if (keyPressedList.contains("LEFT"))
 			rotation -= 3;
-		}
 
 		if (keyPressedList.contains("RIGHT"))
 			rotation += 3;
-		
-		if (keyPressedList.contains("UP"))
-		{
-			velocity.setAngle(rotation);
-			velocity.setLength(50*speedModifier);
-			
-		}
-		else if (keyPressedList.contains("DOWN"))
-		{
-			velocity.setAngle(rotation);
-			velocity.setLength(-50*speedModifier);
-			
-		}
-		else {
-				velocity.setLength(0);
-			}
 
-//		if (keyJustPressedList.contains("SPACE"))
-//		{
-//			context.save();
-//
-//			Sprite laser = new Sprite("imagesProjectAI/red-circle.png");
-//
-//			laser.position.set(tank.position.x, tank.position.y);
-//			laser.velocity.setLength(200);
-//			laser.velocity.setAngle(tank.rotation);
-//			laserListT.add(laser);
-//
-//		}
+		if (keyPressedList.contains("UP")) {
+			velocity.setAngle(rotation);
+			velocity.setLength(50 * speedModifier);
+			fifty = 50;
+		} else if (keyPressedList.contains("DOWN")) {
+			velocity.setAngle(rotation);
+			velocity.setLength(-50 * speedModifier);
+			fifty = -50;
+		} else {
+			velocity.setLength(0);
+			fifty = 0;
+		}
+
+		if (keyJustPressedList.contains("SPACE")) {
+			bulletMsg = 1;
+		}
+
+		if (bulletMsg == 1) {
+			context.save();
+
+			Bullet laser = new Bullet("imagesProjectAI/red-circle.png", this);
+
+			laser.position.set(this.position.x, this.position.y);
+			laser.velocity.setLength(200);
+			laser.velocity.setAngle(this.rotation);
+			laserListT.add(laser);
+
+		}
 	}
-	
-	
-	
+
+	public void enemyFire(Tank enemy, ArrayList<Bullet> laserListE) {
+		if (bulletMsg == 1) {
+			Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
+			laserE.position.set(enemy.position.x, enemy.position.y);
+			laserE.velocity.setLength(200);
+			laserE.velocity.setAngle(enemy.rotation);
+			laserListE.add(laserE);
+			bulletMsg = 0;
+		}
+	}
+
 	@Override
-	public boolean collide(Sprite other)
-	{
-		if (this.hp <= 0 || other.hp<=0){
+	public boolean collide(Sprite other) {
+		if (this.hp <= 0 || other.hp <= 0) {
 			return false;
 		}
 		if (this.overlaps(other)) {
-			//run collision code
+			// run collision code
 			System.out.println("Collision");
-			
+
 			if (other instanceof Bullet) {
 				Bullet b = (Bullet) other;
 				if (b.getParent() != this) {
@@ -77,20 +105,84 @@ public class Tank extends Sprite {
 		}
 		return false;
 	}
-	
+
 	public double getSpeedModifier() {
 		return speedModifier;
 	}
 
-
 	public void setSpeedModifier(double speedModifier) {
 		this.speedModifier = speedModifier;
 	}
-	
+
 	public void setPowerUp(PowerUp pow) {
 		if (this.pow != null) {
 			this.pow.remove(this);
 		}
 		this.pow = pow;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setBulletMsg(double bulletMessage) {
+		this.bulletMsg = bulletMessage;
+	}
+
+	public double getBulletMsg() {
+		return bulletMsg;
+	}
+
+	public void isGood(boolean good) {
+		this.good = good;
+	}
+
+	public boolean isGood() {
+		return good;
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getFifty() {
+		return fifty;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public void setRotation(double rotation) {
+		this.rotation = rotation;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Vector getV() {
+		return velocity;
+	}
+
+	public double getRotation() {
+		return rotation;
+	}
+
 }

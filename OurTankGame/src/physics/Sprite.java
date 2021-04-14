@@ -72,7 +72,7 @@ public class Sprite
     	// increase elapsed time for this sprite
     	this.elapsedTime += deltaTime;
         // update position according to velocity
-        this.position.add(this.velocity.x * deltaTime, this.velocity.y * deltaTime);
+        this.position.add(this .velocity.x* deltaTime, this.velocity.y * deltaTime);
         // wrap around screen
         this.limitFrame(1200,800);
     }

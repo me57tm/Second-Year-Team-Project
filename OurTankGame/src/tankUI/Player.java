@@ -1,6 +1,6 @@
 package tankUI;
 
-import application.Main;
+import client.TankClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +21,7 @@ import javafx.util.Callback;
 public class Player
 {
 	private final Stage stage = new Stage();
-	String name1 = Main.getName();
+	String name1 = TankClient.getName();
 	
 	ListView<Playerr> listView = new ListView<Playerr>();
 	ObservableList<Playerr> listData = FXCollections.observableArrayList();

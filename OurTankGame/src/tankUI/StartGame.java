@@ -1,7 +1,7 @@
 package tankUI;
 
 import application.Co_Mode;
-import application.N_Mode;
+import client.TankClient;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -79,7 +79,7 @@ public class StartGame {
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				N_Mode nomode = new N_Mode(null);
+				TankClient tc = new TankClient();
 				s1.close();
 			}
 		});

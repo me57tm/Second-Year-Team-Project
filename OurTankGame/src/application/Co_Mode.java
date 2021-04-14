@@ -3,7 +3,6 @@ package application;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
-
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,14 +10,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -26,7 +21,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import physics.Bullet;
@@ -225,18 +219,6 @@ public class Co_Mode {
 				int oneOrMinOne  = 0;
 
 				public void handle(long nanotime) {
-//					// enemy
-//
-//					if (Math.random() < 0.015)
-//					{
-//
-//						int rN = randomN();
-//						enemy.rotation += rN;
-//						enemy.velocity.setAngle(enemy.rotation);
-//						enemy.velocity.setLength(10);
-//
-//					}
-//
 
 					double checkRotation = enemy.rotation % 90;
 					System.out.println(enemy.rotation);
@@ -276,18 +258,9 @@ public class Co_Mode {
 					}
 					
 					
-					tank.move(keyPressedList);
-					if (keyJustPressedList.contains("SPACE")) {
-						context.save();
-
-						Bullet laser = new Bullet("imagesProjectAI/red-circle.png", tank);
-
-						laser.position.set(tank.position.x, tank.position.y);
-						laser.velocity.setLength(200);
-						laser.velocity.setAngle(tank.rotation);
-						laserListT.add(laser);
-
-					}
+					tank.move(keyPressedList,keyJustPressedList,context,laserListT);
+					tank.setBulletMsg(0);
+					
 
 					// after processing user input, clear keyJustPressedList
 					keyJustPressedList.clear();

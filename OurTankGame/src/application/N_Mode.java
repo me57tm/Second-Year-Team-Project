@@ -2,8 +2,10 @@ package application;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-
+import client.MovingMsg;
+import client.NetClient;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,13 +13,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -34,25 +33,21 @@ import physics.Tank;
 import tankUI.Player;
 import tankUI.TankMenu;
 
-public class N_Mode
-{
+public class N_Mode {
 	private final Stage stage = new Stage();
 
-	static int randomN()
-	{
+	static int randomN() {
 
 		Random random = new Random();
 		int n = random.nextInt(10);
 
-		if (n == 1 || n == 3 || n == 5 || n == 7 || n == 9)
-		{
+		if (n == 1 || n == 3 || n == 5 || n == 7 || n == 9) {
 
 			String str = "-" + random.nextInt(45);
 			int a = Integer.parseInt(str);
 			return a;
 
-		} else
-		{
+		} else {
 
 			int a = random.nextInt(45);
 			return a;
@@ -60,20 +55,21 @@ public class N_Mode
 		}
 	}
 
-	public N_Mode(String name)
-	{
+	public N_Mode(List<Tank> newTanks, int id, NetClient nc) {
 
 		Sprite background = new Sprite("grimfandango-art/gf-islandbackground.png");
 		background.position.set(500, 300);
+		Tank tank, enemy;
+		
+		tank = newTanks.get(0);
+		tank.position.set(tank.getX(), tank.getY());// 需要修改为x，y
 
-		Tank tank = new Tank("imagesProjectAI/tank.png");
-		tank.position.set(150, 300);
-
+		enemy = newTanks.get(1);
+		enemy.position.set(enemy.getX(),enemy.getY());// 需要修改为x，y
+		
+		
 		PowerUp bulletPowerup = new PowerUp("Speed");
 		bulletPowerup.position.set(150, 500);
-
-		Tank enemy = new Tank("grimfandango-art/tank-red.png");
-		enemy.position.set(500, 325);
 
 		int hp = 100;
 		int Shield = 100;
@@ -92,11 +88,10 @@ public class N_Mode
 		Media media = new Media(url.toExternalForm());
 		MediaPlayer mp = new MediaPlayer(media);
 
-		try
-		{
+		try {
 
 			// Label
-			Label score1 = new Label("Score: " + score);
+			Label score1 = new Label("clientID" + id + " tankID" + tank.getId());
 			score1.setFont(Font.font("Segoe Print"));
 			Label hpB = new Label("HP: " + hp);
 			hpB.setFont(Font.font("Segoe Print"));
@@ -118,29 +113,24 @@ public class N_Mode
 			Menu Audio = new Menu("Audio");
 			Menu help = new Menu("Help");
 			menuBar.getMenus().addAll(players, Audio, help, rq);
-			
 
 			MenuItem quit = new MenuItem("Quit Game");
 			MenuItem returnM = new MenuItem("Return to Meun");
 			rq.getItems().addAll(quit, returnM);
-			
-			returnM.setOnAction(new EventHandler<ActionEvent>()
-			{
+
+			returnM.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					TankMenu m1 = new TankMenu();
 					stage.close();
 				}
 			});
-			
-			quit.setOnAction(new EventHandler<ActionEvent>()
-			{
+
+			quit.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					stage.close();
 				}
 			});
@@ -158,32 +148,26 @@ public class N_Mode
 			root.setBottom(hpBar);
 			root.setEffect(dropshadow);
 
-			volume.setOnAction(new EventHandler<ActionEvent>()
-			{
+			volume.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					mp.stop();
 				}
 			});
 
-			volume1.setOnAction(new EventHandler<ActionEvent>()
-			{
+			volume1.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					mp.play();
 				}
 			});
 
-			player0.setOnAction(new EventHandler<ActionEvent>()
-			{
+			player0.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
-				public void handle(ActionEvent arg0)
-				{
+				public void handle(ActionEvent arg0) {
 					Player nomode = new Player(null);
 				}
 			});
@@ -211,8 +195,7 @@ public class N_Mode
 			// handle unique inputs (once per key press)
 			ArrayList<String> keyJustPressedList = new ArrayList<>();
 
-			scene.setOnKeyPressed((KeyEvent event) ->
-			{
+			scene.setOnKeyPressed((KeyEvent event) -> {
 				String keyName = event.getCode().toString();
 				// avoid adding duplicates to the list
 				if (!keyPressedList.contains(keyName))
@@ -222,8 +205,7 @@ public class N_Mode
 
 			});
 
-			scene.setOnKeyReleased((KeyEvent event) ->
-			{
+			scene.setOnKeyReleased((KeyEvent event) -> {
 				String keyName = event.getCode().toString();
 				if (keyPressedList.contains(keyName))
 					keyPressedList.remove(keyName);
@@ -234,67 +216,32 @@ public class N_Mode
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
-			AnimationTimer gameloop = new AnimationTimer()
-			{
+			AnimationTimer gameloop = new AnimationTimer() {
 
-				public void handle(long nanotime)
-				{
-					// enemy
-
-					if (Math.random() < 0.015)
-					{
-
-						int rN = randomN();
-						enemy.rotation += rN;
-						enemy.velocity.setAngle(enemy.rotation);
-						enemy.velocity.setLength(10);
-
-					}
-
-					if (Math.random() < 0.008)
-					{
-
-						context.save();
-
-						Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
-						laserE.position.set(enemy.position.x, enemy.position.y);
-						laserE.velocity.setLength(200);
-						laserE.velocity.setAngle(enemy.rotation);
-						laserListE.add(laserE);
-					}
-
-					tank.move(keyPressedList);
-					if (keyJustPressedList.contains("SPACE"))
-					{
-						context.save();
-
-						Bullet laser = new Bullet("imagesProjectAI/red-circle.png", tank);
-
-						laser.position.set(tank.position.x, tank.position.y);
-						laser.velocity.setLength(200);
-						laser.velocity.setAngle(tank.rotation);
-						laserListT.add(laser);
-
-					}
-
+				public void handle(long nanotime) {
+					// double initialRotation = tank.rotation;
+					tank.move(keyPressedList, keyJustPressedList, context, laserListT);
+					enemy.enemyFire(enemy, laserListE);
+					MovingMsg msg = new MovingMsg(id, tank.getRotation(), tank.getFifty(),tank.getBulletMsg());
+					nc.send(msg);
+                    tank.setBulletMsg(0);
+                    
 					// after processing user input, clear keyJustPressedList
 					keyJustPressedList.clear();
 
-					tank.update(1 / 60.0);
-					enemy.update(1 / 60.0);
+					tank.update(1 / 100.0);
+					enemy.update(1 / 100.0);
 
 					// Collision Detection for Bullets
-					for (Bullet laser1 : laserListE)
-					{
-						laser1.update(1 / 60.0);
+					for (Bullet laser1 : laserListE) {
+						laser1.update(1 / 100.0);
 						tank.collide(laser1);
 						bulletPowerup.collide(laser1);
 					}
 
-					for (int n = 0; n < laserListT.size(); n++)
-					{
+					for (int n = 0; n < laserListT.size(); n++) {
 						Bullet laser = laserListT.get(n);
-						laser.update(1 / 60.0);
+						laser.update(1 / 100.0);
 
 						enemy.collide(laser); // TODO: this is a marker that I edited this one
 
@@ -315,24 +262,19 @@ public class N_Mode
 					// Render everything
 					background.render(context);
 					tank.render(context);
-					if (bulletPowerup.hp > 1)
-					{
+					if (bulletPowerup.hp > 1) {
 						bulletPowerup.render(context);
 					}
-					if (bulletPowerup.hp < 1)
-					{
+					if (bulletPowerup.hp < 1) {
 						tank.velocity.setLength(800);
 					}
-					if (enemy.hp > 0)
-					{
+					if (enemy.hp > 0) {
 						enemy.render(context);
 					}
-					for (Sprite laser : laserListT)
-					{
+					for (Sprite laser : laserListT) {
 						laser.render(context);
 					}
-					for (Sprite laser : laserListE)
-					{
+					for (Sprite laser : laserListE) {
 						laser.render(context);
 					}
 
@@ -341,8 +283,7 @@ public class N_Mode
 
 			gameloop.start();
 
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

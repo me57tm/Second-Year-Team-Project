@@ -20,6 +20,15 @@ public class Vector
         this.x = x;
         this.y = y;
     }
+    public double getX()
+    {
+        return x;
+    }
+    public double getY()
+    {
+        return y;
+    }
+
 
     public void add(double dx, double dy)
     {
