@@ -74,7 +74,7 @@ public class Sprite
         // update position according to velocity
         this.position.add(this .velocity.x* deltaTime, this.velocity.y * deltaTime);
         // wrap around screen
-        this.limitFrame(1200,800);
+        this.limitFrame(1152,768);
     }
     
     public boolean isShot(Sprite bullet) {
