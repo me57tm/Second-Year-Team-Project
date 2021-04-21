@@ -70,6 +70,16 @@ public class Co_Mode {
 		}
 		
 		Layer l2 = new Layer("walls",map.MAP_WIDTH_IN_TILES,map.MAP_HEIGHT_IN_TILES);
+		
+		Tile areaWallUpperLeft = new Tile("src/grimfandango-art/areawall-upper-left.png",false);
+		Tile areaWallUpperMid = new Tile("src/grimfandango-art/areawall-upper-mid.png",false);
+		Tile areaWallUpperRight = new Tile("src/grimfandango-art/areawall-upper-right.png",false);
+		Tile areaWallMidLeft = new Tile("src/grimfandango-art/areawall-mid-left.png",false);
+		Tile areaWallMidRight = new Tile("src/grimfandango-art/areawall-mid-right.png",false);
+		Tile areaWallLowLeft = new Tile("src/grimfandango-art/areawall-lower-left.png",false);
+		Tile areaWallLowMid = new Tile("src/grimfandango-art/areawall-lower-mid.png",false);
+		Tile areaWallLowRight = new Tile("src/grimfandango-art/areawall-lower-right.png",false);
+		
 		Tile wallLeft = new Tile("src/grimfandango-art/gamewall-left.png",false);
 		Tile wallMid = new Tile("src/grimfandango-art/gamewall-mid.png",false);
 		Tile wallRight = new Tile("src/grimfandango-art/gamewall-right.png",false);
@@ -91,6 +101,45 @@ public class Co_Mode {
 		
 		//adding the wall tiles according to their positioning on the drawn map (this is hardcoded)
 		
+		for(int i = 0; i<map.MAP_WIDTH_IN_TILES; i++) {
+			for(int j = 0; j<map.MAP_WIDTH_IN_TILES; j++) {
+				if(i==0 && j==0) {
+					l2.addTile(areaWallUpperLeft, i, j);
+				} else {
+					if(i==35 && j==0) {
+						l2.addTile(areaWallUpperRight, i, j);
+					} else {
+						if(j==0) {
+							l2.addTile(areaWallUpperMid, i, j);
+						}
+					}
+				} 
+			}
+		}
+		
+		for(int i = 0; i<map.MAP_WIDTH_IN_TILES; i++) {
+			for(int j = 0; j<map.MAP_WIDTH_IN_TILES; j++) {
+				if(i==0 && j==23) {
+					l2.addTile(areaWallLowLeft, i, j);
+				} else {
+					if(i==35 && j==23) {
+						l2.addTile(areaWallLowRight, i, j);
+					} else {
+						if(j==23) {
+							l2.addTile(areaWallLowMid, i, j);
+						}
+					}
+				} 
+			}
+		}
+		
+		for(int j = 1; j<map.MAP_HEIGHT_IN_TILES-1; j++) {
+			l2.addTile(areaWallMidLeft, 0, j);
+		}
+		
+		for(int j = 1; j<map.MAP_HEIGHT_IN_TILES-1; j++) {
+			l2.addTile(areaWallMidRight, 35, j);
+		}
 		
 		//adding the leaves-upper left
 		for(int i =2; i<8; i++) {
@@ -232,13 +281,13 @@ public class Co_Mode {
 		map.addLayer(l2);
 
 		Tank tank = new Tank("imagesProjectAI/tank.png");
-		tank.position.set(150, 300);
+		tank.position.set(160, 160);
 
 		PowerUp bulletPowerup = new PowerUp("Speed");
 		bulletPowerup.position.set(150, 500);
 
 		Tank enemy = new Tank("grimfandango-art/tank-red.png");
-		enemy.position.set(500, 325);
+		enemy.position.set(992, 608);
 
 		int hp = 100;
 		int Shield = 100;
@@ -396,7 +445,7 @@ public class Co_Mode {
 				public void handle(long nanotime) {
 
 					double checkRotation = enemy.rotation % 90;
-					System.out.println(enemy.rotation);
+					//System.out.println(enemy.rotation);
 					if (checkRotation == 0) {
 						oneOrMinOne = 0;
 						if (Math.random() < 0.01) {
@@ -404,7 +453,8 @@ public class Co_Mode {
 							context.save();
 
 							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
-							laserE.position.set(enemy.position.x, enemy.position.y);
+							//modified the position a bit so it looks like it shoots from the turret
+							laserE.position.set(enemy.position.x+enemy.getBoundary().getWidth(), enemy.position.y+(enemy.getBoundary().getHeight())/2);
 							laserE.velocity.setLength(200);
 							laserE.velocity.setAngle(enemy.rotation);
 							laserListE.add(laserE);
@@ -440,19 +490,20 @@ public class Co_Mode {
 					// after processing user input, clear keyJustPressedList
 					keyJustPressedList.clear();
 
-					tank.update(1 / 60.0);
-					enemy.update(1 / 60.0);
+					tank.update(1 / 60.0,map);
+					enemy.update(1 / 60.0,map);
 
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
-						laser1.update(1 / 60.0);
+						laser1.update(1 / 60.0,map);
 						tank.collide(laser1);
 						bulletPowerup.collide(laser1);
 					}
 
 					for (int n = 0; n < laserListT.size(); n++) {
 						Bullet laser = laserListT.get(n);
-						laser.update(1 / 60.0);
+						
+						laser.update(1 / 60.0,map);
 
 						enemy.collide(laser); // TODO: this is a marker that I edited this one
 

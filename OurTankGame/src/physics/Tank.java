@@ -35,11 +35,13 @@ public class Tank extends Sprite {
 
 	public void move(ArrayList<String> keyPressedList, ArrayList<String> keyJustPressedList, GraphicsContext context,
 			ArrayList<Bullet> laserListT) {
-
+		
 		if (keyPressedList.contains("LEFT"))
+			//this.getBoundary().rotation -=3;
 			rotation -= 3;
 
 		if (keyPressedList.contains("RIGHT"))
+			//this.getBoundary().rotation +=3;
 			rotation += 3;
 
 		if (keyPressedList.contains("UP")) {

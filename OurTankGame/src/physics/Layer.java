@@ -17,9 +17,12 @@ public class Layer
 	
 	public void addTile(Tile tile,int i, int j) {
 		layer[i][j]=tile;
+		tile.setTileX(i);
+		tile.setTileY(j);
 	}
 	
 	public Tile getTile(int i, int j) {
 		return this.layer[i][j];
 	}
+	
 }

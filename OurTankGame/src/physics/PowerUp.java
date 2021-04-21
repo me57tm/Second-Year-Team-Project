@@ -7,7 +7,7 @@ public class PowerUp extends Sprite {
 		super();
 		switch(type) {
 		case "Speed":
-			setImage("imagesProjectAI/bulletpowerup.png");
+			setImage("grimfandango-art/powerup.png");
 		}
 		this.type=type;
 	}

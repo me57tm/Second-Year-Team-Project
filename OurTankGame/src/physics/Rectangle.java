@@ -7,17 +7,30 @@ public class Rectangle
     double y;
     double width;
     double height;
+//    //added for collision
+//    public Vector position;
+//    public double rotation;
 
     public Rectangle()
     {
         this.setPosition(0,0);
         this.setSize(1,1);
+//        this.position = new Vector();
+//        this.rotation = 0;
     }
 
     public Rectangle(double x, double y, double w, double h)
     {
         this.setPosition(x,y);
         this.setSize(w,h);
+    }
+    
+    public double getWidth() {
+    	return this.width;
+    }
+    
+    public double getHeight() {
+    	return this.height;
     }
 
     public void setPosition(double x, double y)
@@ -46,6 +59,10 @@ public class Rectangle
                         other.y + other.height < this.y;
         return !noOverlap;
     }
+    
+//    x_overlaps = (a.left < b.right) && (a.right > b.left)
+//    		y_overlaps = (a.top < b.bottom) && (a.bottom > b.top)
+//    		collision = x_overlaps && y_overlaps
 
 
 }

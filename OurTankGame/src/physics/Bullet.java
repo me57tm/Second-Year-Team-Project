@@ -35,8 +35,8 @@ public class Bullet extends Sprite {
 	    }
 	 
 	 @Override
-	 public void update(double deltaTime) {
-		 super.update(deltaTime);
+	 public void update(double deltaTime, Map map) {
+		 super.update(deltaTime, map);
 		 if (this.elapsedTime > 3) this.hp = -1;
 		 this.deleteBullet(1200,800);
 	 }

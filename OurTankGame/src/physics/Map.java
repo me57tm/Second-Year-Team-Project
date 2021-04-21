@@ -48,4 +48,12 @@ public class Map
 	public void addLayer(Layer layer) {
 		map.add(layer);
 	}
+	
+	public int getSize() {
+		return map.size();
+	}
+	
+	public Layer getLayer(int i) {
+		return map.get(i);
+	}
 }

@@ -9,6 +9,8 @@ public class Tile
 {
 	String source;
 	boolean passable;
+	int x;
+	int y;
 
 	Image image;
 	public final int TILE_SIZE_IN_PIXELS = 32;
@@ -25,6 +27,27 @@ public class Tile
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public Tile(int xCoord, int yCoord) {
+		this.x=xCoord;
+		this.y=yCoord;
+	}
+	
+	public int getTileX() {
+		return this.x;
+	}
+	
+	public int getTileY() {
+		return this.y;
+	}
+	
+	public void setTileX(int newX) {
+		this.x=newX;
+	}
+	
+	public void setTileY(int newY) {
+		this.y = newY;
 	}
 	
 	public String getSource() {
@@ -46,4 +69,9 @@ public class Tile
 	public void setTileImage(Image newImage) {
 		this.image=newImage;
 	}
+	
+	//returns the rectangle of a given tile, useful for collision
+		public Rectangle getTileRectangle() {
+			return new Rectangle(this.getTileX(),this.getTileY(),this.TILE_SIZE_IN_PIXELS,this.TILE_SIZE_IN_PIXELS);
+		}
 }
