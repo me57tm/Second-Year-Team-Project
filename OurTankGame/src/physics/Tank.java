@@ -97,7 +97,7 @@ public class Tank extends Sprite {
 			if (other instanceof Bullet) {
 				Bullet b = (Bullet) other;
 				if (b.getParent() != this) {
-					System.out.println("Hello this code is here");
+					System.out.println("Tank hit");
 					this.hp -= b.damage;
 					System.out.println(hp);
 					b.hp = -1;
@@ -107,6 +107,24 @@ public class Tank extends Sprite {
 		}
 		return false;
 	}
+	
+	
+	@Override
+	public boolean collideMap(Map map) {
+		boolean collision = super.collideMap(map);
+		if (collision){
+			
+		}
+		return collision;
+	}
+	
+	
+	@Override
+	public void say() {
+		System.out.println("I'm a Tank and my name is: "+name);
+	}
+	
+	
 
 	public double getSpeedModifier() {
 		return speedModifier;
@@ -159,10 +177,6 @@ public class Tank extends Sprite {
 		return y;
 	}
 
-	public void setRotation(double rotation) {
-		this.rotation = rotation;
-	}
-
 	public void setX(double x) {
 		this.x = x;
 	}
@@ -183,8 +197,5 @@ public class Tank extends Sprite {
 		return velocity;
 	}
 
-	public double getRotation() {
-		return rotation;
-	}
 
 }

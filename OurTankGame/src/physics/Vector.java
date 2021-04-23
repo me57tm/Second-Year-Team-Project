@@ -77,5 +77,9 @@ public class Vector
         this.x = L * Math.cos(angleRadians);
         this.y = L * Math.sin(angleRadians);
     }
+    
+    public Vector clone() {
+    	return new Vector(x,y);
+    }
 
 }

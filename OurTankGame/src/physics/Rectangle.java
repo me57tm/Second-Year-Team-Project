@@ -38,11 +38,20 @@ public class Rectangle
         this.x = x;
         this.y = y;
     }
+    
+    public void setByCoords(double x1, double y1, double x2, double y2) {
+    	this.setPosition(x1,y1);
+    	this.setSize(x2-x1,y2-y1);
+    }
 
     public void setSize(double w, double h)
     {
         this.width = w;
         this.height = h;
+    }
+    
+    public void rotate(double angle) {
+    	
     }
 
     public boolean overlaps(Rectangle other)
