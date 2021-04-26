@@ -1,6 +1,8 @@
 package physics;
 
 import java.util.ArrayList;
+
+import audio.AudioManager;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Tank extends Sprite {
@@ -65,6 +67,7 @@ public class Tank extends Sprite {
 			context.save();
 
 			Bullet laser = new Bullet("imagesProjectAI/red-circle.png", this);
+			AudioManager.play("shoot");
 
 			laser.position.set(this.position.x, this.position.y);
 			laser.velocity.setLength(200);
@@ -99,6 +102,9 @@ public class Tank extends Sprite {
 				if (b.getParent() != this) {
 					System.out.println("Tank hit");
 					this.hp -= b.damage;
+					if (this.hp <= 0) { //tank is dead
+						AudioManager.play("explode");
+					}
 					System.out.println(hp);
 					b.hp = -1;
 				}
