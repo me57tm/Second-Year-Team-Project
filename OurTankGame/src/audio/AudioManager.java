@@ -14,9 +14,9 @@ public final class AudioManager {
 	private static final Map<String,String> SOUND_TABLE;
 	static {
 		Map<String,String> setupSoundTable = new HashMap<String,String>();
-		setupSoundTable.put("test", "sounds/simpleBeep.wav");//This allows us to play sounds by just using 'play("test")' Add more bindings here to add more sounds!
-		setupSoundTable.put("shoot", "sounds/8BitLaser.wav");
-		setupSoundTable.put("explode", "sounds/8BitExplosion.wav");
+		setupSoundTable.put("test", "src/sounds/simpleBeep.wav");//This allows us to play sounds by just using 'play("test")' Add more bindings here to add more sounds!
+		setupSoundTable.put("shoot", "src/sounds/8BitLaser.wav");
+		setupSoundTable.put("explode", "src/sounds/8BitExplosion.wav");
 		SOUND_TABLE = Collections.unmodifiableMap(setupSoundTable);
 	}
 
