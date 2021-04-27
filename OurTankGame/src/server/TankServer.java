@@ -1,7 +1,5 @@
 package server;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -12,29 +10,28 @@ import java.util.List;
 /**
  * 服务器端
  */
-public class TankServer extends Frame {
+
+public class TankServer /*extends Frame*/ {
 
     public static int ID = 100;//id号的初始序列
-    public static final int TCP_PORT = 55555;//TCP端口号
-    public static final int UDP_PORT = 55556;//转发客户端数据的UDP端口号
-    public static final int TANK_DEAD_UDP_PORT = 55557;//接收客户端坦克死亡的端口号
+    public static final int tcpPort= 55555;//TCP端口号
+    public static final int udpPort = 55556;//转发客户端数据的UDP端口号
+    public static final int endUdpPort = 55557;//接收客户端坦克死亡的端口号
     private List<Client> clients = new ArrayList<>();//客户端集合
-    private Image offScreenImage = null;//服务器画布
-    private static final int SERVER_HEIGHT = 500;
-    private static final int SERVER_WIDTH = 300;
+
 
     public static void main(String[] args) {
         TankServer ts = new TankServer();
-        ts.launchFrame();
         ts.start();
     }
 
-    public void start(){
-        new Thread(new UDPThread()).start();
+	@SuppressWarnings("resource")
+	public void start(){
+        new Thread(new OurUDPThread()).start();
         new Thread(new TankDeadUDPThread()).start();
         ServerSocket ss = null;
         try {
-            ss = new ServerSocket(TCP_PORT);//在TCP欢迎套接字上监听客户端连接
+            ss = new ServerSocket(tcpPort);//在TCP欢迎套接字上监听客户端连接
             //System.out.println("TankServer has started...");
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,11 +47,12 @@ public class TankServer extends Frame {
                 int UDP_PORT = dis.readInt();//记录客户端UDP端口
                 Client client = new Client(s.getInetAddress().getHostAddress(), UDP_PORT, ID);//创建Client对象
                 clients.add(client);//添加进客户端容器
-
+                
+                 System.out.println("id : " + client.id + " - IP : " + client.IP);
                 DataOutputStream dos = new DataOutputStream(s.getOutputStream());
                 dos.writeInt(ID++);//向客户端分配id号
-                dos.writeInt(TankServer.UDP_PORT);//告诉客户端自己的UDP端口号
-                dos.writeInt(TankServer.TANK_DEAD_UDP_PORT);
+                dos.writeInt(TankServer.udpPort);//告诉客户端自己的UDP端口号
+                dos.writeInt(TankServer.endUdpPort);
             }catch (IOException e) {
                 e.printStackTrace();
             }finally {
@@ -67,7 +65,7 @@ public class TankServer extends Frame {
         }
     }
 
-    private class UDPThread implements Runnable{
+    private class OurUDPThread implements Runnable{
 
         byte[] buf = new byte[1024];
 
@@ -75,7 +73,8 @@ public class TankServer extends Frame {
         public void run() {
             DatagramSocket ds = null;
             try{
-                ds = new DatagramSocket(UDP_PORT);
+                ds = new DatagramSocket(udpPort);
+                
             }catch (SocketException e) {
                 e.printStackTrace();
             }
@@ -83,14 +82,12 @@ public class TankServer extends Frame {
             while (null != ds){
                 DatagramPacket dp = new DatagramPacket(buf, buf.length);
                 try {
-                	//System.out.println("UDPThread has started...");
                     ds.receive(dp);
-                    //System.out.println("UDP we have a client");
+                    
                     for (Client c : clients){
-                        dp.setSocketAddress(new InetSocketAddress(c.IP, c.UDP_PORT));
+                        dp.setSocketAddress(new InetSocketAddress(c.IP, c.udpPort));
                         ds.send(dp);
                     }
-                    //System.out.println("recevice a packet~");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -107,7 +104,7 @@ public class TankServer extends Frame {
         public void run() {
             DatagramSocket ds = null;
             try{
-                ds = new DatagramSocket(TANK_DEAD_UDP_PORT);
+                ds = new DatagramSocket(endUdpPort);
             } catch (SocketException e) {
                 e.printStackTrace();
             }
@@ -122,7 +119,7 @@ public class TankServer extends Frame {
                     int deadTankUDPPort = dis.readInt();
                     for(int i = 0; i < clients.size(); i++){
                         Client c = clients.get(i);
-                        if(c.UDP_PORT == deadTankUDPPort){
+                        if(c.udpPort == deadTankUDPPort){
                             clients.remove(c);
                         }
                     }
@@ -151,72 +148,14 @@ public class TankServer extends Frame {
 
     public class Client{
         String IP;
-        int UDP_PORT;
-        int id;
+        int udpPort,id;
+
 
         public Client(String ipAddr, int UDP_PORT, int id) {
             this.IP = ipAddr;
-            this.UDP_PORT = UDP_PORT;
+            this.udpPort = UDP_PORT;
             this.id = id;
         }
     }
+ }
 
-    /************** 服务器可视化 **************/
-    @Override
-    public void paint(Graphics g) {
-        g.drawString("TankClient :", 30, 50);
-        int y = 80;
-        for(int i = 0; i < clients.size(); i++){//显示出每个客户端的信息
-            Client c = clients.get(i);
-            g.drawString("id : " + c.id + " - IP : " + c.IP, 30, y);
-            y += 30;
-        }
-    }
-
-    @Override
-    public void update(Graphics g) {
-        if(offScreenImage == null) {
-            offScreenImage = this.createImage(SERVER_WIDTH, SERVER_HEIGHT);
-        }
-        Graphics gOffScreen = offScreenImage.getGraphics();
-        Color c = gOffScreen.getColor();
-        gOffScreen.setColor(Color.yellow);
-        gOffScreen.fillRect(0, 0, SERVER_WIDTH, SERVER_HEIGHT);
-        gOffScreen.setColor(c);
-        paint(gOffScreen);
-        g.drawImage(offScreenImage, 0, 0, null);
-    }
-
-    public void launchFrame() {
-        this.setLocation(200, 100);
-        this.setSize(SERVER_WIDTH, SERVER_HEIGHT);
-        this.setTitle("TankServer");
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-        this.setResizable(false);
-        this.setBackground(Color.yellow);
-        this.setVisible(true);
-        new Thread(new PaintThread()).start();
-
-    }
-
-    /**
-     * 重画线程
-     */
-    class PaintThread implements Runnable {
-        public void run() {
-            while(true) {
-                repaint();
-                try {
-                    Thread.sleep(50);
-                } catch	 (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-}

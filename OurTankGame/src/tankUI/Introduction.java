@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Introduction {
+	@SuppressWarnings("unused")
 	public Introduction(){
 		Stage s1 =new Stage();
 		s1.setTitle("Tank Game");

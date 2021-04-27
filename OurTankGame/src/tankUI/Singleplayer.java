@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Singleplayer {
+	@SuppressWarnings("unused")
 	public Singleplayer(){
 	Stage s1 =new Stage();
 	s1.setTitle("Tank Game");
@@ -46,7 +47,7 @@ public class Singleplayer {
 		@Override
 		public void handle(ActionEvent arg0)
 		{
-			Solo_Mode comode = new Solo_Mode(null);
+			Solo_Mode comode = new Solo_Mode();
 			s1.close();
 		}
 	});
@@ -65,7 +66,7 @@ public class Singleplayer {
 		@Override
 		public void handle(ActionEvent arg0)
 		{
-			Solo_Mode comode = new Solo_Mode(null);
+			Solo_Mode comode = new Solo_Mode();
 			s1.close();
 		}
 	});
@@ -84,7 +85,7 @@ public class Singleplayer {
 		@Override
 		public void handle(ActionEvent arg0)
 		{
-			Solo_Mode comode = new Solo_Mode(null);
+			Solo_Mode comode = new Solo_Mode();
 			s1.close();
 		}
 	});

@@ -43,7 +43,7 @@ public class NetClient {
 		try {
 			ds = new DatagramSocket(UDP_PORT);// 创建UDP套接字
 			try {
-				s = new Socket(ip, TankServer.TCP_PORT);// 创建TCP套接字
+				s = new Socket(ip, TankServer.tcpPort);// 创建TCP套接字
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

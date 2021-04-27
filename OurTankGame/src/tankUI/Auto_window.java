@@ -11,13 +11,13 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-// boolean ���жϳ��̣�true - ��long �� false - ��short
+
 public class Auto_window{
 	public Auto_window(long time, String msg, String title, boolean BL){
 		Stage s1 = new Stage();
 		s1.getIcons().add(new Image("images/icon_tank.jpg"));
 		s1.setAlwaysOnTop(true);
-		s1.initModality(Modality.APPLICATION_MODAL);//��ֹ�¼����ݵ��κ�����Ӧ�ó��򴰿�
+		s1.initModality(Modality.APPLICATION_MODAL);
 		Button closeBtn = new Button("copy that");
 		closeBtn.setOnAction(e -> {
 			s1.close();
@@ -29,10 +29,10 @@ public class Auto_window{
 		root.setSpacing(20);
 		Label l1 = new Label(msg);
 		if(BL == true) {
-			l1.setPrefSize(1000, 100);
+			l1.setPrefSize(1500, 100);
 		}
 		else {
-			l1.setPrefSize(500, 50);
+			l1.setPrefSize(800, 50);
 		}
 		l1.getStyleClass().add("font");
 //		l1.setScaleX(2);

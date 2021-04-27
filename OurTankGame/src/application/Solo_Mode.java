@@ -24,9 +24,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import physics.Bullet;
+import physics.Layer;
+import physics.Map;
 import physics.PowerUp;
 import physics.Sprite;
 import physics.Tank;
+import physics.Tile;
 import tankUI.Player;
 import tankUI.TankMenu;
 
@@ -51,19 +54,260 @@ public class Solo_Mode {
 		}
 	}
 
-	public Solo_Mode(String name) {
+	public Solo_Mode() {
 
-		Sprite background = new Sprite("grimfandango-art/gf-islandbackground.png");
-		background.position.set(500, 300);
+		Map map = new Map();
 
-		Tank tank = new Tank("imagesProjectAI/tank.png");
-		tank.position.set(150, 300);
+		Layer l1 = new Layer("background",map.MAP_WIDTH_IN_TILES,map.MAP_HEIGHT_IN_TILES);
+		Tile bg = new Tile("src/grimfandango-art/texture-bg.png",true);
+		
+		
+		//the background tile is added to every cell of the layer, so we iterate while adding it
+		for(int i=0; i<l1.widthInTiles; i++) {
+			for(int j=0; j<l1.heightInTiles; j++) {
+					l1.addTile(bg, i, j);
+			}
+		}
+		
+		Layer l2 = new Layer("walls",map.MAP_WIDTH_IN_TILES,map.MAP_HEIGHT_IN_TILES);
+		
+		Tile areaWallUpperLeft = new Tile("src/grimfandango-art/areawall-upper-left.png",false);
+		Tile areaWallUpperMid = new Tile("src/grimfandango-art/areawall-upper-mid.png",false);
+		Tile areaWallUpperRight = new Tile("src/grimfandango-art/areawall-upper-right.png",false);
+		Tile areaWallMidLeft = new Tile("src/grimfandango-art/areawall-mid-left.png",false);
+		Tile areaWallMidRight = new Tile("src/grimfandango-art/areawall-mid-right.png",false);
+		Tile areaWallLowLeft = new Tile("src/grimfandango-art/areawall-lower-left.png",false);
+		Tile areaWallLowMid = new Tile("src/grimfandango-art/areawall-lower-mid.png",false);
+		Tile areaWallLowRight = new Tile("src/grimfandango-art/areawall-lower-right.png",false);
+		
+		Tile wallLeft = new Tile("src/grimfandango-art/gamewall-left.png",false);
+		Tile wallMid = new Tile("src/grimfandango-art/gamewall-mid.png",false);
+		Tile wallRight = new Tile("src/grimfandango-art/gamewall-right.png",false);
+		Tile wallUp = new Tile("src/grimfandango-art/gamewall-up.png",false);
+		Tile wallDown = new Tile("src/grimfandango-art/gamewall-down.png",false);
+		Tile wallVertMid = new Tile("src/grimfandango-art/gamewall-vertmid.png",false);
+		
+		Tile leavesUpperLeft = new Tile("src/grimfandango-art/leaves-upper-left.png",true);
+		Tile leavesUpperMid = new Tile("src/grimfandango-art/leaves-upper-mid.png",true);
+		Tile leavesUpperRight = new Tile("src/grimfandango-art/leaves-upper-right.png",true);
+		Tile leavesMidLeft = new Tile("src/grimfandango-art/leaves-mid-left.png",true);
+		Tile leavesMid = new Tile("src/grimfandango-art/leaves-mid.png",true);
+		Tile leavesMidRight = new Tile("src/grimfandango-art/leaves-mid-right.png",true);
+		Tile leavesLowLeft = new Tile("src/grimfandango-art/leaves-low-left.png",true);
+		Tile leavesLowMid = new Tile("src/grimfandango-art/leaves-low-mid.png",true);
+		Tile leavesLowRight = new Tile("src/grimfandango-art/leaves-low-right.png",true);
+		
+		
+		
+		//adding the wall tiles according to their positioning on the drawn map (this is hardcoded)
+		
+		for(int i = 0; i<map.MAP_WIDTH_IN_TILES; i++) {
+			for(int j = 0; j<map.MAP_WIDTH_IN_TILES; j++) {
+				if(i==0 && j==0) {
+					l2.addTile(areaWallUpperLeft, i, j);
+				} else {
+					if(i==35 && j==0) {
+						l2.addTile(areaWallUpperRight, i, j);
+					} else {
+						if(j==0) {
+							l2.addTile(areaWallUpperMid, i, j);
+						}
+					}
+				} 
+			}
+		}
+		
+		for(int i = 0; i<map.MAP_WIDTH_IN_TILES; i++) {
+			for(int j = 0; j<map.MAP_WIDTH_IN_TILES; j++) {
+				if(i==0 && j==23) {
+					l2.addTile(areaWallLowLeft, i, j);
+				} else {
+					if(i==35 && j==23) {
+						l2.addTile(areaWallLowRight, i, j);
+					} else {
+						if(j==23) {
+							l2.addTile(areaWallLowMid, i, j);
+						}
+					}
+				} 
+			}
+		}
+		
+		for(int j = 1; j<map.MAP_HEIGHT_IN_TILES-1; j++) {
+			l2.addTile(areaWallMidLeft, 0, j);
+		}
+		
+		for(int j = 1; j<map.MAP_HEIGHT_IN_TILES-1; j++) {
+			l2.addTile(areaWallMidRight, 35, j);
+		}
+		
+		//adding the leaves-upper left
+		for(int i =2; i<8; i++) {
+				if(i==2) {
+					l2.addTile(leavesUpperLeft, i, 2);
+				} else if(i==7) {
+					l2.addTile(leavesUpperRight, i, 2);
+				} else {
+					l2.addTile(leavesUpperMid, i, 2);
+				}
+		}
+		
+		for(int i =2; i<8; i++) {
+			if(i==2) {
+				l2.addTile(leavesLowLeft, i, 7);
+			} else if(i==7) {
+				l2.addTile(leavesLowRight, i, 7);
+			} else {
+				l2.addTile(leavesLowMid, i, 7);
+			}
+		}
+		
+		for(int j =3; j<7; j++) {
+				l2.addTile(leavesMidLeft, 2, j);
+		}
+		
+		for(int j =3; j<7; j++) {
+			l2.addTile(leavesMidRight, 7, j);
+		}
+		
+		for(int i=3; i<7; i++) {
+			for(int j=3; j<7; j++) {
+				l2.addTile(leavesMid, i, j);
+			}
+		}
+		
+		//adding the leaves-lower right
+				for(int i =28; i<34; i++) {
+						if(i==28) {
+							l2.addTile(leavesUpperLeft, i, 16);
+						} else if(i==33) {
+							l2.addTile(leavesUpperRight, i, 16);
+						} else {
+							l2.addTile(leavesUpperMid, i, 16);
+						}
+				}
+				
+				for(int i =28; i<34; i++) {
+					if(i==28) {
+						l2.addTile(leavesLowLeft, i, 21);
+					} else if(i==33) {
+						l2.addTile(leavesLowRight, i, 21);
+					} else {
+						l2.addTile(leavesLowMid, i, 21);
+					}
+				}
+				
+				for(int j =17; j<21; j++) {
+						l2.addTile(leavesMidLeft, 28, j);
+				}
+				
+				for(int j =17; j<21; j++) {
+					l2.addTile(leavesMidRight, 33, j);
+				}
+				
+				for(int i=29; i<33; i++) {
+					for(int j=17; j<21; j++) {
+						l2.addTile(leavesMid, i, j);
+					}
+				}
+	
+		
+		//adding the horizontal walls
+		for(int i=3; i<10; i++) {
+			if(i==3) {
+				l2.addTile(wallLeft, i, 11);
+			} else if(i==9) {
+				l2.addTile(wallRight, i, 11);
+			} else {
+				l2.addTile(wallMid, i, 11);
+			}
+				
+		}
+		
+		for(int i=26; i<33; i++) {
+			if(i==26) {
+				l2.addTile(wallLeft, i, 11);
+			} else if(i==32) {
+				l2.addTile(wallRight, i, 11);
+			} else {
+				l2.addTile(wallMid, i, 11);
+			}
+				
+		}
+		
+		//adding the vertical walls
+		for(int j=5; j<17;j++) {
+			if(j==5) {
+				l2.addTile(wallUp, 13, j);
+			} else if(j==16) {
+				l2.addTile(wallDown, 13, j);
+			} else {
+				l2.addTile(wallVertMid, 13, j);
+			}
+		}
+		
+		for(int j=5; j<17;j++) {
+			if(j==5) {
+				l2.addTile(wallUp, 21, j);
+			} else if(j==16) {
+				l2.addTile(wallDown, 21, j);
+			} else {
+				l2.addTile(wallVertMid, 21, j);
+			}
+		}
+		
+		//adding the middle vertical walls
+		for(int j=1; j<9;j++) {
+			if(j==1) {
+				l2.addTile(wallUp, 17, j);
+			} else if(j==8) {
+				l2.addTile(wallDown, 17, j);
+			} else {
+				l2.addTile(wallVertMid, 17, j);
+			}
+		}
+		
+		for(int j=14; j<23;j++) {
+			if(j==14) {
+				l2.addTile(wallUp, 17, j);
+			} else if(j==22) {
+				l2.addTile(wallDown, 17, j);
+			} else {
+				l2.addTile(wallVertMid, 17, j);
+			}
+		}
+		
+		map.addLayer(l1);
+		map.addLayer(l2);
 
+		Tank tank = new Tank("grimfandango-art/tank64.png");
+		tank.position.set(160, 160);
+
+		ArrayList<PowerUp> powerups = new ArrayList<>();
 		PowerUp bulletPowerup = new PowerUp("Speed");
+		powerups.add(bulletPowerup);
 		bulletPowerup.position.set(150, 500);
+		PowerUp coin1 = new PowerUp("Score");
+		PowerUp coin2 = new PowerUp("Score");
+		PowerUp coin3 = new PowerUp("Score");
+		PowerUp coin4 = new PowerUp("Score");
+		powerups.add(coin1);
+		powerups.add(coin2);
+		powerups.add(coin3);
+		powerups.add(coin4);
+		coin1.position.set(480, 64);
+		coin2.position.set(480, 672);
+		coin3.position.set(608, 64);
+		coin4.position.set(608, 672);
+		PowerUp battery1 = new PowerUp("Energy");
+		PowerUp battery2 = new PowerUp("Energy");
+		powerups.add(battery1);
+		powerups.add(battery2);
+		battery1.position.set(96, 672);
+		battery2.position.set(991, 64);
 
 		Tank enemy = new Tank("grimfandango-art/tank-red.png");
-		enemy.position.set(500, 325);
+		enemy.position.set(992, 608);
 
 		int hp = 100;
 		int Shield = 100;
@@ -170,7 +414,7 @@ public class Solo_Mode {
 			root.setBottom(hpBar);
 
 			// Scene
-			Scene scene = new Scene(root, 985, 690);
+			Scene scene = new Scene(root, 1152, 800);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			// stage.setMaximized(true);
 			stage.setResizable(false);
@@ -178,7 +422,7 @@ public class Solo_Mode {
 			stage.setTitle("Co-operative Mode");
 			stage.show();
 
-			Canvas canvas = new Canvas(1000, 640);
+			Canvas canvas = new Canvas(1152, 800);
 			GraphicsContext context = canvas.getGraphicsContext2D();
 			// Change setCenter to setLeft
 			root.setLeft(canvas);
@@ -221,7 +465,7 @@ public class Solo_Mode {
 				public void handle(long nanotime) {
 
 					double checkRotation = enemy.rotation % 90;
-					System.out.println(enemy.rotation);
+					//System.out.println(enemy.rotation);
 					if (checkRotation == 0) {
 						oneOrMinOne = 0;
 						if (Math.random() < 0.01) {
@@ -229,7 +473,8 @@ public class Solo_Mode {
 							context.save();
 
 							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
-							laserE.position.set(enemy.position.x, enemy.position.y);
+							//modified the position a bit so it looks like it shoots from the turret
+							laserE.position.set(enemy.position.x+enemy.getBoundary().getWidth(), enemy.position.y+(enemy.getBoundary().getHeight())/2);
 							laserE.velocity.setLength(200);
 							laserE.velocity.setAngle(enemy.rotation);
 							laserListE.add(laserE);
@@ -265,23 +510,28 @@ public class Solo_Mode {
 					// after processing user input, clear keyJustPressedList
 					keyJustPressedList.clear();
 
-					tank.update(1 / 60.0);
-					enemy.update(1 / 60.0);
+					tank.update(1 / 60.0,map);
+					enemy.update(1 / 60.0,map);
 
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
-						laser1.update(1 / 60.0);
+						laser1.update(1 / 60.0,map);
 						tank.collide(laser1);
-						bulletPowerup.collide(laser1);
+						for(PowerUp powerup : powerups) {
+							powerup.collide(laser1);
+						}
 					}
 
 					for (int n = 0; n < laserListT.size(); n++) {
 						Bullet laser = laserListT.get(n);
-						laser.update(1 / 60.0);
+						
+						laser.update(1 / 60.0,map);
 
 						enemy.collide(laser); // TODO: this is a marker that I edited this one
 
-						bulletPowerup.collide(laser);
+						for(PowerUp powerup : powerups) {
+							powerup.collide(laser);
+						}
 					}
 
 					// Remove Bullets that have collided with something
@@ -296,10 +546,14 @@ public class Solo_Mode {
 					oldBullets.clear();
 
 					// Render everything
-					background.render(context);
-					tank.render(context);
-					if (bulletPowerup.hp > 1) {
-						bulletPowerup.render(context);
+					map.renderMap(context);
+					tank.render(context); 
+					System.out.println("current score:"+tank.getScore());
+					System.out.println("current hp:"+tank.getHP());
+					for(PowerUp powerup : powerups) {
+						if (powerup.hp > 1) {
+							powerup.render(context);
+						}
 					}
 					if (bulletPowerup.hp < 1) {
 						tank.velocity.setLength(800);

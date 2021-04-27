@@ -1,7 +1,6 @@
 package tankUI;
 
 import application.Co_Mode;
-import client.TankClient;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -14,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class StartGame {
+	@SuppressWarnings("unused")
 	public StartGame(){
 		Stage s1 =new Stage();
 		s1.setTitle("Tank Game");
@@ -60,7 +60,7 @@ public class StartGame {
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				Co_Mode nomode = new Co_Mode(null);
+				Co_Mode nomode = new Co_Mode();
 				s1.close();
 			}
 		});
@@ -79,7 +79,7 @@ public class StartGame {
 			@Override
 			public void handle(ActionEvent arg0)
 			{
-				TankClient tc = new TankClient();
+				Split sp = new Split();
 				s1.close();
 			}
 		});

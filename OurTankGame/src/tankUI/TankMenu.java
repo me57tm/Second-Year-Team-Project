@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 public class TankMenu {
 	
+	@SuppressWarnings("unused")
 	public TankMenu() {
 		Stage s1 =new Stage();
 		s1.setTitle("Tank Game");
@@ -27,9 +28,7 @@ public class TankMenu {
 		Label set2 = new Label();
 		set2.setLayoutX(1000);
 		set2.setLayoutY(1000);
-		
-		
-		
+				
 		Button b1 = new Button("Start Game");
 		b1.getStyleClass().add("font");
 		

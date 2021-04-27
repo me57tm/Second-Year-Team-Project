@@ -125,8 +125,8 @@ public class TankClient {
 				if (name.equals("") == false && len <= 8) {
 					String dialog = "login successfully, welcome!   " + name;
 					// tips = new Auto_window(2000, dialog, new String("tips"), false);
-					player1 = new Tank(300, 450, true, "imagesProjectAI/tank.png");
-					player2 = new Tank( 600, 600, false, "grimfandango-art/tank-red.png");
+					player1 = new Tank(160, 160, true, "grimfandango-art/tank64.png");
+					player2 = new Tank(992, 608, false, "grimfandango-art/tank-red.png");
 					
 					nc.connect("127.0.0.1");
 					player1.setId(100);
@@ -138,13 +138,9 @@ public class TankClient {
 						tanks.add(player2);
 						tanks.add(player1);
 					}
-//					while (true) {
-//						System.out.println("1");
-//						if (2 == tanks.size()) {
+
 							N_Mode nomode = new N_Mode(tanks, id, nc);
-//							break;
-//						}
-//					}
+
 					s1.close();
 
 				} else {

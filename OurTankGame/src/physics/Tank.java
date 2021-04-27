@@ -231,4 +231,8 @@ public class Tank extends Sprite {
 		
 	}
 
+	public void setRotation(double rotation) {
+		this.rotation = rotation;
+	}
+
 }

@@ -54,7 +54,7 @@ public class Co_Mode {
 		}
 	}
 
-	public Co_Mode(String name) {
+	public Co_Mode() {
 
 		Map map = new Map();
 
