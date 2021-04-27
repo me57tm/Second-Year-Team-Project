@@ -280,11 +280,31 @@ public class Co_Mode {
 		map.addLayer(l1);
 		map.addLayer(l2);
 
-		Tank tank = new Tank("imagesProjectAI/tank.png");
+		Tank tank = new Tank("grimfandango-art/tank64.png");
 		tank.position.set(160, 160);
 
+		ArrayList<PowerUp> powerups = new ArrayList<>();
 		PowerUp bulletPowerup = new PowerUp("Speed");
+		powerups.add(bulletPowerup);
 		bulletPowerup.position.set(150, 500);
+		PowerUp coin1 = new PowerUp("Score");
+		PowerUp coin2 = new PowerUp("Score");
+		PowerUp coin3 = new PowerUp("Score");
+		PowerUp coin4 = new PowerUp("Score");
+		powerups.add(coin1);
+		powerups.add(coin2);
+		powerups.add(coin3);
+		powerups.add(coin4);
+		coin1.position.set(480, 64);
+		coin2.position.set(480, 672);
+		coin3.position.set(608, 64);
+		coin4.position.set(608, 672);
+		PowerUp battery1 = new PowerUp("Energy");
+		PowerUp battery2 = new PowerUp("Energy");
+		powerups.add(battery1);
+		powerups.add(battery2);
+		battery1.position.set(96, 672);
+		battery2.position.set(991, 64);
 
 		Tank enemy = new Tank("grimfandango-art/tank-red.png");
 		enemy.position.set(992, 608);
@@ -497,7 +517,9 @@ public class Co_Mode {
 					for (Bullet laser1 : laserListE) {
 						laser1.update(1 / 60.0,map);
 						tank.collide(laser1);
-						bulletPowerup.collide(laser1);
+						for(PowerUp powerup : powerups) {
+							powerup.collide(laser1);
+						}
 					}
 
 					for (int n = 0; n < laserListT.size(); n++) {
@@ -507,7 +529,9 @@ public class Co_Mode {
 
 						enemy.collide(laser); // TODO: this is a marker that I edited this one
 
-						bulletPowerup.collide(laser);
+						for(PowerUp powerup : powerups) {
+							powerup.collide(laser);
+						}
 					}
 
 					// Remove Bullets that have collided with something
@@ -523,9 +547,13 @@ public class Co_Mode {
 
 					// Render everything
 					map.renderMap(context);
-					tank.render(context);
-					if (bulletPowerup.hp > 1) {
-						bulletPowerup.render(context);
+					tank.render(context); 
+					System.out.println("current score:"+tank.getScore());
+					System.out.println("current hp:"+tank.getHP());
+					for(PowerUp powerup : powerups) {
+						if (powerup.hp > 1) {
+							powerup.render(context);
+						}
 					}
 					if (bulletPowerup.hp < 1) {
 						tank.velocity.setLength(800);

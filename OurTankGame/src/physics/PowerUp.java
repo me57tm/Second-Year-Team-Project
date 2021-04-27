@@ -8,6 +8,12 @@ public class PowerUp extends Sprite {
 		switch(type) {
 		case "Speed":
 			setImage("grimfandango-art/powerup.png");
+			break;
+		case "Score":
+			setImage("grimfandango-art/coin-export1.png");
+			break;
+		case "Energy":
+			setImage("grimfandango-art/energy-export1.png");
 		}
 		this.type=type;
 	}
@@ -16,6 +22,15 @@ public class PowerUp extends Sprite {
 		switch(type) {
 		case "Speed":
 			t.setSpeedModifier(3);
+			break;
+		case "Score":
+			t.addScore(5);
+			System.out.println("score:"+t.getScore());
+			break;
+		case "Energy":
+			t.addHP(5);
+			System.out.println("hp:"+t.getHP());
+			
 		}
 		t.setPowerUp(this);
 	}

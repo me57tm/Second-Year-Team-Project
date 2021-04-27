@@ -11,6 +11,7 @@ public class Tank extends Sprite {
 	private boolean good;
 	private double x, y, fifty;
 	private String name;
+	private int score=0;
 
 	protected double speedModifier = 1;
 	protected PowerUp pow;
@@ -67,7 +68,7 @@ public class Tank extends Sprite {
 			context.save();
 
 			Bullet laser = new Bullet("imagesProjectAI/red-circle.png", this);
-			AudioManager.play("shoot");
+			//AudioManager.play("shoot");
 
 			laser.position.set(this.position.x, this.position.y);
 			laser.velocity.setLength(200);
@@ -103,7 +104,7 @@ public class Tank extends Sprite {
 					System.out.println("Tank hit");
 					this.hp -= b.damage;
 					if (this.hp <= 0) { //tank is dead
-						AudioManager.play("explode");
+						//AudioManager.play("explode");
 					}
 					System.out.println(hp);
 					b.hp = -1;
@@ -203,5 +204,31 @@ public class Tank extends Sprite {
 		return velocity;
 	}
 
+	public int getScore() {
+		return this.score;
+	}
+	
+	public void addScore(int i)
+	{
+		this.score+=i;	
+	}
+	
+	public void setScore(int i) {
+		this.score=i;
+	}
+ 
+	public int getHP() {
+		return this.hp;
+	}
+	
+	public void setHP(int i) {
+		this.hp=i;
+	}
+	
+	public void addHP(int i)
+	{
+		this.hp+=i;
+		
+	}
 
 }
