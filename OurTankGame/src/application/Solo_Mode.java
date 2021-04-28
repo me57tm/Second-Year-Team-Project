@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -18,10 +19,12 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import physics.Bullet;
 import physics.Layer;
@@ -419,7 +422,7 @@ public class Solo_Mode {
 			// stage.setMaximized(true);
 			stage.setResizable(false);
 			stage.setScene(scene);
-			stage.setTitle("Co-operative Mode");
+			stage.setTitle("Singleplayer Mode");
 			stage.show();
 
 			Canvas canvas = new Canvas(1152, 800);
@@ -474,7 +477,7 @@ public class Solo_Mode {
 
 							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
 							//modified the position a bit so it looks like it shoots from the turret
-							laserE.position.set(enemy.position.x+enemy.getBoundary().getWidth(), enemy.position.y+(enemy.getBoundary().getHeight())/2);
+							laserE.position.set(enemy.position.x, enemy.position.y);
 							laserE.velocity.setLength(200);
 							laserE.velocity.setAngle(enemy.rotation);
 							laserListE.add(laserE);
@@ -547,9 +550,9 @@ public class Solo_Mode {
 
 					// Render everything
 					map.renderMap(context);
-					tank.render(context); 
-					System.out.println("current score:"+tank.getScore());
-					System.out.println("current hp:"+tank.getHP());
+					//tank.render(context); 
+					//System.out.println("current score:"+tank.getScore());
+					//System.out.println("current hp:"+tank.getHP());
 					for(PowerUp powerup : powerups) {
 						if (powerup.hp > 1) {
 							powerup.render(context);
@@ -558,8 +561,14 @@ public class Solo_Mode {
 					if (bulletPowerup.hp < 1) {
 						tank.velocity.setLength(800);
 					}
+					if (tank.hp > 0) {       
+						tank.render(context);
+					}
 					if (enemy.hp > 0) {
 						enemy.render(context);
+					}
+					else {
+						System.out.println("The game is done");
 					}
 					for (Sprite laser : laserListT) {
 						laser.render(context);
@@ -567,7 +576,16 @@ public class Solo_Mode {
 					for (Sprite laser : laserListE) {
 						laser.render(context);
 					}
-
+					
+					//Gameover Logic
+					if (tank.hp <= 0) {
+						gameOver("You Lose",context);
+						this.stop();
+					}
+					if (enemy.hp <= 0) {
+						gameOver("You Win",context);
+						this.stop();
+					}
 				}
 			};
 
@@ -577,5 +595,46 @@ public class Solo_Mode {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public void gameOver(String message, GraphicsContext context) {
+		//Create black square opacity 0.1
+		//open animation timer, repeat x times, incrment i, break
+			//increase opacity square
+		//add text message
+		//add exit button
+//		javafx.scene.shape.Rectangle shadow = new javafx.scene.shape.Rectangle();
+//		shadow.setX(0);
+//		shadow.setY(0);
+//		shadow.setWidth(1152);
+//		shadow.setHeight(800);
+//		shadow.setFill(new Color(0,0,0,0.001));
+		context.setFill(new Color(0,0,0,0.017));
+		new AnimationTimer() {
+			int i = 0;
+			public void handle(long nanotime) {
+				if (i < 100)
+					context.fillRect(0,0,1152,800);
+				else if (i == 100) {
+					
+					context.setTextAlign(TextAlignment.CENTER);
+					context.setStroke(Color.WHITE);
+					context.setFill(Color.WHITE);
+					
+					context.setFont(new Font("Source Code Pro",128));					
+					context.strokeText("Game Over", 1152/2, 800/2-150);
+					context.fillText("Game Over", 1152/2, 800/2-150);
+					
+					context.setFont(new Font("Source Code Pro",64));
+					context.strokeText(message, 1152/2, 800/2);
+					context.fillText(message, 1152/2, 800/2);
+				}
+				else if(i > 300)  {
+					this.stop();
+					stage.close();
+					new TankMenu();
+				}
+				i++;
+			}
+		}.start();
+	}
 }
