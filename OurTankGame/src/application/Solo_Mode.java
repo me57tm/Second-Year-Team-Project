@@ -579,11 +579,15 @@ public class Solo_Mode {
 					
 					//Gameover Logic
 					if (tank.hp <= 0) {
-						gameOver("You Lose",context);
+						Sprite youLose = new Sprite("grimfandango-art/YouLose.png");
+						youLose.position.set(576, 400);
+						gameOver(youLose,context);
 						this.stop();
 					}
 					if (enemy.hp <= 0) {
-						gameOver("You Win",context);
+						Sprite youWin = new Sprite("grimfandango-art/YouWin.png");
+						youWin.position.set(576, 400);
+						gameOver(youWin,context);
 						this.stop();
 					}
 				}
@@ -596,9 +600,9 @@ public class Solo_Mode {
 		}
 	}
 	
-	public void gameOver(String message, GraphicsContext context) {
+	public void gameOver(Sprite message, GraphicsContext context) {
 		//Create black square opacity 0.1
-		//open animation timer, repeat x times, incrment i, break
+		//open animation timer, repeat x times, increment i, break
 			//increase opacity square
 		//add text message
 		//add exit button
@@ -616,17 +620,19 @@ public class Solo_Mode {
 					context.fillRect(0,0,1152,800);
 				else if (i == 100) {
 					
-					context.setTextAlign(TextAlignment.CENTER);
-					context.setStroke(Color.WHITE);
-					context.setFill(Color.WHITE);
-					
-					context.setFont(new Font("Source Code Pro",128));					
-					context.strokeText("Game Over", 1152/2, 800/2-150);
-					context.fillText("Game Over", 1152/2, 800/2-150);
-					
-					context.setFont(new Font("Source Code Pro",64));
-					context.strokeText(message, 1152/2, 800/2);
-					context.fillText(message, 1152/2, 800/2);
+					message.render(context);
+//					
+//					context.setTextAlign(TextAlignment.CENTER);
+//					context.setStroke(Color.WHITE);
+//					context.setFill(Color.WHITE);
+//					
+//					context.setFont(new Font("Source Code Pro",128));					
+//					context.strokeText("Game Over", 1152/2, 800/2-150);
+//					context.fillText("Game Over", 1152/2, 800/2-150);
+//					
+//					context.setFont(new Font("Source Code Pro",64));
+//					context.strokeText(message, 1152/2, 800/2);
+//					context.fillText(message, 1152/2, 800/2);
 				}
 				else if(i > 300)  {
 					this.stop();
