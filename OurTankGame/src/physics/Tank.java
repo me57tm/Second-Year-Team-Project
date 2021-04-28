@@ -12,6 +12,7 @@ public class Tank extends Sprite {
 	private double x, y, fifty;
 	private String name;
 	private int score=0;
+	private double lastShot = 0;
 
 	protected double speedModifier = 1;
 	protected PowerUp pow;
@@ -60,21 +61,23 @@ public class Tank extends Sprite {
 			fifty = 0;
 		}
 
-		if (keyJustPressedList.contains("SPACE")) {
+		if (keyPressedList.contains("SPACE")) {
 			bulletMsg = 1;
 		}
 
 		if (bulletMsg == 1) {
 			context.save();
+			if(elapsedTime - lastShot > 0.75 && this.hp > 0) {
+				Bullet laser = new Bullet("imagesProjectAI/red-circle.png", this);
+				AudioManager.play("shoot");
 
-			Bullet laser = new Bullet("imagesProjectAI/red-circle.png", this);
-			//AudioManager.play("shoot");
-
-			laser.position.set(this.position.x, this.position.y);
-			laser.velocity.setLength(200);
-			laser.velocity.setAngle(this.rotation);
-			laserListT.add(laser);
-
+				laser.position.set(this.position.x, this.position.y);
+				laser.velocity.setLength(200);
+				laser.velocity.setAngle(this.rotation);
+				laserListT.add(laser);
+				lastShot = elapsedTime;
+				
+			}
 		}
 	}
 
@@ -96,17 +99,17 @@ public class Tank extends Sprite {
 		}
 		if (this.overlaps(other)) {
 			// run collision code
-			System.out.println("Collision");
+			//System.out.println("Collision");
 
 			if (other instanceof Bullet) {
 				Bullet b = (Bullet) other;
 				if (b.getParent() != this) {
-					System.out.println("Tank hit");
+					//System.out.println("Tank hit");
 					this.hp -= b.damage;
 					if (this.hp <= 0) { //tank is dead
-						//AudioManager.play("explode");
+						AudioManager.play("explode");
 					}
-					System.out.println(hp);
+					//System.out.println(hp);
 					b.hp = -1;
 				}
 			}
@@ -124,15 +127,7 @@ public class Tank extends Sprite {
 		}
 		return collision;
 	}
-	
-	
-	@Override
-	public void say() {
-		System.out.println("I'm a Tank and my name is: "+name);
-	}
-	
-	
-
+		
 	public double getSpeedModifier() {
 		return speedModifier;
 	}

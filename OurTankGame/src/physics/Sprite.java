@@ -12,7 +12,7 @@ public class Sprite
 	public javafx.scene.image.Image image;
 	public int hp;
 	public double elapsedTime; //seconds
-
+	
 	public Sprite()
 	{
 		this.position = new Vector();

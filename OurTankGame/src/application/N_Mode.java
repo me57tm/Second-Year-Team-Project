@@ -457,8 +457,19 @@ public class N_Mode {
 			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
 			AnimationTimer gameloop = new AnimationTimer() {
+				
+				int frame = 0;
+				
 
 				public void handle(long nanotime) {
+					
+					frame++;
+					int i = frame % 6;
+					if(frame == 60) {
+						frame = 0;
+					}
+					
+					if(i == 0) {
 
 					tank.move(keyPressedList, keyJustPressedList, context, laserListT);
 					enemy.enemyFire(enemy, laserListE);
@@ -528,7 +539,8 @@ public class N_Mode {
 					}
 
 				}
-			};
+			}
+		};
 
 			gameloop.start();
 

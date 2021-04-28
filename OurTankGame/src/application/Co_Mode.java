@@ -474,7 +474,7 @@ public class Co_Mode {
 
 							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
 							//modified the position a bit so it looks like it shoots from the turret
-							laserE.position.set(enemy.position.x+enemy.getBoundary().getWidth(), enemy.position.y+(enemy.getBoundary().getHeight())/2);
+							laserE.position.set(enemy.position.x, enemy.position.y);
 							laserE.velocity.setLength(200);
 							laserE.velocity.setAngle(enemy.rotation);
 							laserListE.add(laserE);
@@ -547,9 +547,9 @@ public class Co_Mode {
 
 					// Render everything
 					map.renderMap(context);
-					tank.render(context); 
-					System.out.println("current score:"+tank.getScore());
-					System.out.println("current hp:"+tank.getHP());
+					//tank.render(context); 
+					//System.out.println("current score:"+tank.getScore());
+					//System.out.println("current hp:"+tank.getHP());
 					for(PowerUp powerup : powerups) {
 						if (powerup.hp > 1) {
 							powerup.render(context);
@@ -558,8 +558,14 @@ public class Co_Mode {
 					if (bulletPowerup.hp < 1) {
 						tank.velocity.setLength(800);
 					}
+					if (tank.hp > 0) {       
+						tank.render(context);
+					}
 					if (enemy.hp > 0) {
 						enemy.render(context);
+					}
+					else {
+						System.out.println("The game is done");
 					}
 					for (Sprite laser : laserListT) {
 						laser.render(context);

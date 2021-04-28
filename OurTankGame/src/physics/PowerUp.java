@@ -25,11 +25,11 @@ public class PowerUp extends Sprite {
 			break;
 		case "Score":
 			t.addScore(5);
-			System.out.println("score:"+t.getScore());
+			//System.out.println("score:"+t.getScore());
 			break;
 		case "Energy":
 			t.addHP(5);
-			System.out.println("hp:"+t.getHP());
+			//System.out.println("hp:"+t.getHP());
 			
 		}
 		t.setPowerUp(this);
@@ -49,11 +49,11 @@ public class PowerUp extends Sprite {
 		}
 		if (this.overlaps(other)) {
 			//run collision code
-			System.out.println("Collision2");
+			//System.out.println("Collision2");
 			
 			if (other instanceof Bullet) {
 				Bullet b = (Bullet) other;
-				System.out.println("you what");
+				//System.out.println("you what");
 				apply(b.getParent());
 				this.hp = -1;
 				b.hp = -1;
