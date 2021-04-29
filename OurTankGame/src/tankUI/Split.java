@@ -80,7 +80,6 @@ public class Split{
 					new Thread(() -> { 
 					    TankServer ts = new TankServer();
 					    ts.start();
-//					    ts.launchFrame();
 					  }).start();
 					
 					System.out.println("服务器启动成功");

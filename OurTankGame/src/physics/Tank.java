@@ -10,9 +10,9 @@ public class Tank extends Sprite {
 	public double bulletMsg;
 	private boolean good;
 	private double x, y, fifty;
-	private String name;
+	private String name = "PlayerUnknown";
 	private int score=0;
-	private double lastShot = 0;
+	private double lastShot,enemyLast = 0;
 
 	protected double speedModifier = 1;
 	protected PowerUp pow;
@@ -83,12 +83,15 @@ public class Tank extends Sprite {
 
 	public void enemyFire(Tank enemy, ArrayList<Bullet> laserListE) {
 		if (bulletMsg == 1) {
+			if(elapsedTime - enemyLast > 0.75 && this.hp > 0) {
 			Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
 			laserE.position.set(enemy.position.x, enemy.position.y);
 			laserE.velocity.setLength(200);
 			laserE.velocity.setAngle(enemy.rotation);
 			laserListE.add(laserE);
 			bulletMsg = 0;
+			enemyLast = elapsedTime;
+			}
 		}
 	}
 

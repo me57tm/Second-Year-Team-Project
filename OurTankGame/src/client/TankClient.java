@@ -29,7 +29,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import physics.Tank;
 import tankUI.Auto_window;
-import tankUI.TankMenu;
+import tankUI.Split;
 
 public class TankClient {
 	public int id;
@@ -52,6 +52,9 @@ public class TankClient {
 		dropshadow.setOffsetY(0);
 		dropshadow.setSpread(0.1);
 		dropshadow.setColor(Color.BLACK);
+
+		// Button
+		Button back = new Button("Back");
 
 		// Label
 		Label lb = new Label("Tank Battle");
@@ -101,6 +104,7 @@ public class TankClient {
 		root.setBackground(bg);
 		root.setBottom(hb);
 		root.setCenter(vb);
+		root.setRight(back);
 		root.setEffect(dropshadow);
 
 		Scene scene = new Scene(root);
@@ -112,37 +116,51 @@ public class TankClient {
 		s1.setResizable(false);
 		s1.show();
 
+		back.setOnAction(new EventHandler<ActionEvent>() {
+
+			@SuppressWarnings("unused")
+			@Override
+			public void handle(ActionEvent arg0) {
+				Split sp = new Split();
+				s1.close();
+			}
+		});
+
 		login.setOnAction(new EventHandler<ActionEvent>() {
 
+			@SuppressWarnings("unused")
 			@Override
 			public void handle(ActionEvent event) {
 				String name = fusername.getText();
 
-				// 留意这里
-
 				int len = name.length();
 
 				if (name.equals("") == false && len <= 8) {
-					String dialog = "login successfully, welcome!   " + name;
 					// tips = new Auto_window(2000, dialog, new String("tips"), false);
-					player1 = new Tank(160, 160, true, "grimfandango-art/tank64.png");
+					player1 = new Tank(160, 160, true, "imagesProjectAI/tank.png");
 					player2 = new Tank(992, 608, false, "grimfandango-art/tank-red.png");
-					
+
 					nc.connect("127.0.0.1");
 					player1.setId(100);
 					player2.setId(101);
-					if (id == 100) {
+					if ((id & 1) == 0 ? true : false) {
 						tanks.add(player1);
 						tanks.add(player2);
 					} else {
 						tanks.add(player2);
 						tanks.add(player1);
 					}
-
-							N_Mode nomode = new N_Mode(tanks, id, nc);
-
+					tankNameMsg nameMsg = new tankNameMsg(id, name);
+					nc.send(nameMsg);
+//					try {
+//						Thread.sleep(100);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//					NewTankMsg  newMsg  = new NewTankMsg(id);
+//					nc.send(newMsg);
 					s1.close();
-
+					N_Mode nomode = new N_Mode(tanks, id, nc);
 				} else {
 					String s1 = "Please enter a name less than 9 characters.";
 					Auto_window a1 = new Auto_window(2200, s1, new String("tips"), false);
@@ -154,6 +172,7 @@ public class TankClient {
 	public void clientID(int id) {
 		this.id = id;
 	}
+
 	public int getClientID() {
 		return id;
 	}

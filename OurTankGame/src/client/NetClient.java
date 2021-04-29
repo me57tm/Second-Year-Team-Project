@@ -6,7 +6,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import client.*;
 
 /**
  * 网络方法接口
@@ -15,8 +14,7 @@ public class NetClient {
 	private TankClient tc;
 	private int UDP_PORT;// 客户端的UDP端口号
 	private String serverIP;// 服务器IP地址
-	private int serverUDPPort;// 服务器转发客户但UDP包的UDP端口
-	private int TANK_DEAD_UDP_PORT;// 服务器监听坦克死亡的UDP端口
+	private int serverUDPPort,TANK_DEAD_UDP_PORT;// 服务器转发客户但UDP包的UDP端口       服务器监听坦克死亡的UDP端口
 	private DatagramSocket ds = null;// 客户端的UDP套接字
 
 	public void setUDP_PORT(int UDP_PORT) {
@@ -54,8 +52,6 @@ public class NetClient {
 			this.serverUDPPort = dis.readInt();// 获得服务器转发客户端消息的UDP端口号
 			this.TANK_DEAD_UDP_PORT = dis.readInt();// 获得服务器监听坦克死亡的UDP端口
 			tc.clientID(id);// 设置坦克的id号
-//			tc.getMyTank().isGood((id & 1) == 0 ? true : false);// 根据坦克的id号分配阵营
-			// System.out.println("connect to server successfully...");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -67,7 +63,7 @@ public class NetClient {
 			}
 		}
 
-		new Thread(new UDPThread()).start();// 开启客户端UDP线程, 向服务器发送或接收游戏数据
+		new Thread(new OurUDPThread()).start();// 开启客户端UDP线程, 向服务器发送或接收游戏数据
 
 //		NewTankMsg msg = new NewTankMsg(tc.getMyTank());// 创建坦克出生的消息
 //		send(msg);
@@ -86,7 +82,7 @@ public class NetClient {
 		msg.send(ds, serverIP, serverUDPPort);
 	}
 
-	public class UDPThread implements Runnable {
+	public class OurUDPThread implements Runnable {
 
 		byte[] buf = new byte[1024];
 
@@ -122,10 +118,14 @@ public class NetClient {
 				msg = new MovingMsg(tc);
 				msg.parse(dis);
 				break;
-//                case Message.MISSILE_NEW_MSG:
-//                    msg = new MissileNewMsg(tc);
-//                    msg.parse(dis);
-//                    break;
+			case Message.TANK_NAME_MSG:
+				msg = new tankNameMsg(tc);
+				msg.parse(dis);
+				break;
+			case Message.TANK_NEW_MSG:
+				msg = new tankNameMsg(tc);
+				msg.parse(dis);
+				break;
 //                case Message.TANK_DEAD_MSG:
 //                    msg = new TankDeadMsg(tc);
 //                    msg.parse(dis);

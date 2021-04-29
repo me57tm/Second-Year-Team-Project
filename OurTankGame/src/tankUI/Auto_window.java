@@ -41,7 +41,7 @@ public class Auto_window{
 		root.getChildren().addAll(l1, closeBtn);
 		Scene scene = new Scene(root);
 		s1.setScene(scene);
-		s1.setTitle("Auto-close window: "+title);
+		s1.setTitle(title);
 		s1.show();
  
 		Thread thread = new Thread(() -> {

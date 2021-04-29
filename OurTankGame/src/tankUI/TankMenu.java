@@ -78,6 +78,7 @@ public class TankMenu {
 		
 		b4.setOnAction(e -> {
 			s1.close();
+			System.exit(0);
 		});
 		
 		Group g1 = new Group();

@@ -10,38 +10,36 @@ import java.net.InetSocketAddress;
 import physics.Tank;
 
 /**
- * 坦克移动消息协议
+ * 旧坦克向新坦克发送消息的协议
  */
-public class MovingMsg implements Message {
-	private int msgType = Message.TANK_MOVE_MSG;
+public class tankNameMsg implements Message {
+	private int msgType = Message.TANK_NAME_MSG;
 	private int id;
-	private double rotation,fifty,bulletMsg;
+	private String name;
 	private TankClient tc;
 
-	public MovingMsg(int id,double rotation,double fifty,double bulletMsg) {
+	public tankNameMsg(int id, String name) {
 		this.id = id;
-		this.fifty = fifty;
-		this.rotation = rotation;
-		this.bulletMsg = bulletMsg;
+		this.name = name;
 	}
 
-	public MovingMsg(TankClient tc) {
+	public tankNameMsg(TankClient tc) {
 		this.tc = tc;
 	}
 
 	@Override
 	public void send(DatagramSocket ds, String IP, int UDP_Port) {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(100);// 指定大小, 免得字节数组扩容占用时间
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(100);
 		DataOutputStream dos = new DataOutputStream(baos);
 		try {
 			dos.writeInt(msgType);
 			dos.writeInt(id);
-			dos.writeDouble(rotation);			
-			dos.writeDouble(fifty);
-			dos.writeDouble(bulletMsg);
+			dos.writeUTF(name);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		byte[] buf = baos.toByteArray();
 		try {
 			DatagramPacket dp = new DatagramPacket(buf, buf.length, new InetSocketAddress(IP, UDP_Port));
@@ -53,22 +51,20 @@ public class MovingMsg implements Message {
 
 	@Override
 	public void parse(DataInputStream dis) {
+
 		try {
 			int id = dis.readInt();
-			if (id == this.tc.getClientID()) {
-				return;
-			}
-			double rotation = dis.readDouble();
-			double fifty = dis.readDouble();
-			double bulletMessage = dis.readDouble();
+			String name = dis.readUTF();
 			for (Tank t : tc.getTanks()) {
 				if (t.getId() == id) {
-					t.setRotation(rotation);
-					t.velocity.setAngle(rotation);
-					t.velocity.setLength(fifty * 1);
-					t.setBulletMsg(bulletMessage);
+					t.setName(name);
 					break;
 				}
+			
+			}
+			if (this.id < id) {
+				tankNameMsg msg = new tankNameMsg(id, name);
+				tc.getNc().send(msg);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

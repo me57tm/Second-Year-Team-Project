@@ -8,31 +8,34 @@
 //import java.net.DatagramSocket;
 //import java.net.InetSocketAddress;
 //import physics.Tank;
+//import tankUI.Auto_window;
 //
+///**
+// * 旧坦克向新坦克发送消息的协议
+// */
 //public class NewTankMsg implements Message {
 //	private int msgType = Message.TANK_NEW_MSG;
-//	private Tank tank;
+//	private int id;
+//	private String name;
 //	private TankClient tc;
 //
-//	public NewTankMsg(Tank tank) {
-//		this.tank = tank;
+//	public NewTankMsg(int id) {
+//		this.id = id;
+//
 //	}
 //
 //	public NewTankMsg(TankClient tc) {
 //		this.tc = tc;
 //	}
 //
+//	@Override
 //	public void send(DatagramSocket ds, String IP, int UDP_Port) {
 //		ByteArrayOutputStream baos = new ByteArrayOutputStream(100);
 //		DataOutputStream dos = new DataOutputStream(baos);
 //		try {
 //			dos.writeInt(msgType);
-//			dos.writeInt(tank.getId());
-//			dos.writeDouble(tank.getX());
-//			dos.writeDouble(tank.getY());
-//			// 可能需要添加velocity
-//			dos.writeBoolean(tank.isGood());
-//			dos.writeUTF(tank.getName());
+//			dos.writeInt(id);
+//
 //
 //		} catch (IOException e) {
 //			e.printStackTrace();
@@ -42,32 +45,31 @@
 //		try {
 //			DatagramPacket dp = new DatagramPacket(buf, buf.length, new InetSocketAddress(IP, UDP_Port));
 //			ds.send(dp);
-//			// System.out.println("开始了");
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
 //	}
 //
+//	@Override
 //	public void parse(DataInputStream dis) {
+//		
 //		try {
 //			int id = dis.readInt();
-//			// System.out.println(this.tc.getMyTank().getId());
-//			if (id == this.tc.getMyTank().getId()) {
-//				tc.giveID(id);
-//				return;
-//			}
-//			double x = dis.readDouble();
-//			double y = dis.readDouble();
-//			boolean good = dis.readBoolean();
-//			// String tankName = dis.readUTF();
-//			Tank newTank = new Tank("heihei", x, y, good, "grimfandango-art/tank-red.png");
-//			newTank.setId(id);
-//			tc.getTanks().add(newTank);
 //
-//			ExistMsg msg = new ExistMsg(tc.getMyTank());
-//			tc.getNc().send(msg);
+//			if (this.id < id) {
+////		    new Thread(new WindowThread()).start();
+//		    Auto_window a1 = new Auto_window(2200, "Rest players have been in the game", new String("Tips"), false);
+//			}
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
 //	}
 //}
+////    class WindowThread implements Runnable{
+////
+////		@Override
+////		public void run() {
+////			Auto_window a1 = new Auto_window(2200, "Rest players have been in the game", new String("Tips"), false);
+////		}
+////    }
+//    
