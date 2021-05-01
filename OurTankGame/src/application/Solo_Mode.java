@@ -22,15 +22,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import physics.Bullet;
 import physics.Layer;
@@ -40,8 +36,6 @@ import physics.Sprite;
 import physics.Tank;
 import physics.Tile;
 import tankUI.Player;
-import tankUI.Singleplayer;
-import tankUI.StartGame;
 import tankUI.TankMenu;
 
 public class Solo_Mode {
@@ -295,27 +289,20 @@ public class Solo_Mode {
 		Tank tank = new Tank("grimfandango-art/tank64.png",160d,160d);
 
 		ArrayList<PowerUp> powerups = new ArrayList<>();
-		PowerUp bulletPowerup = new PowerUp("Speed");
-		powerups.add(bulletPowerup);
-		bulletPowerup.position.set(150, 500);
-		PowerUp coin1 = new PowerUp("Score");
-		PowerUp coin2 = new PowerUp("Score");
-		PowerUp coin3 = new PowerUp("Score");
-		PowerUp coin4 = new PowerUp("Score");
+		PowerUp speedPowerup = new PowerUp("Speed",150,500);
+		powerups.add(speedPowerup);
+		PowerUp coin1 = new PowerUp("Score",480, 64);
+		PowerUp coin2 = new PowerUp("Score",480, 672);
+		PowerUp coin3 = new PowerUp("Score",608, 64);
+		PowerUp coin4 = new PowerUp("Score",608, 672);
 		powerups.add(coin1);
 		powerups.add(coin2);
 		powerups.add(coin3);
 		powerups.add(coin4);
-		coin1.position.set(480, 64);
-		coin2.position.set(480, 672);
-		coin3.position.set(608, 64);
-		coin4.position.set(608, 672);
-		PowerUp battery1 = new PowerUp("Energy");
-		PowerUp battery2 = new PowerUp("Energy");
+		PowerUp battery1 = new PowerUp("Energy",96, 672);
+		PowerUp battery2 = new PowerUp("Energy",991, 64);
 		powerups.add(battery1);
 		powerups.add(battery2);
-		battery1.position.set(96, 672);
-		battery2.position.set(991, 64);
 
 		Tank enemy = new Tank("grimfandango-art/tank-red.png",992,608);
 
@@ -370,6 +357,7 @@ public class Solo_Mode {
 
 				@Override
 				public void handle(ActionEvent arg0) {
+					@SuppressWarnings("unused")
 					TankMenu m1 = new TankMenu();
 					stage.close();
 				}
@@ -424,7 +412,7 @@ public class Solo_Mode {
 			root.setBottom(hpBar);
 
 			// Scene
-			Scene scene = new Scene(root, 1152, 800);
+			Scene scene = new Scene(root, 1152, 900);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			// stage.setMaximized(true);
 			stage.setResizable(false);
@@ -518,7 +506,7 @@ public class Solo_Mode {
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
-			
+			final double FRAMERATE = 1 / 60d;
 					
 			AnimationTimer gameloop = new AnimationTimer() {
 
@@ -584,12 +572,12 @@ public class Solo_Mode {
 					// after processing user input, clear keyJustPressedList
 					keyJustPressedList.clear();
 
-					tank.update(1 / 60.0,map);
-					enemy.update(1 / 60.0,map);
+					tank.update(FRAMERATE,map);
+					enemy.update(FRAMERATE,map);
 
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
-						laser1.update(1 / 60.0,map);
+						laser1.update(FRAMERATE,map);
 						tank.collide(laser1);
 						for(PowerUp powerup : powerups) {
 							powerup.collide(laser1);
@@ -599,13 +587,19 @@ public class Solo_Mode {
 					for (int n = 0; n < laserListT.size(); n++) {
 						Bullet laser = laserListT.get(n);
 						
-						laser.update(1 / 60.0,map);
+						laser.update(FRAMERATE,map);
 
 						enemy.collide(laser); // TODO: this is a marker that I edited this one
 
 						for(PowerUp powerup : powerups) {
 							powerup.collide(laser);
 						}
+					}
+					
+					for (PowerUp powerup : powerups) {
+						powerup.update(FRAMERATE, map);
+						powerup.collide(tank);
+						powerup.collide(enemy);
 					}
 
 					// Remove Bullets that have collided with something
@@ -629,7 +623,7 @@ public class Solo_Mode {
 							powerup.render(context);
 						}
 					}
-					if (bulletPowerup.hp < 1) {
+					if (speedPowerup.hp < 1) {
 						tank.velocity.setLength(800);
 					}
 					if (tank.hp > 0) {       
@@ -647,6 +641,19 @@ public class Solo_Mode {
 					for (Sprite laser : laserListE) {
 						laser.render(context);
 					}
+					
+					//Generate new powerups
+//					if (true) {
+//						Random rand = new Random();
+//						int newPUX;
+//						int newPUY;
+//						do {
+//						newPUX = rand.nextInt(map.MAP_WIDTH_IN_TILES);
+//						newPUY = rand.nextInt(map.MAP_HEIGHT_IN_TILES);
+//						} while (map.getLayer(map.getSize()-1).getTile(newPUX, newPUY).isPassable());
+//						powerups.add(PowerUp.randomPowerUp(newPUX*map.TILE_WIDTH, newPUY*map.TILE_HEIGHT));				
+//						
+//					}
 					
 					//Gameover Logic
 					if (tank.hp <= 0) {
@@ -670,17 +677,6 @@ public class Solo_Mode {
 	}
 	
 	public void gameOver(Sprite message, GraphicsContext context) {
-		//Create black square opacity 0.1
-		//open animation timer, repeat x times, increment i, break
-			//increase opacity square
-		//add text message
-		//add exit button
-//		javafx.scene.shape.Rectangle shadow = new javafx.scene.shape.Rectangle();
-//		shadow.setX(0);
-//		shadow.setY(0);
-//		shadow.setWidth(1152);
-//		shadow.setHeight(800);
-//		shadow.setFill(new Color(0,0,0,0.001));
 		context.setFill(new Color(0,0,0,0.017));
 		new AnimationTimer() {
 			int i = 0;

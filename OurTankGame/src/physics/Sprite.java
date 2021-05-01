@@ -30,6 +30,7 @@ public class Sprite
 		this.position.x = x;
 		this.position.y = y;
 		setImage(imageFileName);
+		this.boundary.setPosition(this.position.x - this.image.getWidth()/2, this.position.y - this.image.getHeight()/2);
 	}
 
 	public void setImage(String imageFileName)
@@ -41,7 +42,6 @@ public class Sprite
 
 	public Rectangle getBoundary()
 	{
-		this.boundary.setPosition(this.position.x - this.image.getWidth()/2, this.position.y - this.image.getHeight()/2);
 		return this.boundary;
 	}
 
@@ -69,47 +69,15 @@ public class Sprite
 		}
 	}
 
-	//ignore commented out code but pls don't delete it
 	public void update(double deltaTime, Map map)
 	{
+		this.boundary.setPosition(this.position.x - this.image.getWidth()/2, this.position.y - this.image.getHeight()/2);
 		// increase elapsed time for this sprite
 		this.elapsedTime += deltaTime;
 		// update position according to velocity
-		//Vector oldPosition = this.position.clone();
-		//    	this.position.x = this .velocity.x* deltaTime;
-		//    	this.position.y = this .velocity.y* deltaTime;
 		if (!collideMapFuture(map,deltaTime)) {
 			this.position.add(this.velocity.x * deltaTime, this.velocity.y * deltaTime);
 		}
-		//	System.out.println(position.x-oldPosition.x);
-		//	if(this.collideMap(map)) {
-		//		this.position = oldPosition;
-		//	}
-		//    	this.position.y = this .velocity.y* deltaTime;
-		//    	if(this.collides(map)) {
-		//        	this.position=oldPosition;
-		//        }
-
-		//    	for(int i = 0; i<layer.widthInTiles; i++) {
-		//    		for(int j=0; j<layer.heightInTiles; j++) {
-		//    			try {
-		//    				if(this.getBoundary().overlaps(layer.getTileRectangle(layer.getTile(i, j)))==false) {
-		//        	        	this.position.add(this .velocity.x* deltaTime, this.velocity.y * deltaTime);
-		//        	        }
-		//    			} catch(NullPointerException e) {
-		//    				continue;
-		//    			}
-		//    			
-		//    		}
-		//    	}
-		//    	
-
-
-
-		//        if(this.collides(map)) {
-		//        	this.position=oldPosition;
-		//        }
-		//System.out.println("collision="+this.wallCollisionCheck(layer));
 		// wrap around screen
 		this.limitFrame((map.MAP_WIDTH_IN_TILES-1)*map.TILE_WIDTH,(map.MAP_HEIGHT_IN_TILES-1)*map.TILE_HEIGHT);
 	}
@@ -126,7 +94,6 @@ public class Sprite
 		context.save();
 
 		//this draws the boundary for each sprite for collision purposes, will delete
-		//context.rotate(this.getBoundary().rotation);
 		//context.strokeRect(this.boundary.x, this.boundary.y, this.getBoundary().width, this.getBoundary().height); //DEBUGGING HIBOX VIEW
 
 		context.translate(this.position.x, this.position.y);
@@ -181,7 +148,6 @@ public class Sprite
 				Tile tile;
 				try {
 					tile= map.getLayer(map.getSize()-1).getTile(i, j);
-					System.out.println(tile.getTileX()+ "This is X" + tile.getTileY() + "This is Y");
 					if(tile.isPassable()==false) {
 						collision = true;
 						//say();
@@ -199,8 +165,6 @@ public class Sprite
 	public boolean collideMapFuture(Map map,double deltaTime) {
 		boolean collision = false;
 		int leftTile,rightTile,topTile,bottomTile;
-
-		//checking on which tiles are the four corners of the sprite, having an idea of where is the sprite on the tilemap
 		if (deltaTime == 0) {
 			leftTile = (int) this.boundary.x / map.TILE_WIDTH;//x1
 			rightTile = ((int) this.boundary.x + (int) this.boundary.width) / map.TILE_WIDTH;//x2
@@ -230,22 +194,14 @@ public class Sprite
 			bottomTile = map.MAP_HEIGHT_IN_TILES;
 		}
 
-		// System.out.println("sprite location: left:"+leftTile+" right:"+rightTile+" top:"+topTile+" bottom:"+bottomTile);
-
 		//only checking the tiles where we know the sprite is
 		for(int i = leftTile; i<=rightTile; i++) {
 			for(int j= topTile; j<=bottomTile; j++) {
 				Tile tile;
 				try {
 					tile= map.getLayer(map.getSize()-1).getTile(i, j);
-					if (tile.getTileX() ==0 && tile.getTileY() == 0) {
-						System.out.println(tile.getTileX()+"."+tile.getTileY());
-						System.out.println(this.boundary.x+","+this.boundary.y);
-					}
-					//System.out.println(tile.getTileX()+","+tile.getTileY());
 					if(tile.isPassable()==false) {
 						collision = true;
-						//say();
 					}
 				} catch (NullPointerException e) {
 					continue;
@@ -253,7 +209,6 @@ public class Sprite
 			}
 
 		}
-		//System.out.println(collision + "This is collision");
 		return collision;
 	}
 

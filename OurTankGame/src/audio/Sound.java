@@ -79,7 +79,6 @@ public class Sound{
 		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		float gainRange = gainControl.getMaximum() - gainControl.getMinimum();
 		float newGain = gainControl.getMinimum() + vol * gainRange;
-		System.out.println(newGain);
 		gainControl.setValue(newGain);
 	}
 	public String getChannel() {
