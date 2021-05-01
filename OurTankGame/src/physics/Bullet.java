@@ -19,8 +19,9 @@ public class Bullet extends Sprite {
 	 public void update(double deltaTime, Map map) {
 		 super.update(deltaTime, map);
 		 if (this.elapsedTime > 3) this.hp = -1;
-		 this.limitFrame(1200,800);
+		 this.limitFrame(1200,800); 
 	 }
+		
 	 
 	 public Tank getParent() {
 		 return parent;
@@ -31,4 +32,5 @@ public class Bullet extends Sprite {
 	 public void setDamage(double d) {
 		 damage = d;
 	 }
+	 
 }

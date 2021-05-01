@@ -64,6 +64,7 @@ public class Tank extends Sprite {
 		if (keyPressedList.contains("SPACE")) {
 			bulletMsg = 1;
 		}
+		
 
 		if (bulletMsg == 1) {
 			context.save();
@@ -79,6 +80,51 @@ public class Tank extends Sprite {
 				
 			}
 		}
+	}
+	
+	public void moveWASD(ArrayList<String> keyPressedList, ArrayList<String> keyJustPressedList, GraphicsContext context,ArrayList<Bullet> laserListT) {
+		
+		if (keyPressedList.contains("A"))
+			//this.getBoundary().rotation -=3;
+			rotation -= 3;
+
+		if (keyPressedList.contains("D"))
+			//this.getBoundary().rotation +=3;
+			rotation += 3;
+
+		if (keyPressedList.contains("W")) {
+			velocity.setAngle(rotation);
+			velocity.setLength(50 * speedModifier);
+			fifty = 50;
+		} else if (keyPressedList.contains("S")) {
+			velocity.setAngle(rotation);
+			velocity.setLength(-50 * speedModifier);
+			fifty = -50;
+		} else {
+			velocity.setLength(0);
+			fifty = 0;
+		}
+
+		if (keyPressedList.contains("SPACE")) {
+			bulletMsg = 1;
+		}
+		
+
+		if (bulletMsg == 1) {
+			context.save();
+			if(elapsedTime - lastShot > 0.75 && this.hp > 0) {
+				Bullet laser = new Bullet("imagesProjectAI/red-circle.png", this);
+				AudioManager.play("shoot");
+
+				laser.position.set(this.position.x, this.position.y);
+				laser.velocity.setLength(200);
+				laser.velocity.setAngle(this.rotation);
+				laserListT.add(laser);
+				lastShot = elapsedTime;
+				
+			}
+		}
+		
 	}
 
 	public void enemyFire(Tank enemy, ArrayList<Bullet> laserListE) {

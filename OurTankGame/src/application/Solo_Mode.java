@@ -6,6 +6,7 @@ import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -16,10 +17,15 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -34,10 +40,13 @@ import physics.Sprite;
 import physics.Tank;
 import physics.Tile;
 import tankUI.Player;
+import tankUI.Singleplayer;
+import tankUI.StartGame;
 import tankUI.TankMenu;
 
 public class Solo_Mode {
 	private final Stage stage = new Stage();
+	private boolean isWASD;
 
 	static int randomN() {
 
@@ -356,7 +365,7 @@ public class Solo_Mode {
 			menuBar.getMenus().addAll(players, Audio, help, rq);
 
 			MenuItem quit = new MenuItem("Quit Game");
-			MenuItem returnM = new MenuItem("Return to Meun");
+			MenuItem returnM = new MenuItem("Return to Menu");
 			rq.getItems().addAll(quit, returnM);
 
 			returnM.setOnAction(new EventHandler<ActionEvent>() {
@@ -423,7 +432,59 @@ public class Solo_Mode {
 			stage.setResizable(false);
 			stage.setScene(scene);
 			stage.setTitle("Singleplayer Mode");
-			stage.show();
+			
+			TilePane rootControls = new TilePane();
+			rootControls.setPadding(new Insets(20));
+			rootControls.setAlignment(Pos.BASELINE_CENTER);
+			
+			// Choose your keyboard preferences
+			Image img = new Image("grimfandango-art/wasd.png");
+			ImageView view = new ImageView(img);
+			Button wasdButton = new Button();
+			wasdButton.setPrefSize(250, 40);
+			wasdButton.setGraphic(view);
+			//wasdButton.setTranslateX(10);
+			//wasdButton.setTranslateY(25);
+			wasdButton.setPrefSize(80, 80);
+			
+			Image imgArrows = new Image("grimfandango-art/arrows.png");
+			ImageView viewArrows = new ImageView(imgArrows);
+			Button arrowsButton = new Button();
+			arrowsButton.setPrefSize(100, 40);
+			arrowsButton.setGraphic(viewArrows);
+			//arrowsButton.setTranslateX(100);
+			//arrowsButton.setTranslateY(25);
+			arrowsButton.setPrefSize(80, 80);
+
+			rootControls.getChildren().addAll(wasdButton,arrowsButton);
+			Scene sceneControls = new Scene(rootControls,600,200);
+			Stage stageControls = new Stage();
+			stageControls.setScene(sceneControls);
+			stageControls.setTitle("Choose your controls:");
+
+			stageControls.show();
+			
+			wasdButton.setOnAction(new EventHandler<ActionEvent>() {
+				
+				@Override
+				public void handle(ActionEvent arg0) {
+					isWASD = true;
+					stageControls.close();
+					stage.show();
+				}
+			});
+			
+			arrowsButton.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0) {
+					isWASD = false;
+					stageControls.close();
+					stage.show();
+				}
+			});
+			
+			
 
 			Canvas canvas = new Canvas(1152, 800);
 			GraphicsContext context = canvas.getGraphicsContext2D();
@@ -454,6 +515,8 @@ public class Solo_Mode {
 
 			ArrayList<Bullet> laserListT = new ArrayList<Bullet>();
 			ArrayList<Bullet> laserListE = new ArrayList<Bullet>();
+			Bullet bullet = new Bullet("imagesProjectAI/red-circle.png", enemy);
+			//laserListE.add(bullet);
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
@@ -472,7 +535,7 @@ public class Solo_Mode {
 					if (checkRotation == 0) {
 						oneOrMinOne = 0;
 						if (Math.random() < 0.01) {
-
+							try {
 							context.save();
 
 							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
@@ -481,6 +544,10 @@ public class Solo_Mode {
 							laserE.velocity.setLength(200);
 							laserE.velocity.setAngle(enemy.rotation);
 							laserListE.add(laserE);
+							}
+							catch(Exception e){
+								
+							}
 						}
 
 						times++;
@@ -505,8 +572,14 @@ public class Solo_Mode {
 						enemy.rotation -= 2;
 					}
 					
-					
+					// If bool is true, WASD was chosen
+					 if(isWASD) {
+					tank.moveWASD(keyPressedList,keyJustPressedList,context,laserListT);
+					 }
+					// If bool is false, Arrows was chosen
+					else {
 					tank.move(keyPressedList,keyJustPressedList,context,laserListT);
+					 }
 					tank.setBulletMsg(0);
 					
 
@@ -621,18 +694,6 @@ public class Solo_Mode {
 				else if (i == 100) {
 					
 					message.render(context);
-//					
-//					context.setTextAlign(TextAlignment.CENTER);
-//					context.setStroke(Color.WHITE);
-//					context.setFill(Color.WHITE);
-//					
-//					context.setFont(new Font("Source Code Pro",128));					
-//					context.strokeText("Game Over", 1152/2, 800/2-150);
-//					context.fillText("Game Over", 1152/2, 800/2-150);
-//					
-//					context.setFont(new Font("Source Code Pro",64));
-//					context.strokeText(message, 1152/2, 800/2);
-//					context.fillText(message, 1152/2, 800/2);
 				}
 				else if(i > 300)  {
 					this.stop();
@@ -643,4 +704,6 @@ public class Solo_Mode {
 			}
 		}.start();
 	}
+	
+	
 }

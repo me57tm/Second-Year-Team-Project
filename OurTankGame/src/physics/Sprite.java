@@ -179,6 +179,7 @@ public class Sprite
 				Tile tile;
 				try {
 					tile= map.getLayer(map.getSize()-1).getTile(i, j);
+					System.out.println(tile.getTileX()+ "This is X" + tile.getTileY() + "This is Y");
 					if(tile.isPassable()==false) {
 						collision = true;
 						//say();
@@ -189,7 +190,7 @@ public class Sprite
 			}
 
 		}
-
+		System.out.println(collision + "CollideMap");
 		return collision;
 	}
 	
@@ -236,7 +237,7 @@ public class Sprite
 			}
 
 		}
-
+		//System.out.println(collision + "This is collision");
 		return collision;
 	}
 
