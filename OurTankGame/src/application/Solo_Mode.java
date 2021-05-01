@@ -292,8 +292,7 @@ public class Solo_Mode {
 		map.addLayer(l1);
 		map.addLayer(l2);
 
-		Tank tank = new Tank("grimfandango-art/tank64.png");
-		tank.position.set(160, 160);
+		Tank tank = new Tank("grimfandango-art/tank64.png",160d,160d);
 
 		ArrayList<PowerUp> powerups = new ArrayList<>();
 		PowerUp bulletPowerup = new PowerUp("Speed");
@@ -318,8 +317,7 @@ public class Solo_Mode {
 		battery1.position.set(96, 672);
 		battery2.position.set(991, 64);
 
-		Tank enemy = new Tank("grimfandango-art/tank-red.png");
-		enemy.position.set(992, 608);
+		Tank enemy = new Tank("grimfandango-art/tank-red.png",992,608);
 
 		int hp = 100;
 		int Shield = 100;
@@ -515,7 +513,7 @@ public class Solo_Mode {
 
 			ArrayList<Bullet> laserListT = new ArrayList<Bullet>();
 			ArrayList<Bullet> laserListE = new ArrayList<Bullet>();
-			Bullet bullet = new Bullet("imagesProjectAI/red-circle.png", enemy);
+			//Bullet bullet = new Bullet("imagesProjectAI/red-circle.png", enemy);
 			//laserListE.add(bullet);
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
@@ -538,12 +536,12 @@ public class Solo_Mode {
 							try {
 							context.save();
 
-							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
+							//Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
 							//modified the position a bit so it looks like it shoots from the turret
-							laserE.position.set(enemy.position.x, enemy.position.y);
-							laserE.velocity.setLength(200);
-							laserE.velocity.setAngle(enemy.rotation);
-							laserListE.add(laserE);
+//							laserE.position.set(enemy.position.x, enemy.position.y);
+//							laserE.velocity.setLength(200);
+//							laserE.velocity.setAngle(enemy.rotation);
+//							laserListE.add(laserE);
 							}
 							catch(Exception e){
 								
@@ -652,14 +650,12 @@ public class Solo_Mode {
 					
 					//Gameover Logic
 					if (tank.hp <= 0) {
-						Sprite youLose = new Sprite("grimfandango-art/YouLose.png");
-						youLose.position.set(576, 400);
+						Sprite youLose = new Sprite("grimfandango-art/YouLose.png",576, 400);
 						gameOver(youLose,context);
 						this.stop();
 					}
 					if (enemy.hp <= 0) {
-						Sprite youWin = new Sprite("grimfandango-art/YouWin.png");
-						youWin.position.set(576, 400);
+						Sprite youWin = new Sprite("grimfandango-art/YouWin.png",576, 400);
 						gameOver(youWin,context);
 						this.stop();
 					}

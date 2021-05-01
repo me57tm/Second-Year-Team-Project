@@ -16,22 +16,20 @@ public class Tank extends Sprite {
 
 	protected double speedModifier = 1;
 	protected PowerUp pow;
-
-	public Tank(String imageFileName) {
-		super(imageFileName);
+	
+	public Tank (String s, double x, double y) {
+		super(s,x,y);
 	}
 
 	public Tank(double x, double y, boolean good, String imageFileName) {
-		super(imageFileName);
-		this.x = x;
-		this.y = y;
+		super(imageFileName,x, y);
 		this.good = good;
 
 	}
 
 	public Tank(String name, int x, int y, boolean good) {
-		this.x = x;
-		this.y = y;
+		this.x = this.position.x = x;
+		this.y = this.position.y = y;
 		this.good = good;
 		this.name = name;
 

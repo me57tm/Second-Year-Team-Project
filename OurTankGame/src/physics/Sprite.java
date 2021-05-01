@@ -12,7 +12,7 @@ public class Sprite
 	public javafx.scene.image.Image image;
 	public int hp;
 	public double elapsedTime; //seconds
-	
+
 	public Sprite()
 	{
 		this.position = new Vector();
@@ -24,9 +24,11 @@ public class Sprite
 		this.elapsedTime = 0;
 	}
 
-	public Sprite(String imageFileName)
+	public Sprite(String imageFileName,double x,double y)
 	{
 		this();
+		this.position.x = x;
+		this.position.y = y;
 		setImage(imageFileName);
 	}
 
@@ -73,16 +75,16 @@ public class Sprite
 		// increase elapsed time for this sprite
 		this.elapsedTime += deltaTime;
 		// update position according to velocity
-		Vector oldPosition = this.position.clone();
+		//Vector oldPosition = this.position.clone();
 		//    	this.position.x = this .velocity.x* deltaTime;
 		//    	this.position.y = this .velocity.y* deltaTime;
 		if (!collideMapFuture(map,deltaTime)) {
 			this.position.add(this.velocity.x * deltaTime, this.velocity.y * deltaTime);
 		}
-	//	System.out.println(position.x-oldPosition.x);
-	//	if(this.collideMap(map)) {
-	//		this.position = oldPosition;
-	//	}
+		//	System.out.println(position.x-oldPosition.x);
+		//	if(this.collideMap(map)) {
+		//		this.position = oldPosition;
+		//	}
 		//    	this.position.y = this .velocity.y* deltaTime;
 		//    	if(this.collides(map)) {
 		//        	this.position=oldPosition;
@@ -193,15 +195,24 @@ public class Sprite
 		System.out.println(collision + "CollideMap");
 		return collision;
 	}
-	
+
 	public boolean collideMapFuture(Map map,double deltaTime) {
 		boolean collision = false;
+		int leftTile,rightTile,topTile,bottomTile;
 
 		//checking on which tiles are the four corners of the sprite, having an idea of where is the sprite on the tilemap
-		int leftTile = (int) (this.boundary.x+this.velocity.x * deltaTime) / map.TILE_WIDTH;//x1
-		int rightTile = ((int) (this.boundary.x+this.velocity.x * deltaTime) + (int) this.boundary.width) / map.TILE_WIDTH;//x2
-		int topTile = (int) (this.boundary.y+this.velocity.y * deltaTime) / map.TILE_HEIGHT;//y1
-		int bottomTile = ((int) (this.boundary.y+this.velocity.y * deltaTime) + (int) this.boundary.height) / map.TILE_HEIGHT;//y2
+		if (deltaTime == 0) {
+			leftTile = (int) this.boundary.x / map.TILE_WIDTH;//x1
+			rightTile = ((int) this.boundary.x + (int) this.boundary.width) / map.TILE_WIDTH;//x2
+			topTile = (int) this.boundary.y / map.TILE_HEIGHT;//y1
+			bottomTile = ((int) this.boundary.y + (int) this.boundary.height) / map.TILE_HEIGHT;//y2
+		}
+		else {
+			leftTile = (int) (this.boundary.x+(this.velocity.x * deltaTime)) / map.TILE_WIDTH;//x1
+			rightTile = ((int) (this.boundary.x+(this.velocity.x * deltaTime)) + (int) this.boundary.width) / map.TILE_WIDTH;//x2
+			topTile = (int) (this.boundary.y+(this.velocity.y * deltaTime)) / map.TILE_HEIGHT;//y1
+			bottomTile = ((int) (this.boundary.y+(this.velocity.y * deltaTime)) + (int) this.boundary.height) / map.TILE_HEIGHT;//y2
+		}
 
 		if(leftTile < 0) {
 			leftTile = 0;
@@ -227,6 +238,11 @@ public class Sprite
 				Tile tile;
 				try {
 					tile= map.getLayer(map.getSize()-1).getTile(i, j);
+					if (tile.getTileX() ==0 && tile.getTileY() == 0) {
+						System.out.println(tile.getTileX()+"."+tile.getTileY());
+						System.out.println(this.boundary.x+","+this.boundary.y);
+					}
+					//System.out.println(tile.getTileX()+","+tile.getTileY());
 					if(tile.isPassable()==false) {
 						collision = true;
 						//say();
