@@ -1,6 +1,6 @@
 package server;
 
-import java.io.ByteArrayInputStream;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -18,7 +18,6 @@ public class TankServer {
 	public static int ID = 100;// id号的初始序列
 	public static final int tcpPort = 55555;// TCP端口号
 	public static final int udpPort = 55556;// 转发客户端数据的UDP端口号
-	public static final int endUdpPort = 55557;// 接收客户端坦克死亡的端口号
 	private List<Client> clients = new ArrayList<>();// 客户端集合
 
 	public static void main(String[] args) {
@@ -30,7 +29,6 @@ public class TankServer {
 	@SuppressWarnings("resource")
 	public void start() {
 		new Thread(new OurUDPThread()).start();
-		new Thread(new TankDeadUDPThread()).start();
 		ServerSocket ss = null;
 		try {
 			ss = new ServerSocket(tcpPort);// 在TCP欢迎套接字上监听客户端连接
@@ -54,7 +52,6 @@ public class TankServer {
 				DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 				dos.writeInt(ID++);// 向客户端分配id号
 				dos.writeInt(TankServer.udpPort);// 告诉客户端自己的UDP端口号
-				dos.writeInt(TankServer.endUdpPort);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
@@ -98,57 +95,6 @@ public class TankServer {
 		}
 	}
 
-	/**
-	 * 监听坦克死亡的UDP线程
-	 */
-	private class TankDeadUDPThread implements Runnable {
-		byte[] buf = new byte[300];
-
-		@Override
-		public void run() {
-			DatagramSocket ds = null;
-			try {
-				ds = new DatagramSocket(endUdpPort);
-			} catch (SocketException e) {
-				e.printStackTrace();
-			}
-			while (null != ds) {
-				DatagramPacket dp = new DatagramPacket(buf, buf.length);
-				ByteArrayInputStream bais = null;
-				DataInputStream dis = null;
-				try {
-					ds.receive(dp);
-					bais = new ByteArrayInputStream(buf, 0, dp.getLength());
-					dis = new DataInputStream(bais);
-					int deadTankUDPPort = dis.readInt();
-					for (int i = 0; i < clients.size(); i++) {
-						Client c = clients.get(i);
-						if (c.udpPort == deadTankUDPPort) {
-							clients.remove(c);
-						}
-					}
-
-				} catch (IOException e) {
-					e.printStackTrace();
-				} finally {
-					if (null != dis) {
-						try {
-							dis.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					if (null != bais) {
-						try {
-							bais.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-		}
-	}
 
 	public class Client {
 		String IP;

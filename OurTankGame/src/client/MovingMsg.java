@@ -1,6 +1,5 @@
 package client;
 
-import application.N_Mode;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
