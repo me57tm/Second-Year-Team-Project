@@ -126,10 +126,10 @@ public class NetClient {
 				msg = new tankNameMsg(tc);
 				msg.parse(dis);
 				break;
-//                case Message.TANK_DEAD_MSG:
-//                    msg = new TankDeadMsg(tc);
-//                    msg.parse(dis);
-//                    break;
+                case Message.DEAD_MSG:
+                    msg = new tankDeadMsg(tc);
+                    msg.parse(dis);
+                    break;
 //                case Message.MISSILE_DEAD_MSG:
 //                    msg = new MissileDeadMsg(tc);
 //                    msg.parse(dis);

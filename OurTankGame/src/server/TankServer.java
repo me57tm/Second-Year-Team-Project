@@ -87,8 +87,8 @@ public class TankServer {
 				try {
 					ds.receive(dp);
 
-					for (Client c : clients) {
-						dp.setSocketAddress(new InetSocketAddress(c.IP, c.udpPort));
+					for (int i = 0; i < clients.size();i++) {
+						dp.setSocketAddress(new InetSocketAddress(clients.get(i).IP, clients.get(i).udpPort));
 						ds.send(dp);
 					}
 				} catch (IOException e) {

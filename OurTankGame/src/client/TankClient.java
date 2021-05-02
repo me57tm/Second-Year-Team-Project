@@ -137,28 +137,25 @@ public class TankClient {
 
 				if (name.equals("") == false && len <= 8) {
 					// tips = new Auto_window(2000, dialog, new String("tips"), false);
-					player1 = new Tank(160, 160, true, "imagesProjectAI/tank.png");
-					player2 = new Tank(992, 608, false, "grimfandango-art/tank-red.png");
+					player1 = new Tank("imagesProjectAI/tank.png",160d, 160d );
+					player2 = new Tank("grimfandango-art/tank-red.png",992, 608 );
 
 					nc.connect("127.0.0.1");
-					player1.setId(100);
-					player2.setId(101);
+					
 					if ((id & 1) == 0 ? true : false) {
+						player1.setId(id);
+						player2.setId(id + 1);
 						tanks.add(player1);
 						tanks.add(player2);
 					} else {
+						player1.setId(id - 1);
+						player2.setId(id);
 						tanks.add(player2);
 						tanks.add(player1);
 					}
 					tankNameMsg nameMsg = new tankNameMsg(id, name);
 					nc.send(nameMsg);
-//					try {
-//						Thread.sleep(100);
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//					NewTankMsg  newMsg  = new NewTankMsg(id);
-//					nc.send(newMsg);
+					
 					s1.close();
 					N_Mode nomode = new N_Mode(tanks, id, nc);
 				} else {

@@ -12,6 +12,7 @@ public class Sprite
 	public javafx.scene.image.Image image;
 	public int hp;
 	public double elapsedTime; //seconds
+	public Map map;
 
 	public Sprite()
 	{
@@ -69,7 +70,7 @@ public class Sprite
 		}
 	}
 
-	public void update(double deltaTime, Map map)
+	public void update(double deltaTime,Map map)
 	{
 		this.boundary.setPosition(this.position.x - this.image.getWidth()/2, this.position.y - this.image.getHeight()/2);
 		// increase elapsed time for this sprite
@@ -230,6 +231,9 @@ public class Sprite
 	//for debugging
 	public void say() {
 		System.out.println("I am a sprite");
+	}
+	public void setMap(Map map) {
+		this.map = map;
 	}
 
 }

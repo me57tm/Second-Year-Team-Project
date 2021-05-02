@@ -11,8 +11,9 @@ public class Tank extends Sprite {
 	private boolean good;
 	private double x, y, fifty;
 	private String name = "PlayerUnknown";
-	private int score=0;
+	private int score,dead=0;
 	private double lastShot,enemyLast = 0;
+	
 
 	protected double speedModifier = 1;
 	protected PowerUp pow;
@@ -21,11 +22,6 @@ public class Tank extends Sprite {
 		super(s,x,y);
 	}
 
-	public Tank(double x, double y, boolean good, String imageFileName) {
-		super(imageFileName,x, y);
-		this.good = good;
-
-	}
 
 	public Tank(String name, int x, int y, boolean good) {
 		this.x = this.position.x = x;
@@ -272,7 +268,12 @@ public class Tank extends Sprite {
 		this.hp+=i;
 		
 	}
-
+	public int getDead() {
+		return dead;
+	}
+	public void setDead(int dead) {
+		this.dead =dead;
+	}
 	public void setRotation(double rotation) {
 		this.rotation = rotation;
 	}

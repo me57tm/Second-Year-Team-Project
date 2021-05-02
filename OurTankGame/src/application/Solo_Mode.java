@@ -524,12 +524,12 @@ public class Solo_Mode {
 							try {
 							context.save();
 
-							//Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
+							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
 							//modified the position a bit so it looks like it shoots from the turret
-//							laserE.position.set(enemy.position.x, enemy.position.y);
-//							laserE.velocity.setLength(200);
-//							laserE.velocity.setAngle(enemy.rotation);
-//							laserListE.add(laserE);
+							laserE.position.set(enemy.position.x, enemy.position.y);
+							laserE.velocity.setLength(200);
+							laserE.velocity.setAngle(enemy.rotation);
+							laserListE.add(laserE);
 							}
 							catch(Exception e){
 								
