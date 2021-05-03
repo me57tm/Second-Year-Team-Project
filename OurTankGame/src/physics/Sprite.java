@@ -33,7 +33,12 @@ public class Sprite
 		setImage(imageFileName);
 		this.boundary.setPosition(this.position.x - this.image.getWidth()/2, this.position.y - this.image.getHeight()/2);
 	}
-
+	
+	public Image getImage()
+	{
+		return this.image;
+	}
+	
 	public void setImage(String imageFileName)
 	{
 		this.image = new Image(imageFileName);

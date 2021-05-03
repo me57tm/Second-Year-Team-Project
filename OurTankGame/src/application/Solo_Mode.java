@@ -219,8 +219,8 @@ public class Solo_Mode {
 	
 		
 		//adding the horizontal walls
-		for(int i=3; i<10; i++) {
-			if(i==3) {
+		for(int i=4; i<10; i++) {
+			if(i==4) {
 				l2.addTile(wallLeft, i, 11);
 			} else if(i==9) {
 				l2.addTile(wallRight, i, 11);
@@ -230,10 +230,10 @@ public class Solo_Mode {
 				
 		}
 		
-		for(int i=26; i<33; i++) {
+		for(int i=26; i<32; i++) {
 			if(i==26) {
 				l2.addTile(wallLeft, i, 11);
-			} else if(i==32) {
+			} else if(i==31) {
 				l2.addTile(wallRight, i, 11);
 			} else {
 				l2.addTile(wallMid, i, 11);
@@ -288,21 +288,14 @@ public class Solo_Mode {
 
 		Tank tank = new Tank("grimfandango-art/tank64.png",160d,160d);
 
+		ArrayList<PowerUp> toRemove = new ArrayList<>();
 		ArrayList<PowerUp> powerups = new ArrayList<>();
-		PowerUp speedPowerup = new PowerUp("Speed",150,500);
+		PowerUp speedPowerup = new PowerUp("Speed", 150,500);
 		powerups.add(speedPowerup);
-		PowerUp coin1 = new PowerUp("Score",480, 64);
-		PowerUp coin2 = new PowerUp("Score",480, 672);
-		PowerUp coin3 = new PowerUp("Score",608, 64);
-		PowerUp coin4 = new PowerUp("Score",608, 672);
-		powerups.add(coin1);
-		powerups.add(coin2);
-		powerups.add(coin3);
-		powerups.add(coin4);
-		PowerUp battery1 = new PowerUp("Energy",96, 672);
-		PowerUp battery2 = new PowerUp("Energy",991, 64);
-		powerups.add(battery1);
-		powerups.add(battery2);
+		PowerUp coin = new PowerUp("Score",480, 64);
+		powerups.add(coin);
+		PowerUp battery = new PowerUp("Energy",96, 672);
+		powerups.add(battery);
 
 		Tank enemy = new Tank("grimfandango-art/tank-red.png",992,608);
 
@@ -574,7 +567,7 @@ public class Solo_Mode {
 
 					tank.update(FRAMERATE,map);
 					enemy.update(FRAMERATE,map);
-
+						
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
 						laser1.update(FRAMERATE,map);
@@ -618,14 +611,20 @@ public class Solo_Mode {
 					//tank.render(context); 
 					//System.out.println("current score:"+tank.getScore());
 					//System.out.println("current hp:"+tank.getHP());
+				
 					for(PowerUp powerup : powerups) {
 						if (powerup.hp > 1) {
 							powerup.render(context);
 						}
+						else {
+							toRemove.add(powerup);
+						}
 					}
-					if (speedPowerup.hp < 1) {
-						tank.velocity.setLength(800);
-					}
+					powerups.removeAll(toRemove);
+					
+//					if (speedPowerup.hp < 1) {
+//						tank.velocity.setLength(800);
+//					}
 					if (tank.hp > 0) {       
 						tank.render(context);
 					}
@@ -643,17 +642,25 @@ public class Solo_Mode {
 					}
 					
 					//Generate new powerups
-//					if (true) {
-//						Random rand = new Random();
-//						int newPUX;
-//						int newPUY;
-//						do {
-//						newPUX = rand.nextInt(map.MAP_WIDTH_IN_TILES);
-//						newPUY = rand.nextInt(map.MAP_HEIGHT_IN_TILES);
-//						} while (map.getLayer(map.getSize()-1).getTile(newPUX, newPUY).isPassable());
-//						powerups.add(PowerUp.randomPowerUp(newPUX*map.TILE_WIDTH, newPUY*map.TILE_HEIGHT));				
-//						
-//					}
+					if (powerups.isEmpty()) {
+						PowerUp powerup;
+						//Allows only three powerups to be spawned at once
+						for(int i = 0; i < 3; i++) {
+						Random rand = new Random();
+						int newPUX;
+						int newPUY;
+						do {	
+						newPUX = rand.nextInt(map.MAP_WIDTH_IN_TILES);
+						newPUY = rand.nextInt(map.MAP_HEIGHT_IN_TILES);
+						powerup = PowerUp.randomPowerUp(newPUX*map.TILE_WIDTH, newPUY*map.TILE_HEIGHT);
+						} 
+						//Checks for collision with the walls with the current coordinates
+						while (powerup.collideMap(map));
+						//If the coordinates do not collide with the walls, the powerup is spawned
+						powerups.add(powerup);
+						}
+				}
+					
 					
 					//Gameover Logic
 					if (tank.hp <= 0) {
