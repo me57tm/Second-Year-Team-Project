@@ -24,14 +24,14 @@ public class ServerStart{
 			
 			Font f = new Font("Segoe Print", 15);
 			
-			Image img = new Image("images/tank1.png");
+			Image img = new Image("images/tankmenuimg.png");
 			ImageView im = new ImageView();
 			im.setImage(img);
 			BackgroundImage bgi = new BackgroundImage(img, null, null, null, null);
 			Background bg = new Background(bgi);
 			
 			Button back = new Button("Back");
-			Button host = new Button("Jion Game");
+			Button host = new Button("Join Game");
 			host.setAlignment(Pos.CENTER);
 			
 			Label t = new Label("After entering the map");

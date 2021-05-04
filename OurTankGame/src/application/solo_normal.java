@@ -549,7 +549,7 @@ public class solo_normal {
 					//System.out.println(enemy.rotation);
 					if (checkRotation == 0) {
 						oneOrMinOne = 0;
-						if (Math.random() < 0.01) {
+						if (Math.random() < 0.01 && enemy.getHP()>=0) {
 
 							context.save();
 
@@ -559,6 +559,7 @@ public class solo_normal {
 							laserE.velocity.setLength(200);
 							laserE.velocity.setAngle(enemy.rotation);
 							laserListE.add(laserE);
+							//System.out.println("enemy shot");
 						}
 
 						times++;
@@ -606,7 +607,7 @@ public class solo_normal {
 							//System.out.println(enemy.rotation);
 							if (checkRotation3 == 0) {
 								oneOrMinOne3 = 0;
-								if (Math.random() < 0.01) {
+								if (Math.random() < 0.01 && enemy.getHP()>=0) {
 
 									context.save();
 
@@ -616,6 +617,7 @@ public class solo_normal {
 									laserE.velocity.setLength(200);
 									laserE.velocity.setAngle(enemy3.rotation);
 									laserListE.add(laserE);
+									//System.out.println("other enemy shot");
 								}
 
 								times3++;
@@ -745,9 +747,7 @@ public class solo_normal {
 					if (enemy3.hp > 0) {
 						enemy3.render(context);
 					}
-					else {
-						System.out.println("The game is done");
-					}
+					
 					for (Sprite laser : laserListT) {
 						laser.render(context);
 					}

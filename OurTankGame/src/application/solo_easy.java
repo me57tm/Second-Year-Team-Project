@@ -546,7 +546,7 @@ public class solo_easy {
 					//System.out.println(enemy.rotation);
 					if (checkRotation == 0) {
 						oneOrMinOne = 0;
-						if (Math.random() < 0.01) {
+						if (Math.random() < 0.01 && enemy.getHP()>=0) {
 
 							context.save();
 
@@ -679,9 +679,7 @@ public class solo_easy {
 					if (enemy.hp > 0) {
 						enemy.render(context);
 					}
-					else {
-						System.out.println("The game is done");
-					}
+					
 					for (Sprite laser : laserListT) {
 						laser.render(context);
 					}

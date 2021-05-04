@@ -579,8 +579,6 @@ public class Local_PVP_Mode {
 					}
 					if (enemy.hp > 0) {
 						enemy.render(context);
-					} else {
-						System.out.println("The game is done");
 					}
 					for (Sprite laser : laserListT) {
 						laser.render(context);

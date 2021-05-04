@@ -551,7 +551,7 @@ public class solo_hard {
 					//System.out.println(enemy.rotation);
 					if (checkRotation == 0) {
 						oneOrMinOne = 0;
-						if (Math.random() < 0.01) {
+						if (Math.random() < 0.01 && enemy.getHP()>=0) {
 
 							context.save();
 
@@ -610,7 +610,7 @@ public class solo_hard {
 						//System.out.println(enemy.rotation);
 						if (checkRotation2 == 0) {
 							oneOrMinOne2 = 0;
-							if (Math.random() < 0.01) {
+							if (Math.random() < 0.01 && enemy2.getHP()>=0) {
 
 								context.save();
 
@@ -649,7 +649,7 @@ public class solo_hard {
 							//System.out.println(enemy.rotation);
 							if (checkRotation3 == 0) {
 								oneOrMinOne3 = 0;
-								if (Math.random() < 0.01) {
+								if (Math.random() < 0.01 && enemy3.getHP()>=0) {
 
 									context.save();
 
@@ -795,9 +795,7 @@ public class solo_hard {
 					if (enemy3.hp > 0) {
 						enemy3.render(context);
 					}
-					else {
-						System.out.println("The game is done");
-					}
+					
 					for (Sprite laser : laserListT) {
 						laser.render(context);
 					}

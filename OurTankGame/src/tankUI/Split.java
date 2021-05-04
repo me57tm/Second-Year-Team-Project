@@ -25,7 +25,7 @@ public class Split{
 			
 			Font f = new Font("Segoe Print", 15);
 			
-			Image img = new Image("images/tank1.png");
+			Image img = new Image("images/tankmenuimg.png");
 			ImageView im = new ImageView();
 			im.setImage(img);
 			BackgroundImage bgi = new BackgroundImage(img, null, null, null, null);
