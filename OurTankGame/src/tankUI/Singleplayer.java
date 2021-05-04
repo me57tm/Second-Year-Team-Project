@@ -1,7 +1,9 @@
 package tankUI;
 
 
-import application.Solo_Mode;
+import application.solo_hard;
+import application.solo_easy;
+import application.solo_normal;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -48,7 +50,7 @@ public class Singleplayer {
 		@Override
 		public void handle(ActionEvent arg0)
 		{
-			Solo_Mode comode = new Solo_Mode();
+			solo_easy se = new solo_easy();
 			s1.close();
 		}
 	});
@@ -67,7 +69,7 @@ public class Singleplayer {
 		@Override
 		public void handle(ActionEvent arg0)
 		{
-			Solo_Mode comode = new Solo_Mode();
+			solo_normal se = new solo_normal();
 			s1.close();
 		}
 	});
@@ -86,7 +88,7 @@ public class Singleplayer {
 		@Override
 		public void handle(ActionEvent arg0)
 		{
-			Solo_Mode comode = new Solo_Mode();
+			solo_hard comode = new solo_hard();
 			s1.close();
 		}
 	});

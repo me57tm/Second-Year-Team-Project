@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -26,6 +27,8 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import physics.Bullet;
@@ -38,7 +41,7 @@ import physics.Tile;
 import tankUI.Player;
 import tankUI.TankMenu;
 
-public class Solo_Mode {
+public class solo_hard {
 	private final Stage stage = new Stage();
 	private boolean isWASD;
 
@@ -60,7 +63,7 @@ public class Solo_Mode {
 		}
 	}
 
-	public Solo_Mode() {
+	public solo_hard() {
 
 		Map map = new Map();
 
@@ -287,6 +290,7 @@ public class Solo_Mode {
 		map.addLayer(l2);
 
 		Tank tank = new Tank("grimfandango-art/tank64.png",160d,160d);
+		
 
 		ArrayList<PowerUp> toRemove = new ArrayList<>();
 		ArrayList<PowerUp> powerups = new ArrayList<>();
@@ -298,6 +302,8 @@ public class Solo_Mode {
 		powerups.add(battery);
 
 		Tank enemy = new Tank("grimfandango-art/tank-red.png",992,608);
+		Tank enemy2 = new Tank("grimfandango-art/tank-red.png",992,160d);
+		Tank enemy3 = new Tank("grimfandango-art/tank-red.png",148d,520);
 
 		int hp = 100;
 		int Shield = 100;
@@ -330,7 +336,6 @@ public class Solo_Mode {
 
 			// HBox
 			HBox hpBar = new HBox();
-			hpBar.getChildren().addAll(hpB, shield, boost, score1);
 			hpBar.setAlignment(Pos.CENTER);
 			hpBar.setSpacing(40);
 
@@ -397,6 +402,7 @@ public class Solo_Mode {
 
 				@Override
 				public void handle(ActionEvent arg0) {
+					@SuppressWarnings("unused")
 					Player nomode = new Player(null);
 				}
 			});
@@ -405,7 +411,7 @@ public class Solo_Mode {
 			root.setBottom(hpBar);
 
 			// Scene
-			Scene scene = new Scene(root, 1152, 900);
+			Scene scene = new Scene(root, 1150, 820);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			// stage.setMaximized(true);
 			stage.setResizable(false);
@@ -465,10 +471,10 @@ public class Solo_Mode {
 			
 			
 
-			Canvas canvas = new Canvas(1152, 800);
+			Canvas canvas = new Canvas(1150, 770);
 			GraphicsContext context = canvas.getGraphicsContext2D();
 			// Change setCenter to setLeft
-			root.setLeft(canvas);
+			root.setCenter(canvas);
 
 			// handle continuous inputs (as long as key is pressed)
 			ArrayList<String> keyPressedList = new ArrayList<>();
@@ -503,18 +509,50 @@ public class Solo_Mode {
 					
 			AnimationTimer gameloop = new AnimationTimer() {
 
-				int times = 0;
-			    int framesForNow = 0;
-				int oneOrMinOne  = 0;
+				int times, times2, times3 = 0;
+				int oneOrMinOne,oneOrMinOne2,oneOrMinOne3  = 0;
+						
+				int time[] = {0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0};
+				int a = 0;
+				int Time[] = {0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,2,2,1,0,0,0,0,0,0,0,1,1,1,2};
+				int b = 0;
 
 				public void handle(long nanotime) {
-
+					
+					//HP bar
+					Group rootg = new Group();
+					Rectangle rectangle1 = new Rectangle();
+			        rectangle1.setFill(Paint.valueOf("#FFFFFF"));
+			        rectangle1.setX(0);
+			        rectangle1.setY(50);
+			        rectangle1.setWidth(100.0);
+			        rectangle1.setHeight(15.0);
+			        rectangle1.setStroke(Color.RED);
+			        
+			        Rectangle rectangle2 = new Rectangle();
+			        rectangle2.setFill(Paint.valueOf("#FF0033"));
+			        rectangle2.setX(0);
+			        rectangle2.setY(50);
+			        rectangle2.setWidth(tank.hp);
+			        rectangle2.setHeight(15.0);
+			        rectangle2.setStroke(Color.RED);
+			        rootg.getChildren().addAll(rectangle1,rectangle2);
+			        
+			        // HBox
+					HBox hpBar = new HBox();
+					hpBar.getChildren().addAll(hpB,rootg,shield,boost);
+					hpBar.setAlignment(Pos.CENTER);
+					hpBar.setSpacing(40);
+					
+					root.setBottom(hpBar);
+					
+					//enemy1
 					double checkRotation = enemy.rotation % 90;
 					//System.out.println(enemy.rotation);
 					if (checkRotation == 0) {
 						oneOrMinOne = 0;
 						if (Math.random() < 0.01) {
-							try {
+
 							context.save();
 
 							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
@@ -523,24 +561,36 @@ public class Solo_Mode {
 							laserE.velocity.setLength(200);
 							laserE.velocity.setAngle(enemy.rotation);
 							laserListE.add(laserE);
-							}
-							catch(Exception e){
-								
-							}
 						}
 
 						times++;
 						int i = times % 210;
-						double randomNumber = Math.random();
+//						double randomNumber = Math.random();
+						
+						int randomNumber = time[a];						
+//						System.out.println(a);						
+						
 						enemy.velocity.setAngle(enemy.rotation);
 						enemy.velocity.setLength(10);
 						if (i == 0) {
-							if (randomNumber < 0.5) {
+							if (randomNumber == 1) {//1右转
 								enemy.rotation += 2;
 								oneOrMinOne = 1;
-							} else if (randomNumber > 0.5) {
+								System.out.println("右转a");
+								System.out.println(a);
+								a++;
+							} else if (randomNumber == 2) {//2左转
 								enemy.rotation -= 2;
 								oneOrMinOne = -1;
+								System.out.println("左转a");
+								System.out.println(a);
+								a++;
+							} else if (randomNumber == 0) {//0直走
+								enemy.velocity.setAngle(enemy.rotation);
+								enemy.velocity.setLength(100);	
+								System.out.println("直走a");
+								System.out.println(a);
+								a++;
 							} 
 						}
 					}
@@ -550,6 +600,108 @@ public class Solo_Mode {
 					 if (oneOrMinOne == -1) {
 						enemy.rotation -= 2;
 					}
+					if(a==time.length) {
+						a=0;							
+					}
+			
+					
+					//enemy2					
+					 double checkRotation2 = enemy2.rotation % 90;
+						//System.out.println(enemy.rotation);
+						if (checkRotation2 == 0) {
+							oneOrMinOne2 = 0;
+							if (Math.random() < 0.01) {
+
+								context.save();
+
+								Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy2);
+								//modified the position a bit so it looks like it shoots from the turret
+								laserE.position.set(enemy2.position.x, enemy2.position.y);
+								laserE.velocity.setLength(200);
+								laserE.velocity.setAngle(enemy2.rotation);
+								laserListE.add(laserE);
+							}
+
+							times2++;
+							int i = times2 % 90;
+							double randomNumber2 = Math.random();
+							enemy2.velocity.setAngle(enemy2.rotation);
+							enemy2.velocity.setLength(10);
+							if (i == 0) {
+								if (randomNumber2 < 0.5) {
+									enemy2.rotation += 2;
+									oneOrMinOne2 = 1;
+								} else if (randomNumber2 > 0.5) {
+									enemy2.rotation -= 2;
+									oneOrMinOne2 = -1;
+								} 
+							}
+						}
+						 if (oneOrMinOne2 == 1){
+							enemy2.rotation += 2;
+						}
+						 if (oneOrMinOne2 == -1) {
+							enemy2.rotation -= 2;
+						}	 
+						 
+						 
+						 double checkRotation3 = enemy3.rotation % 90;
+							//System.out.println(enemy.rotation);
+							if (checkRotation3 == 0) {
+								oneOrMinOne3 = 0;
+								if (Math.random() < 0.01) {
+
+									context.save();
+
+									Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy3);
+									//modified the position a bit so it looks like it shoots from the turret
+									laserE.position.set(enemy3.position.x, enemy3.position.y);
+									laserE.velocity.setLength(200);
+									laserE.velocity.setAngle(enemy3.rotation);
+									laserListE.add(laserE);
+								}
+
+								times3++;
+								int i = times3 % 210;
+//								double randomNumber = Math.random();
+								
+								int randomNumber3 = Time[b];						
+//								System.out.println(a);						
+								
+								enemy3.velocity.setAngle(enemy3.rotation);
+								enemy3.velocity.setLength(10);
+								if (i == 0) {
+									if (randomNumber3 == 1) {//1右转
+										enemy3.rotation += 2;
+										oneOrMinOne3 = 1;
+										System.out.println("右转b");
+										System.out.println(b);
+										b++;
+									} else if (randomNumber3 == 2) {//2左转
+										enemy3.rotation -= 2;
+										oneOrMinOne3 = -1;
+										System.out.println("左转b");
+										System.out.println(b);
+										b++;
+									} else if (randomNumber3 == 0) {//0直走
+										enemy3.velocity.setAngle(enemy3.rotation);
+										enemy3.velocity.setLength(100);	
+										System.out.println("直走b");
+										System.out.println(b);
+										b++;
+									} 
+								}
+							}
+							 if (oneOrMinOne3 == 1){
+								enemy3.rotation += 2;
+							}
+							 if (oneOrMinOne3 == -1) {
+								enemy3.rotation -= 2;
+							}
+							if(b==Time.length) {
+								b=0;							
+							}
+												
 					
 					// If bool is true, WASD was chosen
 					 if(isWASD) {
@@ -567,6 +719,8 @@ public class Solo_Mode {
 
 					tank.update(FRAMERATE,map);
 					enemy.update(FRAMERATE,map);
+					enemy2.update(FRAMERATE,map);
+					enemy3.update(FRAMERATE,map);
 						
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
@@ -583,7 +737,9 @@ public class Solo_Mode {
 						laser.update(FRAMERATE,map);
 
 						enemy.collide(laser); // TODO: this is a marker that I edited this one
-
+						enemy2.collide(laser);
+						enemy3.collide(laser);
+						
 						for(PowerUp powerup : powerups) {
 							powerup.collide(laser);
 						}
@@ -593,6 +749,8 @@ public class Solo_Mode {
 						powerup.update(FRAMERATE, map);
 						powerup.collide(tank);
 						powerup.collide(enemy);
+						powerup.collide(enemy2);
+						powerup.collide(enemy3);
 					}
 
 					// Remove Bullets that have collided with something
@@ -631,6 +789,12 @@ public class Solo_Mode {
 					if (enemy.hp > 0) {
 						enemy.render(context);
 					}
+					if (enemy2.hp > 0) {
+						enemy2.render(context);
+					}
+					if (enemy3.hp > 0) {
+						enemy3.render(context);
+					}
 					else {
 						System.out.println("The game is done");
 					}
@@ -668,7 +832,7 @@ public class Solo_Mode {
 						gameOver(youLose,context);
 						this.stop();
 					}
-					if (enemy.hp <= 0) {
+					if (enemy.hp <= 0 && enemy2.hp <= 0 && enemy3.hp <= 0) {
 						Sprite youWin = new Sprite("grimfandango-art/YouWin.png",576, 400);
 						gameOver(youWin,context);
 						this.stop();

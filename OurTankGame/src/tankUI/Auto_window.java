@@ -35,8 +35,6 @@ public class Auto_window{
 			l1.setPrefSize(800, 50);
 		}
 		l1.getStyleClass().add("font");
-//		l1.setScaleX(2);
-		l1.setScaleY(2);
 		
 		root.getChildren().addAll(l1, closeBtn);
 		Scene scene = new Scene(root);

@@ -88,8 +88,7 @@ public class TankMenu {
 		sp.getChildren().addAll(imgV,g1);
 		
 		Scene scene = new Scene(sp,1920,1080);
-		s1.setMaximized(false);
-		s1.setResizable(false);
+		s1.setMaximized(true);
 		s1.setScene(scene);		
 		s1.show();
 	}

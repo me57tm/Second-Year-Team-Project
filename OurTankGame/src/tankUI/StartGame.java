@@ -1,5 +1,6 @@
 package tankUI;
 
+import application.Local_PVP_Mode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -45,31 +46,25 @@ public class StartGame {
 			s1.close();
 		});
 		
-//		Button b2 = new Button("Co-operative Mode");
-//		b2.getStyleClass().add("font");
-//		
-//		b2.setPrefSize(500, 40);
-//		b2.setLayoutX(260);
-//		b2.setLayoutY(600);
-//		b2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-//		
-//		b2.setOnAction(new EventHandler<ActionEvent>()
-//		{
-//
-//			@Override
-//			public void handle(ActionEvent arg0)
-//			{
-//				Co_Mode nomode = new Co_Mode();
-//				s1.close();
-//			}
-//		});
+		Button b2 = new Button("Local Battle");
+		b2.getStyleClass().add("font");
 		
+		b2.setPrefSize(250, 40);
+		b2.setLayoutX(375);
+		b2.setLayoutY(600);
+		b2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		
+		b2.setOnAction(e -> {
+			Local_PVP_Mode S1 = new Local_PVP_Mode();
+			s1.close();
+		});
+
 		Button b3 = new Button("P V P");
 		b3.getStyleClass().add("font");
 		
 		b3.setPrefSize(400, 40);
 		b3.setLayoutX(300);
-		b3.setLayoutY(600);
+		b3.setLayoutY(700);
 		b3.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
 		b3.setOnAction(new EventHandler<ActionEvent>()
@@ -87,7 +82,7 @@ public class StartGame {
 		b4.getStyleClass().add("font");
 		b4.setPrefSize(250, 40);
 		b4.setLayoutX(380);
-		b4.setLayoutY(700);
+		b4.setLayoutY(800);
 		b4.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
 		b4.setOnAction(e -> {
@@ -96,7 +91,7 @@ public class StartGame {
 		});
 		
 		Group g1 = new Group();
-		g1.getChildren().addAll(set1,set2,b1,b3,b4);
+		g1.getChildren().addAll(set1,set2,b1,b2,b3,b4);
 		
 		StackPane sp = new StackPane(); 
 		sp.getChildren().addAll(imgV,g1);

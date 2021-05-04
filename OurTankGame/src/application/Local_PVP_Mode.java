@@ -2,15 +2,11 @@ package application;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-
-import client.MovingMsg;
-import client.NetClient;
-import client.tankDeadMsg;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -24,6 +20,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -34,14 +31,14 @@ import javafx.stage.Stage;
 import physics.Bullet;
 import physics.Layer;
 import physics.Map;
+import physics.PowerUp;
 import physics.Sprite;
 import physics.Tank;
 import physics.Tile;
-import tankUI.Auto_window;
 import tankUI.Player;
 import tankUI.TankMenu;
 
-public class N_Mode {
+public class Local_PVP_Mode {
 	private final Stage stage = new Stage();
 
 	static int randomN() {
@@ -62,7 +59,7 @@ public class N_Mode {
 		}
 	}
 
-	public N_Mode(List<Tank> newTanks, int id, NetClient nc) {
+	public Local_PVP_Mode() {
 
 		Map map = new Map();
 
@@ -219,8 +216,8 @@ public class N_Mode {
 		}
 
 		// adding the horizontal walls
-		for (int i = 3; i < 10; i++) {
-			if (i == 3) {
+		for (int i = 4; i < 10; i++) {
+			if (i == 4) {
 				l2.addTile(wallLeft, i, 11);
 			} else if (i == 9) {
 				l2.addTile(wallRight, i, 11);
@@ -230,10 +227,10 @@ public class N_Mode {
 
 		}
 
-		for (int i = 26; i < 33; i++) {
+		for (int i = 26; i < 32; i++) {
 			if (i == 26) {
 				l2.addTile(wallLeft, i, 11);
-			} else if (i == 32) {
+			} else if (i == 31) {
 				l2.addTile(wallRight, i, 11);
 			} else {
 				l2.addTile(wallMid, i, 11);
@@ -286,38 +283,19 @@ public class N_Mode {
 		map.addLayer(l1);
 		map.addLayer(l2);
 
-		Tank tank, enemy;
-		tank = newTanks.get(0);
-		tank.setSpeedModifier(5);
-		tank.setMap(map);
-		enemy = newTanks.get(1);
-		enemy.setSpeedModifier(5);
-		enemy.setMap(map);
+		Tank tank = new Tank("grimfandango-art/tank64.png", 160d, 160d);
 
-//		ArrayList<PowerUp> powerups = new ArrayList<>();
-//		PowerUp bulletPowerup = new PowerUp("Speed");
-//		powerups.add(bulletPowerup);
-//		bulletPowerup.position.set(150, 500);
-//		PowerUp coin1 = new PowerUp("Score");
-//		PowerUp coin2 = new PowerUp("Score");
-//		PowerUp coin3 = new PowerUp("Score");
-//		PowerUp coin4 = new PowerUp("Score");
-//		powerups.add(coin1);
-//		powerups.add(coin2);
-//		powerups.add(coin3);
-//		powerups.add(coin4);
-//		coin1.position.set(480, 64);
-//		coin2.position.set(480, 672);
-//		coin3.position.set(608, 64);
-//		coin4.position.set(608, 672);
-//		PowerUp battery1 = new PowerUp("Energy");
-//		PowerUp battery2 = new PowerUp("Energy");
-//		powerups.add(battery1);
-//		powerups.add(battery2);
-//		battery1.position.set(96, 672);
-//		battery2.position.set(991, 64);
+		ArrayList<PowerUp> toRemove = new ArrayList<>();
+		ArrayList<PowerUp> powerups = new ArrayList<>();
+		PowerUp speedPowerup = new PowerUp("Speed", 150, 500);
+		powerups.add(speedPowerup);
+		PowerUp coin = new PowerUp("Score", 480, 64);
+		powerups.add(coin);
+		PowerUp battery = new PowerUp("Energy", 96, 672);
+		powerups.add(battery);
 
-		int hp = 100;
+		Tank enemy = new Tank("grimfandango-art/tank-red.png", 992, 608);
+
 		int Shield = 100;
 		int score = 99;
 		String str = "Fire speed up";
@@ -339,8 +317,10 @@ public class N_Mode {
 			// Label
 			Label score1 = new Label("Score: " + score);
 			score1.setFont(Font.font("Segoe Print"));
-			Label hpB = new Label("HP: " + hp);
+			Label hpB = new Label("HP(yellow): ");
 			hpB.setFont(Font.font("Segoe Print"));
+			Label hpB2 = new Label("HP(red): ");
+			hpB2.setFont(Font.font("Segoe Print"));
 			Label shield = new Label("Shield: " + Shield);
 			shield.setFont(Font.font("Segoe Print"));
 			Label boost = new Label("Boost: " + str);
@@ -348,7 +328,6 @@ public class N_Mode {
 
 			// HBox
 			HBox hpBar = new HBox();
-			hpBar.getChildren().addAll(hpB, shield, boost, score1);
 			hpBar.setAlignment(Pos.CENTER);
 			hpBar.setSpacing(40);
 
@@ -361,7 +340,7 @@ public class N_Mode {
 			menuBar.getMenus().addAll(players, Audio, help, rq);
 
 			MenuItem quit = new MenuItem("Quit Game");
-			MenuItem returnM = new MenuItem("Return to Meun");
+			MenuItem returnM = new MenuItem("Return to Menu");
 			rq.getItems().addAll(quit, returnM);
 
 			returnM.setOnAction(new EventHandler<ActionEvent>() {
@@ -415,7 +394,7 @@ public class N_Mode {
 				@Override
 				public void handle(ActionEvent arg0) {
 					@SuppressWarnings("unused")
-					Player nomode = new Player(newTanks);
+					Player nomode = new Player(null);
 				}
 			});
 
@@ -425,8 +404,12 @@ public class N_Mode {
 			// stage.setMaximized(true);
 			stage.setResizable(false);
 			stage.setScene(scene);
-			stage.setTitle("PVP");
+			stage.setTitle("Singleplayer Mode");
 			stage.show();
+
+			TilePane rootControls = new TilePane();
+			rootControls.setPadding(new Insets(20));
+			rootControls.setAlignment(Pos.BASELINE_CENTER);
 
 			Canvas canvas = new Canvas(1150, 770);
 			GraphicsContext context = canvas.getGraphicsContext2D();
@@ -438,14 +421,23 @@ public class N_Mode {
 
 			// handle unique inputs (once per key press)
 			ArrayList<String> keyJustPressedList = new ArrayList<>();
+			// Another tank's control list.
+			ArrayList<String> keyPressedListE = new ArrayList<>();
+
+			// handle unique inputs (once per key press)
+			ArrayList<String> keyJustPressedListE = new ArrayList<>();
 
 			scene.setOnKeyPressed((KeyEvent event) -> {
 				String keyName = event.getCode().toString();
 				// avoid adding duplicates to the list
 				if (!keyPressedList.contains(keyName))
 					keyPressedList.add(keyName);
+				if (!keyPressedListE.contains(keyName))
+					keyPressedListE.add(keyName);				    
 				if (!keyJustPressedList.contains(keyName))
 					keyJustPressedList.add(keyName);
+				if (!keyJustPressedListE.contains(keyName))
+					keyJustPressedListE.add(keyName);
 
 			});
 
@@ -453,18 +445,20 @@ public class N_Mode {
 				String keyName = event.getCode().toString();
 				if (keyPressedList.contains(keyName))
 					keyPressedList.remove(keyName);
+				if (keyPressedListE.contains(keyName))
+					keyPressedListE.remove(keyName);
 			});
 
 			ArrayList<Bullet> laserListT = new ArrayList<Bullet>();
-
 			ArrayList<Bullet> laserListE = new ArrayList<Bullet>();
-
+			// Bullet bullet = new Bullet("imagesProjectAI/red-circle.png", enemy);
+			// laserListE.add(bullet);
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
+			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
+
+			final double FRAMERATE = 1 / 60d;
 
 			AnimationTimer gameloop = new AnimationTimer() {
-
-				int joinPlayer = 0;
-				int frames = 0;
 
 				public void handle(long nanotime) {
 					
@@ -487,126 +481,146 @@ public class N_Mode {
 			        rectangle2.setStroke(Color.RED);
 			        rootg.getChildren().addAll(rectangle1,rectangle2);
 			        
+			      //HP bar
+					Group rootg1 = new Group();
+					Rectangle rectangle3 = new Rectangle();
+			        rectangle3.setFill(Paint.valueOf("#FFFFFF"));
+			        rectangle3.setX(0);
+			        rectangle3.setY(50);
+			        rectangle3.setWidth(100.0);
+			        rectangle3.setHeight(15.0);
+			        rectangle3.setStroke(Color.RED);
+			        
+			        Rectangle rectangle4 = new Rectangle();
+			        rectangle4.setFill(Paint.valueOf("#FF0033"));
+			        rectangle4.setX(0);
+			        rectangle4.setY(50);
+			        rectangle4.setWidth(enemy.hp);
+			        rectangle4.setHeight(15.0);
+			        rectangle4.setStroke(Color.RED);
+			        rootg1.getChildren().addAll(rectangle3,rectangle4);
+			        
 			        // HBox
 					HBox hpBar = new HBox();
-					hpBar.getChildren().addAll(hpB,rootg,shield,boost);
+					hpBar.getChildren().addAll(hpB,rootg,hpB2,rootg1);
 					hpBar.setAlignment(Pos.CENTER);
 					hpBar.setSpacing(40);
 					
 					root.setBottom(hpBar);
+					
+					tank.moveLocalWASD(keyPressedList, keyJustPressedList, context, laserListT);
+					enemy.moveLocal(keyPressedListE, keyJustPressedListE, context, laserListE);
+					tank.setBulletMsg(0);
+					enemy.setBulletMsg(0);
+					// after processing user input, clear keyJustPressedList
+					keyJustPressedList.clear();
 
-					frames++;
-					if (frames % 3 == 0) {
+					tank.update(FRAMERATE, map);
+					enemy.update(FRAMERATE, map);
 
-						if (frames == 60) {
-							frames = 0;
-						}
-					if (joinPlayer == 0) {
-						for (int j = 0; j < newTanks.size(); j++) {
-                            if( (newTanks.get(j).getId() % 2) != 0 && !newTanks.get(j).getName().equals("PlayerUnknown")) {
-                            	@SuppressWarnings("unused")
-								Auto_window a1 = new Auto_window(2000, "Game Start ! !","Tips", false);
-                            	joinPlayer = 1;
-                            }
+					// Collision Detection for Bullets
+					for (Bullet laser1 : laserListE) {
+						laser1.update(FRAMERATE, map);
+						tank.collide(laser1);
+						for (PowerUp powerup : powerups) {
+							powerup.collide(laser1);
 						}
 					}
-					
-						tank.move(keyPressedList, keyJustPressedList, context, laserListT);
-						enemy.enemyFire(enemy, laserListE);
-						MovingMsg msg = new MovingMsg(id, tank.getRotation(), tank.getFifty(), tank.getBulletMsg());
-						nc.send(msg);
-						tank.setBulletMsg(0);
 
-//					tank.move(keyPressedList,keyJustPressedList,context,laserListT);
-//					tank.setBulletMsg(0);
+					for (int n = 0; n < laserListT.size(); n++) {
+						Bullet laser = laserListT.get(n);
 
-						// after processing user input, clear keyJustPressedList
-						keyJustPressedList.clear();
+						laser.update(FRAMERATE, map);
 
-						tank.update(1 / 60.0, map);
-						enemy.update(1 / 60.0, map);
+						enemy.collide(laser); // TODO: this is a marker that I edited this one
 
-						// Collision Detection for Bullets
-						for (Bullet laser1 : laserListE) {
-							laser1.update(1 / 60.0, map);
-							tank.collide(laser1);
-//						for(PowerUp powerup : powerups) {
-//							powerup.collide(laser1);
-//						}
+						for (PowerUp powerup : powerups) {
+							powerup.collide(laser);
 						}
+					}
 
-						for (int n = 0; n < laserListT.size(); n++) {
-							Bullet laser = laserListT.get(n);
+					for (PowerUp powerup : powerups) {
+						powerup.update(FRAMERATE, map);
+						powerup.collide(tank);
+						powerup.collide(enemy);
+					}
 
-							laser.update(1 /60.0, map);
+					// Remove Bullets that have collided with something
+					for (Bullet b : laserListT)
+						if (b.hp < 0)
+							oldBullets.add(b);
+					for (Bullet b : laserListE)
+						if (b.hp < 0)
+							oldBullets.add(b);
+					laserListT.removeAll(oldBullets);
+					laserListE.removeAll(oldBullets);
+					oldBullets.clear();
 
-							enemy.collide(laser); // TODO: this is a marker that I edited this one
+					// Render everything
+					map.renderMap(context);
+					// tank.render(context);
+					// System.out.println("current score:"+tank.getScore());
+					// System.out.println("current hp:"+tank.getHP());
 
-//						for(PowerUp powerup : powerups) {
-//							powerup.collide(laser);
-//						}
+					for (PowerUp powerup : powerups) {
+						if (powerup.hp > 1) {
+							powerup.render(context);
+						} else {
+							toRemove.add(powerup);
 						}
+					}
+					powerups.removeAll(toRemove);
 
-						// Remove Bullets that have collided with something
-						for (Bullet b : laserListT)
-							if (b.hp < 0)
-								oldBullets.add(b);
-						for (Bullet b : laserListE)
-							if (b.hp < 0)
-								oldBullets.add(b);
-						laserListT.removeAll(oldBullets);
-						laserListE.removeAll(oldBullets);
-						oldBullets.clear();
-
-						// Render everything
-						map.renderMap(context);
-						// tank.render(context);
-						// System.out.println("current score:"+tank.getScore());
-						// System.out.println("current hp:"+tank.getHP());
-//					for(PowerUp powerup : powerups) {
-//						if (powerup.hp > 1) {
-//							powerup.render(context);
-//						}
-//					}
-//					if (bulletPowerup.hp < 1) {
+//					if (speedPowerup.hp < 1) {
 //						tank.velocity.setLength(800);
 //					}
-						if (tank.hp > 0) {
-							tank.render(context);
-						}
-						if (enemy.hp > 0) {
-							enemy.render(context);
-						} else {
-							System.out.println("The game is done");
-						}
-						for (Sprite laser : laserListT) {
-							laser.render(context);
-						}
-						for (Sprite laser : laserListE) {
-							laser.render(context);
-						}
+					if (tank.hp > 0) {
+						tank.render(context);
+					}
+					if (enemy.hp > 0) {
+						enemy.render(context);
+					} else {
+						System.out.println("The game is done");
+					}
+					for (Sprite laser : laserListT) {
+						laser.render(context);
+					}
+					for (Sprite laser : laserListE) {
+						laser.render(context);
+					}
 
-						// Game over Logic
-
-						if (tank.hp <= 0 || tank.getDead() == 1) {
-							tankDeadMsg deadMsg = new tankDeadMsg(id, 1);
-							nc.send(deadMsg);
-							Sprite youLose = new Sprite("grimfandango-art/YouLose.png", 576, 400);
-							youLose.position.set(576, 400);
-							gameOver(youLose, context);
-							this.stop();
-						}
-						if (enemy.hp <= 0 || enemy.getDead() == 1) {
-							tankDeadMsg deadMsg = new tankDeadMsg(enemy.getId(), 1);
-							nc.send(deadMsg);
-							Sprite youWin = new Sprite("grimfandango-art/YouWin.png", 576, 400);
-							youWin.position.set(576, 400);
-							gameOver(youWin, context);
-							this.stop();
+					// Generate new powerups
+					if (powerups.isEmpty()) {
+						PowerUp powerup;
+						// Allows only three powerups to be spawned at once
+						for (int i = 0; i < 3; i++) {
+							Random rand = new Random();
+							int newPUX;
+							int newPUY;
+							do {
+								newPUX = rand.nextInt(map.MAP_WIDTH_IN_TILES);
+								newPUY = rand.nextInt(map.MAP_HEIGHT_IN_TILES);
+								powerup = PowerUp.randomPowerUp(newPUX * map.TILE_WIDTH, newPUY * map.TILE_HEIGHT);
+							}
+							// Checks for collision with the walls with the current coordinates
+							while (powerup.collideMap(map));
+							// If the coordinates do not collide with the walls, the powerup is spawned
+							powerups.add(powerup);
 						}
 					}
-				}
 
+					// Gameover Logic
+					if (tank.hp <= 0) {
+						Sprite youLose = new Sprite("grimfandango-art/YouLose.png", 576, 400);
+						gameOver(youLose, context);
+						this.stop();
+					}
+					if (enemy.hp <= 0) {
+						Sprite youWin = new Sprite("grimfandango-art/YouWin.png", 576, 400);
+						gameOver(youWin, context);
+						this.stop();
+					}
+				}
 			};
 
 			gameloop.start();
@@ -617,17 +631,6 @@ public class N_Mode {
 	}
 
 	public void gameOver(Sprite message, GraphicsContext context) {
-		// Create black square opacity 0.1
-		// open animation timer, repeat x times, increment i, break
-		// increase opacity square
-		// add text message
-		// add exit button
-//		javafx.scene.shape.Rectangle shadow = new javafx.scene.shape.Rectangle();
-//		shadow.setX(0);
-//		shadow.setY(0);
-//		shadow.setWidth(1152);
-//		shadow.setHeight(800);
-//		shadow.setFill(new Color(0,0,0,0.001));
 		context.setFill(new Color(0, 0, 0, 0.017));
 		new AnimationTimer() {
 			int i = 0;
@@ -638,18 +641,6 @@ public class N_Mode {
 				else if (i == 100) {
 
 					message.render(context);
-//					
-//					context.setTextAlign(TextAlignment.CENTER);
-//					context.setStroke(Color.WHITE);
-//					context.setFill(Color.WHITE);
-//					
-//					context.setFont(new Font("Source Code Pro",128));					
-//					context.strokeText("Game Over", 1152/2, 800/2-150);
-//					context.fillText("Game Over", 1152/2, 800/2-150);
-//					
-//					context.setFont(new Font("Source Code Pro",64));
-//					context.strokeText(message, 1152/2, 800/2);
-//					context.fillText(message, 1152/2, 800/2);
 				} else if (i > 300) {
 					this.stop();
 					stage.close();
@@ -660,6 +651,4 @@ public class N_Mode {
 		}.start();
 	}
 
-	
 }
-     
