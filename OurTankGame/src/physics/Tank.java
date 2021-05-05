@@ -26,7 +26,6 @@ public class Tank extends Sprite {
 		this.y = this.position.y = y;
 		this.good = good;
 		this.name = name;
-
 	}
 
 	public void move(ArrayList<String> keyPressedList, ArrayList<String> keyJustPressedList, GraphicsContext context,
@@ -236,6 +235,9 @@ public class Tank extends Sprite {
 				if (b.getParent() != this) {
 					// System.out.println("Tank hit");
 					this.hp -= b.damage;
+					this.score -= b.damage;
+					b.getParent().score += b.damage;
+					//System.out.println(this.score + "This is the tank's score");
 					if (this.hp <= 0) { // tank is dead
 						AudioManager.play("explode");
 					}

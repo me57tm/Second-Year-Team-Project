@@ -63,6 +63,8 @@ public class Local_PVP_Mode {
 
 	public Local_PVP_Mode() {
 
+		final int TOTALGAMETIME = 100; 
+		
 		Map map = new Map();
 
 		Layer l1 = new Layer("background", map.MAP_WIDTH_IN_TILES, map.MAP_HEIGHT_IN_TILES);
@@ -298,10 +300,6 @@ public class Local_PVP_Mode {
 
 		Tank enemy = new Tank("grimfandango-art/tank-red.png", 992, 608);
 
-		int Shield = 100;
-		int score = 99;
-		String str = "Fire speed up";
-
 		DropShadow dropshadow = new DropShadow();
 		dropshadow.setRadius(10);
 		dropshadow.setOffsetX(0);
@@ -317,16 +315,19 @@ public class Local_PVP_Mode {
 		try {
 
 			// Label
-			Label score1 = new Label("Score: " + score);
+			Label score1 = new Label("Score: " + tank.getScore());
 			score1.setFont(Font.font("Segoe Print"));
-			Label hpB = new Label("HP(yellow): ");
+			Label hpB = new Label("HP(yellow): " + tank.getHP());
 			hpB.setFont(Font.font("Segoe Print"));
-			Label hpB2 = new Label("HP(red): ");
+			
+			Label timer = new Label("Time Left: " + TOTALGAMETIME);
+			timer.setFont(Font.font("Segoe Print"));
+			
+			Label score2 = new Label("Score: " + enemy.getScore());
+			score2.setFont(Font.font("Segoe Print"));
+			Label hpB2 = new Label("HP(red): "+ enemy.getHP());
 			hpB2.setFont(Font.font("Segoe Print"));
-			Label shield = new Label("Shield: " + Shield);
-			shield.setFont(Font.font("Segoe Print"));
-			Label boost = new Label("Boost: " + str);
-			boost.setFont(Font.font("Segoe Print"));
+			
 
 			// HBox
 			HBox hpBar = new HBox();
@@ -462,6 +463,8 @@ public class Local_PVP_Mode {
 
 			AnimationTimer gameloop = new AnimationTimer() {
 
+				double elapsedGameTime = 0;	
+				
 				public void handle(long nanotime) {
 					
 					//HP bar
@@ -504,7 +507,7 @@ public class Local_PVP_Mode {
 			        
 			        // HBox
 					HBox hpBar = new HBox();
-					hpBar.getChildren().addAll(hpB,rootg,hpB2,rootg1);
+					hpBar.getChildren().addAll(hpB,rootg,score1,timer,hpB2,rootg1,score2);
 					hpBar.setAlignment(Pos.CENTER);
 					hpBar.setSpacing(40);
 					
@@ -518,7 +521,9 @@ public class Local_PVP_Mode {
 					keyJustPressedList.clear();
 
 					tank.update(FRAMERATE, map);
+					hpB.setText("HP: " + tank.hp);
 					enemy.update(FRAMERATE, map);
+					hpB2.setText("HP: " + enemy.hp);
 
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
@@ -609,6 +614,13 @@ public class Local_PVP_Mode {
 						}
 					}
 
+					score1.setText("Score: " + tank.getScore());
+					score2.setText("Score: " + enemy.getScore());
+					
+					elapsedGameTime += FRAMERATE;
+					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
+					//System.out.println(elapsedGameTime + "Time passed");
+					
 					// Gameover Logic
 					if (tank.hp <= 0) {
 						Sprite youLose = new Sprite("grimfandango-art/YouLose.png", 576, 400);
@@ -619,6 +631,18 @@ public class Local_PVP_Mode {
 						Sprite youWin = new Sprite("grimfandango-art/YouWin.png", 576, 400);
 						gameOver(youWin, context);
 						this.stop();
+					}
+					if(elapsedGameTime > TOTALGAMETIME) {
+						if(tank.getScore() > enemy.getScore()) {
+							Sprite youWin = new Sprite("grimfandango-art/YouWin.png",576, 400);
+							gameOver(youWin,context);
+							this.stop();
+						}
+						else {
+							Sprite youLose = new Sprite("grimfandango-art/YouLose.png",576, 400);
+							gameOver(youLose,context);
+							this.stop();
+						}
 					}
 				}
 			};

@@ -64,6 +64,8 @@ public class N_Mode {
 
 	public N_Mode(List<Tank> newTanks, int id, NetClient nc) {
 
+		final int TOTALGAMETIME = 100; 
+		
 		Map map = new Map();
 
 		Layer l1 = new Layer("background", map.MAP_WIDTH_IN_TILES, map.MAP_HEIGHT_IN_TILES);
@@ -317,10 +319,6 @@ public class N_Mode {
 //		battery1.position.set(96, 672);
 //		battery2.position.set(991, 64);
 
-		int hp = 100;
-		int Shield = 100;
-		int score = 99;
-		String str = "Fire speed up";
 
 		DropShadow dropshadow = new DropShadow();
 		dropshadow.setRadius(10);
@@ -337,20 +335,63 @@ public class N_Mode {
 		try {
 
 			// Label
-			Label score1 = new Label("Score: " + score);
+			Label score1 = new Label("Score: " + tank.getScore());
 			score1.setFont(Font.font("Segoe Print"));
-			Label hpB = new Label("HP: " + hp);
+			Label hpB = new Label("HP(yellow): " + tank.getHP());
 			hpB.setFont(Font.font("Segoe Print"));
-			Label shield = new Label("Shield: " + Shield);
-			shield.setFont(Font.font("Segoe Print"));
-			Label boost = new Label("Boost: " + str);
-			boost.setFont(Font.font("Segoe Print"));
+			
+			Label timer = new Label("Time Left: " + TOTALGAMETIME);
+			timer.setFont(Font.font("Segoe Print"));
+			
+			Label score2 = new Label("Score: " + enemy.getScore());
+			score2.setFont(Font.font("Segoe Print"));
+			Label hpB2 = new Label("HP(red): "+ enemy.getHP());
+			hpB2.setFont(Font.font("Segoe Print"));
 
+			//HP bar
+			Group rootg = new Group();
+			Rectangle rectangle1 = new Rectangle();
+	        rectangle1.setFill(Paint.valueOf("#FFFFFF"));
+	        rectangle1.setX(0);
+	        rectangle1.setY(50);
+	        rectangle1.setWidth(100.0);
+	        rectangle1.setHeight(15.0);
+	        rectangle1.setStroke(Color.RED);
+	        
+	        Rectangle rectangle2 = new Rectangle();
+	        rectangle2.setFill(Paint.valueOf("#FF0033"));
+	        rectangle2.setX(0);
+	        rectangle2.setY(50);
+	        rectangle2.setWidth(tank.hp);
+	        rectangle2.setHeight(15.0);
+	        rectangle2.setStroke(Color.RED);
+	        rootg.getChildren().addAll(rectangle1,rectangle2);
+	        
+	      //HP bar
+			Group rootg1 = new Group();
+			Rectangle rectangle3 = new Rectangle();
+	        rectangle3.setFill(Paint.valueOf("#FFFFFF"));
+	        rectangle3.setX(0);
+	        rectangle3.setY(50);
+	        rectangle3.setWidth(100.0);
+	        rectangle3.setHeight(15.0);
+	        rectangle3.setStroke(Color.RED);
+	        
+	        Rectangle rectangle4 = new Rectangle();
+	        rectangle4.setFill(Paint.valueOf("#FF0033"));
+	        rectangle4.setX(0);
+	        rectangle4.setY(50);
+	        rectangle4.setWidth(enemy.hp);
+	        rectangle4.setHeight(15.0);
+	        rectangle4.setStroke(Color.RED);
+	        rootg1.getChildren().addAll(rectangle3,rectangle4);
+			
 			// HBox
 			HBox hpBar = new HBox();
-			hpBar.getChildren().addAll(hpB, shield, boost, score1);
+			hpBar.getChildren().addAll(hpB,rootg,score1,timer,hpB2,rootg1,score2);
 			hpBar.setAlignment(Pos.CENTER);
 			hpBar.setSpacing(40);
+		
 
 			// Menu
 			MenuBar menuBar = new MenuBar();
@@ -392,6 +433,7 @@ public class N_Mode {
 			// Pane
 			BorderPane root = new BorderPane();
 			root.setTop(menuBar);
+			root.setBottom(hpBar);
 			root.setEffect(dropshadow);
 
 			volume.setOnAction(new EventHandler<ActionEvent>() {
@@ -461,39 +503,15 @@ public class N_Mode {
 
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 
+			final double FRAMERATE = 1 / 60d;
+			
 			AnimationTimer gameloop = new AnimationTimer() {
 
 				int joinPlayer = 0;
 				int frames = 0;
+				double elapsedGameTime = 0;	
 
 				public void handle(long nanotime) {
-					
-					//HP bar
-					Group rootg = new Group();
-					Rectangle rectangle1 = new Rectangle();
-			        rectangle1.setFill(Paint.valueOf("#FFFFFF"));
-			        rectangle1.setX(0);
-			        rectangle1.setY(50);
-			        rectangle1.setWidth(100.0);
-			        rectangle1.setHeight(15.0);
-			        rectangle1.setStroke(Color.RED);
-			        
-			        Rectangle rectangle2 = new Rectangle();
-			        rectangle2.setFill(Paint.valueOf("#FF0033"));
-			        rectangle2.setX(0);
-			        rectangle2.setY(50);
-			        rectangle2.setWidth(tank.hp);
-			        rectangle2.setHeight(15.0);
-			        rectangle2.setStroke(Color.RED);
-			        rootg.getChildren().addAll(rectangle1,rectangle2);
-			        
-			        // HBox
-					HBox hpBar = new HBox();
-					hpBar.getChildren().addAll(hpB,rootg,shield,boost);
-					hpBar.setAlignment(Pos.CENTER);
-					hpBar.setSpacing(40);
-					
-					root.setBottom(hpBar);
 
 					frames++;
 					if (frames % 3 == 0) {
@@ -568,6 +586,15 @@ public class N_Mode {
 //							powerup.render(context);
 //						}
 //					}
+						
+						score1.setText("Score: " + tank.getScore());
+						score2.setText("Score: " + enemy.getScore());
+						
+						elapsedGameTime += FRAMERATE;
+						// The time needs to be syncronized, please do this
+						timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
+						//System.out.println(elapsedGameTime + "Time passed");
+						
 //					if (bulletPowerup.hp < 1) {
 //						tank.velocity.setLength(800);
 //					}
@@ -597,6 +624,18 @@ public class N_Mode {
 							youWin.position.set(576, 400);
 							gameOver(youWin, context);
 							this.stop();
+						}
+						if(elapsedGameTime > TOTALGAMETIME) {
+							if(tank.getScore() > enemy.getScore()) {
+								Sprite youWin = new Sprite("grimfandango-art/YouWin.png",576, 400);
+								gameOver(youWin,context);
+								this.stop();
+							}
+							else {
+								Sprite youLose = new Sprite("grimfandango-art/YouLose.png",576, 400);
+								gameOver(youLose,context);
+								this.stop();
+							}
 						}
 					}
 				}

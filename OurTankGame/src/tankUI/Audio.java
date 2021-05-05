@@ -17,10 +17,8 @@ public class Audio {
 		Stage s1 =new Stage();
 		s1.setTitle("Tank Game");
 		s1.getIcons().add(new Image("images/icon_tank.jpg"));
-		Image img  = new Image("images/tank1.png");
+		Image img  = new Image("images/tankmenuimg.png");
 		ImageView imgV = new ImageView(img);
-		imgV.setScaleX(2.5);
-		imgV.setScaleY(2.5);
 		
 		AudioManager.play("testMusic", "music");
 		
@@ -78,8 +76,7 @@ public class Audio {
 		StackPane sp = new StackPane(); 
 		sp.getChildren().addAll(imgV,g1);
 		
-		Scene scene = new Scene(sp,1920,1080);
-		s1.setMaximized(true);
+		Scene scene = new Scene(sp,1152,800);
 		s1.setScene(scene);		
 		s1.show();
 	}

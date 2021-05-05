@@ -2,7 +2,7 @@ package physics;
 
 public class Bullet extends Sprite {
 	protected Tank parent;
-	protected double damage = 50;
+	protected double damage = 10;
 	
 	public Bullet(String string,Tank parent,double x,double y) {
 		super(string,x,y);

@@ -66,6 +66,8 @@ public class solo_easy {
 	}
 
 	public solo_easy() {
+		
+		final int TOTALGAMETIME = 120; 
 
 		Map map = new Map();
 
@@ -304,11 +306,6 @@ public class solo_easy {
 
 		Tank enemy = new Tank("grimfandango-art/tank-red.png",992,608);
 
-		int hp = 100;
-		int Shield = 100;
-		int score = 99;
-		String str = "Fire speed up";
-
 		DropShadow dropshadow = new DropShadow();
 		dropshadow.setRadius(10);
 		dropshadow.setOffsetX(0);
@@ -321,19 +318,21 @@ public class solo_easy {
 		try {
 
 			// Label
-			Label score1 = new Label("Score: " + score);
-			score1.setFont(Font.font("Segoe Print"));
-			Label hpB = new Label("HP: " + hp);
+			Label score1 = new Label("Score: " + tank.getScore());
+			score1.setFont(Font.font("Segoe Print" , 80d));
+			Label hpB = new Label("HP: " + tank.hp);
 			hpB.setFont(Font.font("Segoe Print"));
-			Label shield = new Label("Shield: " + Shield);
-			shield.setFont(Font.font("Segoe Print"));
-			Label boost = new Label("Boost: " + str);
-			boost.setFont(Font.font("Segoe Print"));
+			Label timer = new Label("Time Left: " + TOTALGAMETIME);
+			timer.setFont(Font.font("Segoe Print"));
+			Label score = new Label("Score: " + tank.getScore());
+			score.setFont(Font.font("Segoe Print"));
+			
 
 			// HBox
 			HBox hpBar = new HBox();
 			hpBar.setAlignment(Pos.CENTER);
 			hpBar.setSpacing(40);
+			
 
 			// Menu
 			MenuBar menuBar = new MenuBar();
@@ -443,7 +442,7 @@ public class solo_easy {
 			stageControls.setScene(sceneControls);
 			stageControls.setTitle("Choose your controls:");
 
-			stageControls.show();
+			//stageControls.showAndWait();
 			
 			wasdButton.setOnAction(new EventHandler<ActionEvent>() {
 				
@@ -455,6 +454,7 @@ public class solo_easy {
 				}
 			});
 			
+			
 			arrowsButton.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
@@ -465,7 +465,7 @@ public class solo_easy {
 				}
 			});
 			
-			
+			stageControls.showAndWait();
 
 			Canvas canvas = new Canvas(1150, 770);
 			GraphicsContext context = canvas.getGraphicsContext2D();
@@ -509,7 +509,8 @@ public class solo_easy {
 				int oneOrMinOne = 0;
 						
 				int time[] = {0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0};
-				int a = 0;				
+				int a = 0;
+				double elapsedGameTime = 0;	
 
 				public void handle(long nanotime) {
 					
@@ -534,7 +535,7 @@ public class solo_easy {
 			        
 			        // HBox
 					HBox hpBar = new HBox();
-					hpBar.getChildren().addAll(hpB,rootg,shield,boost);
+					hpBar.getChildren().addAll(hpB,rootg,timer,score);
 					hpBar.setAlignment(Pos.CENTER);
 					hpBar.setSpacing(40);
 					
@@ -613,6 +614,8 @@ public class solo_easy {
 					keyJustPressedList.clear();
 
 					tank.update(FRAMERATE,map);
+					hpB.setText("HP: " + tank.hp);
+					
 					enemy.update(FRAMERATE,map);
 						
 					// Collision Detection for Bullets
@@ -706,6 +709,11 @@ public class solo_easy {
 						}
 				}
 					
+					score.setText("Score: " + tank.getScore());
+					
+					elapsedGameTime += FRAMERATE;
+					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
+					//System.out.println(elapsedGameTime + "Time passed");
 					
 					//Gameover Logic
 					if (tank.hp <= 0) {
@@ -714,13 +722,28 @@ public class solo_easy {
 						this.stop();
 					}
 					if (enemy.hp <= 0) {
+						
 						Sprite youWin = new Sprite("grimfandango-art/YouWin.png",576, 400);
 						gameOver(youWin,context);
 						this.stop();
 					}
+					if(elapsedGameTime > TOTALGAMETIME) {
+						if(tank.getScore() > enemy.getScore()) {
+							Sprite youWin = new Sprite("grimfandango-art/YouWin.png",576, 400);
+							gameOver(youWin,context);
+							this.stop();
+						}
+						else {
+							Sprite youLose = new Sprite("grimfandango-art/YouLose.png",576, 400);
+							gameOver(youLose,context);
+							this.stop();
+						}
+					}
 				}
 			};
 
+			
+			
 			gameloop.start();
 
 		} catch (Exception e) {
