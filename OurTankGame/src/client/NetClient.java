@@ -50,7 +50,6 @@ public class NetClient {
 			DataInputStream dis = new DataInputStream(s.getInputStream());
 			int id = dis.readInt();// 获得自己的id号
 			this.serverUDPPort = dis.readInt();// 获得服务器转发客户端消息的UDP端口号
-			this.TANK_DEAD_UDP_PORT = dis.readInt();// 获得服务器监听坦克死亡的UDP端口
 			tc.clientID(id);// 设置坦克的id号
 		} catch (IOException e) {
 			e.printStackTrace();

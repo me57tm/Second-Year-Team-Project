@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -26,6 +27,8 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import physics.Bullet;
@@ -38,7 +41,7 @@ import physics.Tile;
 import tankUI.Player;
 import tankUI.TankMenu;
 
-public class Solo_Mode {
+public class solo_normal {
 	private final Stage stage = new Stage();
 	private boolean isWASD;
 
@@ -60,7 +63,7 @@ public class Solo_Mode {
 		}
 	}
 
-	public Solo_Mode() {
+	public solo_normal() {
 
 		Map map = new Map();
 
@@ -219,8 +222,8 @@ public class Solo_Mode {
 	
 		
 		//adding the horizontal walls
-		for(int i=3; i<10; i++) {
-			if(i==3) {
+		for(int i=4; i<10; i++) {
+			if(i==4) {
 				l2.addTile(wallLeft, i, 11);
 			} else if(i==9) {
 				l2.addTile(wallRight, i, 11);
@@ -230,10 +233,10 @@ public class Solo_Mode {
 				
 		}
 		
-		for(int i=26; i<33; i++) {
+		for(int i=26; i<32; i++) {
 			if(i==26) {
 				l2.addTile(wallLeft, i, 11);
-			} else if(i==32) {
+			} else if(i==31) {
 				l2.addTile(wallRight, i, 11);
 			} else {
 				l2.addTile(wallMid, i, 11);
@@ -288,23 +291,17 @@ public class Solo_Mode {
 
 		Tank tank = new Tank("grimfandango-art/tank64.png",160d,160d);
 
+		ArrayList<PowerUp> toRemove = new ArrayList<>();
 		ArrayList<PowerUp> powerups = new ArrayList<>();
-		PowerUp speedPowerup = new PowerUp("Speed",150,500);
+		PowerUp speedPowerup = new PowerUp("Speed", 150,500);
 		powerups.add(speedPowerup);
-		PowerUp coin1 = new PowerUp("Score",480, 64);
-		PowerUp coin2 = new PowerUp("Score",480, 672);
-		PowerUp coin3 = new PowerUp("Score",608, 64);
-		PowerUp coin4 = new PowerUp("Score",608, 672);
-		powerups.add(coin1);
-		powerups.add(coin2);
-		powerups.add(coin3);
-		powerups.add(coin4);
-		PowerUp battery1 = new PowerUp("Energy",96, 672);
-		PowerUp battery2 = new PowerUp("Energy",991, 64);
-		powerups.add(battery1);
-		powerups.add(battery2);
+		PowerUp coin = new PowerUp("Score",480, 64);
+		powerups.add(coin);
+		PowerUp battery = new PowerUp("Energy",96, 672);
+		powerups.add(battery);
 
 		Tank enemy = new Tank("grimfandango-art/tank-red.png",992,608);
+		Tank enemy3 = new Tank("grimfandango-art/tank-red.png",148d,520);
 
 		int hp = 100;
 		int Shield = 100;
@@ -337,7 +334,6 @@ public class Solo_Mode {
 
 			// HBox
 			HBox hpBar = new HBox();
-			hpBar.getChildren().addAll(hpB, shield, boost, score1);
 			hpBar.setAlignment(Pos.CENTER);
 			hpBar.setSpacing(40);
 
@@ -413,7 +409,7 @@ public class Solo_Mode {
 			root.setBottom(hpBar);
 
 			// Scene
-			Scene scene = new Scene(root, 1152, 900);
+			Scene scene = new Scene(root, 1150, 820);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			// stage.setMaximized(true);
 			stage.setResizable(false);
@@ -473,10 +469,10 @@ public class Solo_Mode {
 			
 			
 
-			Canvas canvas = new Canvas(1152, 800);
+			Canvas canvas = new Canvas(1150, 770);
 			GraphicsContext context = canvas.getGraphicsContext2D();
 			// Change setCenter to setLeft
-			root.setLeft(canvas);
+			root.setCenter(canvas);
 
 			// handle continuous inputs (as long as key is pressed)
 			ArrayList<String> keyPressedList = new ArrayList<>();
@@ -511,17 +507,50 @@ public class Solo_Mode {
 					
 			AnimationTimer gameloop = new AnimationTimer() {
 
-				int times = 0;
-				int oneOrMinOne  = 0;
+				int times, times3 = 0;
+				int oneOrMinOne,oneOrMinOne3  = 0;
+						
+				int time[] = {0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0};
+				int a = 0;
+				int Time[] = {0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,2,2,1,0,0,0,0,0,0,0,1,1,1,2};
+				int b = 0;
 
 				public void handle(long nanotime) {
-
+					
+					//HP bar
+					Group rootg = new Group();
+					Rectangle rectangle1 = new Rectangle();
+			        rectangle1.setFill(Paint.valueOf("#FFFFFF"));
+			        rectangle1.setX(0);
+			        rectangle1.setY(50);
+			        rectangle1.setWidth(100.0);
+			        rectangle1.setHeight(15.0);
+			        rectangle1.setStroke(Color.RED);
+			        
+			        Rectangle rectangle2 = new Rectangle();
+			        rectangle2.setFill(Paint.valueOf("#FF0033"));
+			        rectangle2.setX(0);
+			        rectangle2.setY(50);
+			        rectangle2.setWidth(tank.hp);
+			        rectangle2.setHeight(15.0);
+			        rectangle2.setStroke(Color.RED);
+			        rootg.getChildren().addAll(rectangle1,rectangle2);
+			        
+			        // HBox
+					HBox hpBar = new HBox();
+					hpBar.getChildren().addAll(hpB,rootg,shield,boost);
+					hpBar.setAlignment(Pos.CENTER);
+					hpBar.setSpacing(40);
+					
+					root.setBottom(hpBar);
+					
+					//enemy1
 					double checkRotation = enemy.rotation % 90;
 					//System.out.println(enemy.rotation);
 					if (checkRotation == 0) {
 						oneOrMinOne = 0;
-						if (Math.random() < 0.01) {
-							try {
+						if (Math.random() < 0.01 && enemy.getHP()>=0) {
+
 							context.save();
 
 							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
@@ -530,24 +559,37 @@ public class Solo_Mode {
 							laserE.velocity.setLength(200);
 							laserE.velocity.setAngle(enemy.rotation);
 							laserListE.add(laserE);
-							}
-							catch(Exception e){
-								
-							}
+							//System.out.println("enemy shot");
 						}
 
 						times++;
 						int i = times % 210;
-						double randomNumber = Math.random();
+//						double randomNumber = Math.random();
+						
+						int randomNumber = time[a];						
+//						System.out.println(a);						
+						
 						enemy.velocity.setAngle(enemy.rotation);
 						enemy.velocity.setLength(10);
 						if (i == 0) {
-							if (randomNumber < 0.5) {
+							if (randomNumber == 1) {//1右转
 								enemy.rotation += 2;
 								oneOrMinOne = 1;
-							} else if (randomNumber > 0.5) {
+								System.out.println("右转a");
+								System.out.println(a);
+								a++;
+							} else if (randomNumber == 2) {//2左转
 								enemy.rotation -= 2;
 								oneOrMinOne = -1;
+								System.out.println("左转a");
+								System.out.println(a);
+								a++;
+							} else if (randomNumber == 0) {//0直走
+								enemy.velocity.setAngle(enemy.rotation);
+								enemy.velocity.setLength(100);	
+								System.out.println("直走a");
+								System.out.println(a);
+								a++;
 							} 
 						}
 					}
@@ -557,7 +599,68 @@ public class Solo_Mode {
 					 if (oneOrMinOne == -1) {
 						enemy.rotation -= 2;
 					}
-					
+					if(a==time.length) {
+						a=0;							
+					}					
+						 
+						 double checkRotation3 = enemy3.rotation % 90;
+							//System.out.println(enemy.rotation);
+							if (checkRotation3 == 0) {
+								oneOrMinOne3 = 0;
+								if (Math.random() < 0.01 && enemy.getHP()>=0) {
+
+									context.save();
+
+									Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy3);
+									//modified the position a bit so it looks like it shoots from the turret
+									laserE.position.set(enemy3.position.x, enemy3.position.y);
+									laserE.velocity.setLength(200);
+									laserE.velocity.setAngle(enemy3.rotation);
+									laserListE.add(laserE);
+									//System.out.println("other enemy shot");
+								}
+
+								times3++;
+								int i = times3 % 210;
+//								double randomNumber = Math.random();
+								
+								int randomNumber3 = Time[b];						
+//								System.out.println(a);						
+								
+								enemy3.velocity.setAngle(enemy3.rotation);
+								enemy3.velocity.setLength(10);
+								if (i == 0) {
+									if (randomNumber3 == 1) {//1右转
+										enemy3.rotation += 2;
+										oneOrMinOne3 = 1;
+										System.out.println("右转b");
+										System.out.println(b);
+										b++;
+									} else if (randomNumber3 == 2) {//2左转
+										enemy3.rotation -= 2;
+										oneOrMinOne3 = -1;
+										System.out.println("左转b");
+										System.out.println(b);
+										b++;
+									} else if (randomNumber3 == 0) {//0直走
+										enemy3.velocity.setAngle(enemy3.rotation);
+										enemy3.velocity.setLength(100);	
+										System.out.println("直走b");
+										System.out.println(b);
+										b++;
+									} 
+								}
+							}
+							 if (oneOrMinOne3 == 1){
+								enemy3.rotation += 2;
+							}
+							 if (oneOrMinOne3 == -1) {
+								enemy3.rotation -= 2;
+							}
+							if(b==Time.length) {
+								b=0;							
+							}
+							
 					// If bool is true, WASD was chosen
 					 if(isWASD) {
 					tank.moveWASD(keyPressedList,keyJustPressedList,context,laserListT);
@@ -574,7 +677,8 @@ public class Solo_Mode {
 
 					tank.update(FRAMERATE,map);
 					enemy.update(FRAMERATE,map);
-
+					enemy3.update(FRAMERATE,map);
+						
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
 						laser1.update(FRAMERATE,map);
@@ -590,7 +694,8 @@ public class Solo_Mode {
 						laser.update(FRAMERATE,map);
 
 						enemy.collide(laser); // TODO: this is a marker that I edited this one
-
+						enemy3.collide(laser);
+						
 						for(PowerUp powerup : powerups) {
 							powerup.collide(laser);
 						}
@@ -600,6 +705,7 @@ public class Solo_Mode {
 						powerup.update(FRAMERATE, map);
 						powerup.collide(tank);
 						powerup.collide(enemy);
+						powerup.collide(enemy3);
 					}
 
 					// Remove Bullets that have collided with something
@@ -618,23 +724,30 @@ public class Solo_Mode {
 					//tank.render(context); 
 					//System.out.println("current score:"+tank.getScore());
 					//System.out.println("current hp:"+tank.getHP());
+				
 					for(PowerUp powerup : powerups) {
 						if (powerup.hp > 1) {
 							powerup.render(context);
 						}
+						else {
+							toRemove.add(powerup);
+						}
 					}
-					if (speedPowerup.hp < 1) {
-						tank.velocity.setLength(800);
-					}
+					powerups.removeAll(toRemove);
+					
+//					if (speedPowerup.hp < 1) {
+//						tank.velocity.setLength(800);
+//					}
 					if (tank.hp > 0) {       
 						tank.render(context);
 					}
 					if (enemy.hp > 0) {
 						enemy.render(context);
 					}
-					else {
-						System.out.println("The game is done");
+					if (enemy3.hp > 0) {
+						enemy3.render(context);
 					}
+					
 					for (Sprite laser : laserListT) {
 						laser.render(context);
 					}
@@ -643,17 +756,25 @@ public class Solo_Mode {
 					}
 					
 					//Generate new powerups
-//					if (true) {
-//						Random rand = new Random();
-//						int newPUX;
-//						int newPUY;
-//						do {
-//						newPUX = rand.nextInt(map.MAP_WIDTH_IN_TILES);
-//						newPUY = rand.nextInt(map.MAP_HEIGHT_IN_TILES);
-//						} while (map.getLayer(map.getSize()-1).getTile(newPUX, newPUY).isPassable());
-//						powerups.add(PowerUp.randomPowerUp(newPUX*map.TILE_WIDTH, newPUY*map.TILE_HEIGHT));				
-//						
-//					}
+					if (powerups.isEmpty()) {
+						PowerUp powerup;
+						//Allows only three powerups to be spawned at once
+						for(int i = 0; i < 3; i++) {
+						Random rand = new Random();
+						int newPUX;
+						int newPUY;
+						do {	
+						newPUX = rand.nextInt(map.MAP_WIDTH_IN_TILES);
+						newPUY = rand.nextInt(map.MAP_HEIGHT_IN_TILES);
+						powerup = PowerUp.randomPowerUp(newPUX*map.TILE_WIDTH, newPUY*map.TILE_HEIGHT);
+						} 
+						//Checks for collision with the walls with the current coordinates
+						while (powerup.collideMap(map));
+						//If the coordinates do not collide with the walls, the powerup is spawned
+						powerups.add(powerup);
+						}
+				}
+					
 					
 					//Gameover Logic
 					if (tank.hp <= 0) {
@@ -661,7 +782,7 @@ public class Solo_Mode {
 						gameOver(youLose,context);
 						this.stop();
 					}
-					if (enemy.hp <= 0) {
+					if (enemy.hp <= 0 && enemy3.hp <= 0) {
 						Sprite youWin = new Sprite("grimfandango-art/YouWin.png",576, 400);
 						gameOver(youWin,context);
 						this.stop();

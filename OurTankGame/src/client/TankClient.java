@@ -63,7 +63,7 @@ public class TankClient {
 		lb.setTextFill(Paint.valueOf("#f2eada"));
 
 		// image
-		Image img = new Image("images/tank1.png");
+		Image img = new Image("images/tankmenuimg.png");
 		ImageView im = new ImageView();
 		im.setImage(img);
 

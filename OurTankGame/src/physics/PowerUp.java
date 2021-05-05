@@ -1,5 +1,6 @@
 package physics;
 
+
 import java.util.Random;
 
 public class PowerUp extends Sprite {
@@ -24,7 +25,6 @@ public class PowerUp extends Sprite {
 		this.position.y = y;
 		this.boundary.setPosition(this.position.x - this.image.getWidth()/2, this.position.y - this.image.getHeight()/2);
 	}
-	
 	public void apply(Tank t) {
 		switch(type) {
 		case "Speed":
@@ -74,7 +74,7 @@ public class PowerUp extends Sprite {
 	}
 	
 	public boolean collide(Sprite other)
-	{
+	{ 
 		if (this.hp <= 0 || other.hp<=0){
 			return false;
 		}
