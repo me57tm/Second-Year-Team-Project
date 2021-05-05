@@ -3,6 +3,8 @@ package application;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
+
+import audio.AudioManager;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -307,10 +309,10 @@ public class Local_PVP_Mode {
 		dropshadow.setSpread(0.1);
 		dropshadow.setColor(Color.BLACK);
 
-		URL url = this.getClass().getClassLoader().getResource("application/music.mp3");
-
-		Media media = new Media(url.toExternalForm());
-		MediaPlayer mp = new MediaPlayer(media);
+//		URL url = this.getClass().getClassLoader().getResource("application/music.mp3");
+//
+//		Media media = new Media(url.toExternalForm());
+//		MediaPlayer mp = new MediaPlayer(media);
 
 		try {
 
@@ -377,7 +379,7 @@ public class Local_PVP_Mode {
 
 				@Override
 				public void handle(ActionEvent arg0) {
-					mp.stop();
+					AudioManager.mute();
 				}
 			});
 
@@ -385,7 +387,7 @@ public class Local_PVP_Mode {
 
 				@Override
 				public void handle(ActionEvent arg0) {
-					mp.play();
+					AudioManager.unmute();
 				}
 			});
 

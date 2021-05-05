@@ -110,22 +110,23 @@ public final class AudioManager {
 		return mute;
 	}
 
-	public static void setMute(boolean mute) {
-		AudioManager.mute = mute;
-		if (mute){
+	public static void mute() {
+		AudioManager.mute = true;
 			for (Sound s : sounds) {
 				s.pause();
 			}
-		}
-		else {
-			for (Sound s : sounds) {
-				s.play();
-			}
-		}
 		
 	}
+	public static void unmute() {
+		AudioManager.mute = false;
+		for (Sound s : sounds) {
+			s.play();
+		}
+	}
+	
 	
 	public static void toggleMute() {
-		setMute(!mute);
+		if (mute) unmute();
+		else mute();
 	}
 }

@@ -3,6 +3,8 @@ package application;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
+
+import audio.AudioManager;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -319,8 +321,7 @@ public class solo_hard {
 
 		URL url = this.getClass().getClassLoader().getResource("application/music.mp3");
 
-		Media media = new Media(url.toExternalForm());
-		MediaPlayer mp = new MediaPlayer(media);
+		
 
 		try {
 
@@ -386,7 +387,7 @@ public class solo_hard {
 
 				@Override
 				public void handle(ActionEvent arg0) {
-					mp.stop();
+					AudioManager.mute();
 				}
 			});
 
@@ -394,7 +395,7 @@ public class solo_hard {
 
 				@Override
 				public void handle(ActionEvent arg0) {
-					mp.play();
+					AudioManager.unmute();
 				}
 			});
 
@@ -573,22 +574,22 @@ public class solo_hard {
 						enemy.velocity.setAngle(enemy.rotation);
 						enemy.velocity.setLength(10);
 						if (i == 0) {
-							if (randomNumber == 1) {//1右转
+							if (randomNumber == 1) {//1å�³è½¬
 								enemy.rotation += 2;
 								oneOrMinOne = 1;
-								System.out.println("右转a");
+								System.out.println("å�³è½¬a");
 								System.out.println(a);
 								a++;
-							} else if (randomNumber == 2) {//2左转
+							} else if (randomNumber == 2) {//2å·¦è½¬
 								enemy.rotation -= 2;
 								oneOrMinOne = -1;
-								System.out.println("左转a");
+								System.out.println("å·¦è½¬a");
 								System.out.println(a);
 								a++;
-							} else if (randomNumber == 0) {//0直走
+							} else if (randomNumber == 0) {//0ç›´èµ°
 								enemy.velocity.setAngle(enemy.rotation);
 								enemy.velocity.setLength(100);	
-								System.out.println("直走a");
+								System.out.println("ç›´èµ°a");
 								System.out.println(a);
 								a++;
 							} 
@@ -671,22 +672,22 @@ public class solo_hard {
 								enemy3.velocity.setAngle(enemy3.rotation);
 								enemy3.velocity.setLength(10);
 								if (i == 0) {
-									if (randomNumber3 == 1) {//1右转
+									if (randomNumber3 == 1) {//1å�³è½¬
 										enemy3.rotation += 2;
 										oneOrMinOne3 = 1;
-										System.out.println("右转b");
+										System.out.println("å�³è½¬b");
 										System.out.println(b);
 										b++;
-									} else if (randomNumber3 == 2) {//2左转
+									} else if (randomNumber3 == 2) {//2å·¦è½¬
 										enemy3.rotation -= 2;
 										oneOrMinOne3 = -1;
-										System.out.println("左转b");
+										System.out.println("å·¦è½¬b");
 										System.out.println(b);
 										b++;
-									} else if (randomNumber3 == 0) {//0直走
+									} else if (randomNumber3 == 0) {//0ç›´èµ°
 										enemy3.velocity.setAngle(enemy3.rotation);
 										enemy3.velocity.setLength(100);	
-										System.out.println("直走b");
+										System.out.println("ç›´èµ°b");
 										System.out.println(b);
 										b++;
 									} 

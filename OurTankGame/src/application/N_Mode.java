@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import audio.AudioManager;
 import client.MovingMsg;
 import client.NetClient;
 import javafx.animation.AnimationTimer;
@@ -328,10 +329,10 @@ public class N_Mode {
 		dropshadow.setSpread(0.1);
 		dropshadow.setColor(Color.BLACK);
 
-		URL url = this.getClass().getClassLoader().getResource("application/music.mp3");
-
-		Media media = new Media(url.toExternalForm());
-		MediaPlayer mp = new MediaPlayer(media);
+//		URL url = this.getClass().getClassLoader().getResource("application/music.mp3");
+//
+//		Media media = new Media(url.toExternalForm());
+//		MediaPlayer mp = new MediaPlayer(media);
 
 		try {
 
@@ -397,7 +398,7 @@ public class N_Mode {
 
 				@Override
 				public void handle(ActionEvent arg0) {
-					mp.stop();
+					AudioManager.mute();
 				}
 			});
 
@@ -405,7 +406,7 @@ public class N_Mode {
 
 				@Override
 				public void handle(ActionEvent arg0) {
-					mp.play();
+					AudioManager.unmute();
 				}
 			});
 
