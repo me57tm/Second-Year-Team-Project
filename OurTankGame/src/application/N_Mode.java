@@ -7,7 +7,6 @@ import java.util.Random;
 
 import client.MovingMsg;
 import client.NetClient;
-import client.tankDeadMsg;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,7 +30,6 @@ import javafx.stage.Stage;
 import physics.Bullet;
 import physics.Layer;
 import physics.Map;
-import physics.PowerUp;
 import physics.Sprite;
 import physics.Tank;
 import physics.Tile;
@@ -366,6 +364,7 @@ public class N_Mode {
 
 				@Override
 				public void handle(ActionEvent arg0) {
+					@SuppressWarnings("unused")
 					TankMenu m1 = new TankMenu();
 					stage.close();
 				}
@@ -412,6 +411,7 @@ public class N_Mode {
 
 				@Override
 				public void handle(ActionEvent arg0) {
+					@SuppressWarnings("unused")
 					Player nomode = new Player(newTanks);
 				}
 			});
@@ -477,7 +477,8 @@ public class N_Mode {
 					if (joinPlayer == 0) {
 						for (int j = 0; j < newTanks.size(); j++) {
                             if( (newTanks.get(j).getId() % 2) != 0 && !newTanks.get(j).getName().equals("PlayerUnknown")) {
-                            	Auto_window a1 = new Auto_window(2000, "Game Start ! !","Tips", false);
+                            	@SuppressWarnings("unused")
+								Auto_window a1 = new Auto_window(2000, "Game Start ! !","Tips", false);
                             	joinPlayer = 1;
                             }
 						}
@@ -561,16 +562,12 @@ public class N_Mode {
 						// Game over Logic
 
 						if (tank.hp <= 0 || tank.getDead() == 1) {
-							tankDeadMsg deadMsg = new tankDeadMsg(id, 1);
-							nc.send(deadMsg);
 							Sprite youLose = new Sprite("grimfandango-art/YouLose.png", 576, 400);
 							youLose.position.set(576, 400);
 							gameOver(youLose, context);
 							this.stop();
 						}
 						if (enemy.hp <= 0 || enemy.getDead() == 1) {
-							tankDeadMsg deadMsg = new tankDeadMsg(enemy.getId(), 1);
-							nc.send(deadMsg);
 							Sprite youWin = new Sprite("grimfandango-art/YouWin.png", 576, 400);
 							youWin.position.set(576, 400);
 							gameOver(youWin, context);

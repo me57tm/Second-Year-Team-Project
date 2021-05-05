@@ -404,6 +404,7 @@ public class Solo_Mode {
 
 				@Override
 				public void handle(ActionEvent arg0) {
+					@SuppressWarnings("unused")
 					Player nomode = new Player(null);
 				}
 			});
@@ -511,7 +512,6 @@ public class Solo_Mode {
 			AnimationTimer gameloop = new AnimationTimer() {
 
 				int times = 0;
-			    int framesForNow = 0;
 				int oneOrMinOne  = 0;
 
 				public void handle(long nanotime) {

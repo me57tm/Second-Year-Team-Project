@@ -64,7 +64,7 @@ public class Sound{
 	}
 	
 	public void stop() {
-		this.playing = false;
+		pause();
 	}
 	
 	public boolean isPlaying() {

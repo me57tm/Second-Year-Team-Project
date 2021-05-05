@@ -9,3 +9,5 @@ bin/
 grimfandango.iml
 out/
 /.metadata/
+.settings/
+.gitignore

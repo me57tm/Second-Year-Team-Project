@@ -17,6 +17,7 @@ public final class AudioManager {
 		setupSoundTable.put("test", "src/sounds/simpleBeep.wav");//This allows us to play sounds by just using 'play("test")' Add more bindings here to add more sounds!
 		setupSoundTable.put("shoot", "src/sounds/8BitLaser.wav");
 		setupSoundTable.put("explode", "src/sounds/8BitExplosion.wav");
+		setupSoundTable.put("testMusic", "src/sounds/music.wav");
 		SOUND_TABLE = Collections.unmodifiableMap(setupSoundTable);
 	}
 
@@ -39,8 +40,10 @@ public final class AudioManager {
 			switch (track){
 				case "sound":
 					s = new Sound(SOUND_TABLE.get(soundName),masterVolume*soundVolume,"sound",false);
+					break;
 				case "music":
 					s = new Sound(SOUND_TABLE.get(soundName),masterVolume*musicVolume,"music",true);
+					break;
 				default:
 					s = new Sound(SOUND_TABLE.get(soundName),masterVolume);
 					System.out.println("Audio Manager Warning: A sound was played on a non-existant track. Defaulting to \"Master\".");
@@ -48,6 +51,13 @@ public final class AudioManager {
 			sounds.add(s);
 		}
 		cleanUp();
+	}
+	
+	static public void stopAll() {
+		for (Sound s:sounds) {
+			s.stop();
+		}
+		sounds.clear();
 	}
 	
 	static public void cleanUp() {

@@ -64,7 +64,7 @@ public class Tank extends Sprite {
 			context.save();
 			if(elapsedTime - lastShot > 0.75 && this.hp > 0) {
 				Bullet laser = new Bullet("imagesProjectAI/red-circle.png", this);
-				AudioManager.play("shoot");
+				AudioManager.play("shoot","sound");
 
 				laser.position.set(this.position.x, this.position.y);
 				laser.velocity.setLength(200);
@@ -108,7 +108,7 @@ public class Tank extends Sprite {
 			context.save();
 			if(elapsedTime - lastShot > 0.75 && this.hp > 0) {
 				Bullet laser = new Bullet("imagesProjectAI/red-circle.png", this);
-				AudioManager.play("shoot");
+				AudioManager.play("shoot","sound");
 
 				laser.position.set(this.position.x, this.position.y);
 				laser.velocity.setLength(200);

@@ -6,20 +6,15 @@ import org.junit.Test;
 
 public class VectorTest {
 
-	@Test
-	public void testSetLength() {
-		
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetAngle() {
-		fail("Not yet implemented");
-	}
-
+	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testSetAngle() {
-		fail("Not yet implemented");
+		Vector v = new Vector();
+		v.set(1, 0);
+		v.setAngle(90);
+		assertEquals(v.getX(),0,0.01);
+		assertEquals(v.getY(),-1,0.01);
 	}
 
 }
