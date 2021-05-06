@@ -18,6 +18,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
@@ -424,6 +425,27 @@ public class Local_PVP_Mode {
 					keyPressedList.remove(keyName);
 				if (keyPressedListE.contains(keyName))
 					keyPressedListE.remove(keyName);
+			});
+			
+			Sprite muteButton;
+			if (AudioManager.isMute()) {
+				muteButton = new Sprite("file:src/grimfandango-art/musicnoteoff.png",1100,50);
+			}
+			else {
+				muteButton = new Sprite("file:src/grimfandango-art/musicnote.png",1100,50);
+			}
+			scene.setOnMouseClicked((MouseEvent event) -> {
+				if (event.getX() > 1080 && event.getX() < 1110 && event.getY() > 59 && event.getY() < 95) {
+					System.out.println(event.getY());
+					if (AudioManager.isMute()){
+						muteButton.setImage("file:src/grimfandango-art/musicnote.png");
+						AudioManager.unmute();
+					}
+					else {
+						muteButton.setImage("file:src/grimfandango-art/musicnoteoff.png");
+						AudioManager.mute();
+					}
+				}
 			});
 
 			ArrayList<Bullet> laserListT = new ArrayList<Bullet>();
