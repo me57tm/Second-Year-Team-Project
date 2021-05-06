@@ -7,12 +7,13 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class Tank extends Sprite {
 	private int id;
-	public double bulletMsg;
+	public double bulletMsg, fire;
+	public Map map;
 	private boolean good;
 	private double x, y, fifty;
 	private String name = "PlayerUnknown";
-	private int score, dead = 0;
-	private double lastShot, enemyLast = 0;
+	private int score, dead, compass, up, down = 0;
+	private double lastShot = 0;
 
 	protected double speedModifier = 1;
 	protected PowerUp pow;
@@ -26,6 +27,63 @@ public class Tank extends Sprite {
 		this.y = this.position.y = y;
 		this.good = good;
 		this.name = name;
+
+	}
+
+	public void moveOnline(ArrayList<String> keyPressedList, ArrayList<String> keyJustPressedList,
+			GraphicsContext context, ArrayList<Bullet> laserListT) {
+
+		if (keyPressedList.contains("LEFT"))
+			compass = 1;
+		if (keyPressedList.contains("RIGHT"))
+			compass = (-1);
+		if (keyPressedList.contains("UP")) {
+			up = 1;
+			fifty = 50;
+		} else if (keyPressedList.contains("DOWN")) {
+			down = 1;
+			fifty = -50;
+		} else {
+			up = 0;
+			down = 0;
+			fifty = 0;
+		}
+		context.save();
+		if (keyPressedList.contains("SPACE")) {
+			fire = 1;
+		}
+		if (bulletMsg == 1) {
+			if (elapsedTime - lastShot > 0.75 && this.hp > 0) {
+				Bullet laser = new Bullet("imagesProjectAI/red-circle.png", this);
+				AudioManager.play("shoot");
+
+				laser.position.set(this.position.x, this.position.y);
+				laser.velocity.setLength(200);
+				laser.velocity.setAngle(this.rotation);
+				laserListT.add(laser);
+				lastShot = elapsedTime;
+			}
+			bulletMsg = 0;
+
+		}
+
+	}
+
+	public void enemyFireOnline(GraphicsContext context, ArrayList<Bullet> laserListE) {
+		if (bulletMsg == 1) {
+			if (elapsedTime - lastShot > 0.75 && this.hp > 0) {
+				Bullet laser = new Bullet("imagesProjectAI/red-circle.png", this);
+				AudioManager.play("shoot");
+
+				laser.position.set(this.position.x, this.position.y);
+				laser.velocity.setLength(200);
+				laser.velocity.setAngle(this.rotation);
+				laserListE.add(laser);
+				lastShot = elapsedTime;
+				
+			}
+			bulletMsg = 0;
+		}
 	}
 
 	public void move(ArrayList<String> keyPressedList, ArrayList<String> keyJustPressedList, GraphicsContext context,
@@ -33,13 +91,16 @@ public class Tank extends Sprite {
 
 		if (keyPressedList.contains("LEFT"))
 			// this.getBoundary().rotation -=3;
+
 			rotation -= 3;
 
 		if (keyPressedList.contains("RIGHT"))
 			// this.getBoundary().rotation +=3;
+
 			rotation += 3;
 
 		if (keyPressedList.contains("UP")) {
+
 			velocity.setAngle(rotation);
 			velocity.setLength(50 * speedModifier);
 			fifty = 50;
@@ -60,7 +121,7 @@ public class Tank extends Sprite {
 			context.save();
 			if (elapsedTime - lastShot > 0.75 && this.hp > 0) {
 				Bullet laser = new Bullet("imagesProjectAI/red-circle.png", this);
-				AudioManager.play("shoot","sound");
+				AudioManager.play("shoot");
 
 				laser.position.set(this.position.x, this.position.y);
 				laser.velocity.setLength(200);
@@ -149,7 +210,7 @@ public class Tank extends Sprite {
 			context.save();
 			if (elapsedTime - lastShot > 0.75 && this.hp > 0) {
 				Bullet laser = new Bullet("imagesProjectAI/red-circle.png", this);
-				AudioManager.play("shoot","sound");
+				AudioManager.play("shoot");
 
 				laser.position.set(this.position.x, this.position.y);
 				laser.velocity.setLength(200);
@@ -207,20 +268,6 @@ public class Tank extends Sprite {
 
 	}
 
-	public void enemyFire(Tank enemy, ArrayList<Bullet> laserListE) {
-		if (bulletMsg == 1) {
-			if (elapsedTime - enemyLast > 0.75 && this.hp > 0) {
-				Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
-				laserE.position.set(enemy.position.x, enemy.position.y);
-				laserE.velocity.setLength(200);
-				laserE.velocity.setAngle(enemy.rotation);
-				laserListE.add(laserE);
-				bulletMsg = 0;
-				enemyLast = elapsedTime;
-			}
-		}
-	}
-
 	@Override
 	public boolean collide(Sprite other) {
 		if (this.hp <= 0 || other.hp <= 0) {
@@ -235,9 +282,6 @@ public class Tank extends Sprite {
 				if (b.getParent() != this) {
 					// System.out.println("Tank hit");
 					this.hp -= b.damage;
-					this.score -= b.damage;
-					b.getParent().score += b.damage;
-					//System.out.println(this.score + "This is the tank's score");
 					if (this.hp <= 0) { // tank is dead
 						AudioManager.play("explode");
 					}
@@ -365,6 +409,54 @@ public class Tank extends Sprite {
 
 	public void setRotation(double rotation) {
 		this.rotation = rotation;
+	}
+
+	public int getCompass() {
+		return compass;
+	}
+
+	public void setCompass(int compass) {
+		this.compass = compass;
+	}
+
+	public int getUp() {
+		return up;
+	}
+
+	public void setUp(int up) {
+		this.up = up;
+	}
+
+	public int getDown() {
+		return down;
+	}
+
+	public void setDown(int down) {
+		this.down = down;
+	}
+
+	public double getLastShot() {
+		return lastShot;
+	}
+
+	public void setLastShot(double lastShot) {
+		this.lastShot = lastShot;
+	}
+
+	public double getFire() {
+		return fire;
+	}
+
+	public void setFire(double fire) {
+		this.fire = fire;
+	}
+
+	public Map getMap() {
+		return map;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
 	}
 
 }

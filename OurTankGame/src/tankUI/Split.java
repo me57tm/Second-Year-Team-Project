@@ -82,7 +82,7 @@ public class Split{
 					    ts.start();
 					  }).start();
 					
-					System.out.println("服务器启动成功");
+					System.out.println("Server has been started");
 			        
 			        ServerStart ss = new ServerStart();			        
 			        s1.close();

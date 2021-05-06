@@ -7,22 +7,18 @@ import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
 
 public class ServerStart{
 
 	public ServerStart(){
 		try {
-			
-			Font f = new Font("Segoe Print", 15);
+
 			
 			Image img = new Image("images/tankmenuimg.png");
 			ImageView im = new ImageView();
@@ -33,16 +29,9 @@ public class ServerStart{
 			Button back = new Button("Back");
 			Button host = new Button("Join Game");
 			host.setAlignment(Pos.CENTER);
-			
-			Label t = new Label("After entering the map");
-			Label t1 = new Label(", do not move or shot and wait for other players to enter!");
-			t.setFont(f);
-			t.setTextFill(Paint.valueOf("#fffffb"));
-			t1.setFont(f);
-			t1.setTextFill(Paint.valueOf("#fffffb"));
 
 			VBox vb = new VBox();
-			vb.getChildren().addAll(t,t1,host);
+			vb.getChildren().addAll(host);
 			vb.setAlignment(Pos.CENTER);
 			vb.setSpacing(40);
 

@@ -14,15 +14,16 @@ import physics.Tank;
  */
 public class MovingMsg implements Message {
 	private int msgType = Message.TANK_MOVE_MSG;
-	private int id;
-	private double rotation,fifty,bulletMsg;
+	private int id, compass, up, down;
+	private double fire;
 	private TankClient tc;
 
-	public MovingMsg(int id,double rotation,double fifty,double bulletMsg) {
+	public MovingMsg(int id, int compass, int up, int down, double fire) {
 		this.id = id;
-		this.fifty = fifty;
-		this.rotation = rotation;
-		this.bulletMsg = bulletMsg;
+		this.compass = compass;
+		this.up = up;
+		this.down = down;
+		this.fire = fire;
 	}
 
 	public MovingMsg(TankClient tc) {
@@ -36,9 +37,10 @@ public class MovingMsg implements Message {
 		try {
 			dos.writeInt(msgType);
 			dos.writeInt(id);
-			dos.writeDouble(rotation);			
-			dos.writeDouble(fifty);
-			dos.writeDouble(bulletMsg);
+			dos.writeInt(compass);
+			dos.writeInt(up);
+			dos.writeInt(down);
+			dos.writeDouble(fire);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -55,18 +57,39 @@ public class MovingMsg implements Message {
 	public void parse(DataInputStream dis) {
 		try {
 			int id = dis.readInt();
-			if (id == this.tc.getClientID()) {
-				return;
-			}
-			double rotation = dis.readDouble();
-			double fifty = dis.readDouble();
-			double bulletMessage = dis.readDouble();
+			int compass = dis.readInt();
+			int up = dis.readInt();
+			int down = dis.readInt();
+			double fire = dis.readDouble();
 			for (Tank t : tc.getTanks()) {
 				if (t.getId() == id) {
-					t.setRotation(rotation);
-					t.velocity.setAngle(rotation);
-					t.velocity.setLength(fifty * t.getSpeedModifier());
-					t.setBulletMsg(bulletMessage);
+					if (compass == 1) {
+						t.setRotation((t.getRotation() - 3));
+						t.setCompass(0);
+					}
+					if (compass == -1) {
+						t.setRotation((t.getRotation() + 3));
+						t.setCompass(0);
+					}
+					if (up == 1) {
+						t.velocity.setAngle(t.getRotation());
+						t.velocity.setLength(20 * t.getSpeedModifier());
+						t.setUp(0);
+					}
+					if (down == 1) {
+						t.velocity.setAngle(t.getRotation());
+						t.velocity.setLength(-20 * t.getSpeedModifier());
+						t.setDown(0);
+					}
+					if (up == 0 && down ==0 ) {
+						t.velocity.setLength(0);
+					}
+					if(fire == 1) {
+						t.setBulletMsg(1);
+						t.setFire(0);
+					}
+					t.update(1 / 60.0, t.getMap());
+
 					break;
 				}
 			}

@@ -14,7 +14,7 @@ public class NetClient {
 	private TankClient tc;
 	private int UDP_PORT;// 客户端的UDP端口号
 	private String serverIP;// 服务器IP地址
-	private int serverUDPPort,TANK_DEAD_UDP_PORT;// 服务器转发客户但UDP包的UDP端口       服务器监听坦克死亡的UDP端口
+	private int serverUDPPort, TANK_DEAD_UDP_PORT;// 服务器转发客户但UDP包的UDP端口 服务器监听坦克死亡的UDP端口
 	private DatagramSocket ds = null;// 客户端的UDP套接字
 
 	public void setUDP_PORT(int UDP_PORT) {
@@ -109,10 +109,7 @@ public class NetClient {
 			}
 			Message msg = null;
 			switch (msgType) {// 根据消息的类型调用对应消息的解析方法
-//			case Message.TANK_NEW_MSG:
-//				msg = new NewTankMsg(tc);
-//				msg.parse(dis);
-//				break;
+
 			case Message.TANK_MOVE_MSG:
 				msg = new MovingMsg(tc);
 				msg.parse(dis);
@@ -121,26 +118,11 @@ public class NetClient {
 				msg = new tankNameMsg(tc);
 				msg.parse(dis);
 				break;
-			case Message.TANK_NEW_MSG:
-				msg = new tankNameMsg(tc);
+			case Message.DEAD_MSG:
+				msg = new tankDeadMsg(tc);
 				msg.parse(dis);
 				break;
-                case Message.DEAD_MSG:
-                    msg = new tankDeadMsg(tc);
-                    msg.parse(dis);
-                    break;
-//                case Message.MISSILE_DEAD_MSG:
-//                    msg = new MissileDeadMsg(tc);
-//                    msg.parse(dis);
-//                    break;
-//			case Message.TANK_ALREADY_EXIST_MSG:
-//				msg = new ExistMsg(tc);
-//				msg.parse(dis);
-//				break;
-//                case Message.TANK_REDUCE_BLOOD_MSG:
-//                    msg = new TankReduceBloodMsg(tc);
-//                    msg.parse(dis);
-//                    break;
+
 			}
 		}
 	}

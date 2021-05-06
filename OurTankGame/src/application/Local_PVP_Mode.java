@@ -1,9 +1,7 @@
 package application;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
-
 import audio.AudioManager;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
@@ -23,8 +21,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -42,25 +38,6 @@ import tankUI.TankMenu;
 
 public class Local_PVP_Mode {
 	private final Stage stage = new Stage();
-
-	static int randomN() {
-
-		Random random = new Random();
-		int n = random.nextInt(10);
-
-		if (n == 1 || n == 3 || n == 5 || n == 7 || n == 9) {
-
-			String str = "-" + random.nextInt(45);
-			int a = Integer.parseInt(str);
-			return a;
-
-		} else {
-			int a = random.nextInt(45);
-			return a;
-
-		}
-	}
-
 	public Local_PVP_Mode() {
 
 		final int TOTALGAMETIME = 100; 
@@ -307,10 +284,7 @@ public class Local_PVP_Mode {
 		dropshadow.setSpread(0.1);
 		dropshadow.setColor(Color.BLACK);
 
-//		URL url = this.getClass().getClassLoader().getResource("application/music.mp3");
-//
-//		Media media = new Media(url.toExternalForm());
-//		MediaPlayer mp = new MediaPlayer(media);
+
 
 		try {
 
@@ -539,7 +513,7 @@ public class Local_PVP_Mode {
 
 						laser.update(FRAMERATE, map);
 
-						enemy.collide(laser); // TODO: this is a marker that I edited this one
+						enemy.collide(laser);
 
 						for (PowerUp powerup : powerups) {
 							powerup.collide(laser);

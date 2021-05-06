@@ -13,6 +13,16 @@ public class Sprite
 	public int hp;
 	public double elapsedTime; //seconds
 	public Map map;
+	public double getElapsedTime() {
+		return elapsedTime;
+	}
+
+	public void setElapsedTime(double elapsedTime) {
+		this.elapsedTime = elapsedTime;
+	}
+	
+
+
 
 	public Sprite()
 	{
@@ -76,6 +86,19 @@ public class Sprite
 	}
 
 	public void update(double deltaTime,Map map)
+	{
+		this.boundary.setPosition(this.position.x - this.image.getWidth()/2, this.position.y - this.image.getHeight()/2);
+		// increase elapsed time for this sprite
+		this.elapsedTime += deltaTime;
+		// update position according to velocity
+		if (!collideMapFuture(map,deltaTime)) {
+			this.position.add(this.velocity.x * deltaTime, this.velocity.y * deltaTime);
+		}
+		// wrap around screen
+		this.limitFrame((map.MAP_WIDTH_IN_TILES-1)*map.TILE_WIDTH,(map.MAP_HEIGHT_IN_TILES-1)*map.TILE_HEIGHT);
+	}
+	
+	public void updateOnline(double deltaTime)
 	{
 		this.boundary.setPosition(this.position.x - this.image.getWidth()/2, this.position.y - this.image.getHeight()/2);
 		// increase elapsed time for this sprite
@@ -236,6 +259,9 @@ public class Sprite
 	//for debugging
 	public void say() {
 		System.out.println("I am a sprite");
+	}
+	public Map getMap() {
+		return map;
 	}
 	public void setMap(Map map) {
 		this.map = map;

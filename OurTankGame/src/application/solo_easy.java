@@ -1,9 +1,8 @@
 package application;
 
-import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Random;
-
 import audio.AudioManager;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
@@ -26,8 +25,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -294,6 +291,7 @@ public class solo_easy {
 		map.addLayer(l2);
 
 		Tank tank = new Tank("grimfandango-art/tank64.png",160d,160d);
+		Tank enemy = new Tank("grimfandango-art/tank-red.png",992,608);
 
 		ArrayList<PowerUp> toRemove = new ArrayList<>();
 		ArrayList<PowerUp> powerups = new ArrayList<>();
@@ -304,7 +302,7 @@ public class solo_easy {
 		PowerUp battery = new PowerUp("Energy",96, 672);
 		powerups.add(battery);
 
-		Tank enemy = new Tank("grimfandango-art/tank-red.png",992,608);
+		
 
 		DropShadow dropshadow = new DropShadow();
 		dropshadow.setRadius(10);
@@ -632,7 +630,7 @@ public class solo_easy {
 						
 						laser.update(FRAMERATE,map);
 
-						enemy.collide(laser); // TODO: this is a marker that I edited this one
+						enemy.collide(laser); 
 
 						for(PowerUp powerup : powerups) {
 							powerup.collide(laser);

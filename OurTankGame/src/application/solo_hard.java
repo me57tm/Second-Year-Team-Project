@@ -3,7 +3,6 @@ package application;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
-
 import audio.AudioManager;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
@@ -26,8 +25,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -316,6 +313,7 @@ public class solo_hard {
 		dropshadow.setSpread(0.1);
 		dropshadow.setColor(Color.BLACK);
 
+		@SuppressWarnings("unused")
 		URL url = this.getClass().getClassLoader().getResource("application/music.mp3");
 
 		

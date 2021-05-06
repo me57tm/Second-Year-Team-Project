@@ -2,7 +2,6 @@ package client;
 
 import java.util.ArrayList;
 import java.util.List;
-import application.N_Mode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -157,7 +156,8 @@ public class TankClient {
 					nc.send(nameMsg);
 					
 					s1.close();
-					N_Mode nomode = new N_Mode(tanks, id, nc);
+					waiting_Room waitingRoom = new waiting_Room(tanks, id, nc);
+
 				} else {
 					String s1 = "Please enter a name less than 9 characters.";
 					Auto_window a1 = new Auto_window(2200, s1, new String("tips"), false);
