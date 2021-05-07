@@ -95,12 +95,10 @@ public class Tank extends Sprite {
 
 		if (keyPressedList.contains("LEFT"))
 			// this.getBoundary().rotation -=3;
-
 			rotation -= 3;
 
 		if (keyPressedList.contains("RIGHT"))
 			// this.getBoundary().rotation +=3;
-
 			rotation += 3;
 
 		if (keyPressedList.contains("UP")) {
