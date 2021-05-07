@@ -360,6 +360,7 @@ public class solo_easy {
 
 				@Override
 				public void handle(ActionEvent arg0) {
+					System.exit(0);
 					stage.close();
 				}
 			});

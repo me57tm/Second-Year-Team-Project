@@ -346,6 +346,7 @@ public class N_Mode {
 
 				@Override
 				public void handle(ActionEvent arg0) {
+					System.exit(0);
 					stage.close();
 				}
 			});
