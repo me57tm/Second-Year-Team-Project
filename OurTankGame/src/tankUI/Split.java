@@ -1,10 +1,11 @@
 package tankUI;
-	
+
 import client.TankClient;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import server.TankServer;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,32 +19,32 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
-public class Split{
+public class Split {
 
-	public Split(){
+	public Split() {
 		try {
-			
+
 			Font f = new Font("Segoe Print", 15);
-			
+
 			Image img = new Image("images/tankmenuimg.png");
 			ImageView im = new ImageView();
 			im.setImage(img);
 			BackgroundImage bgi = new BackgroundImage(img, null, null, null, null);
 			Background bg = new Background(bgi);
-			
+
 			Button back = new Button("Back");
 			Button host = new Button("As Host");
 			Button guest = new Button("As Guest");
 			host.setAlignment(Pos.CENTER);
 			guest.setAlignment(Pos.CENTER);
-			
+
 			Label t = new Label("Jion game as a host or guest");
 			t.setFont(f);
 			t.setTextFill(Paint.valueOf("#fffffb"));
-			//BUG，label is under the background
+			// BUG，label is under the background
 
 			VBox vb = new VBox();
-			vb.getChildren().addAll(t,host,guest);
+			vb.getChildren().addAll(t, host, guest);
 			vb.setAlignment(Pos.CENTER);
 			vb.setSpacing(40);
 
@@ -51,8 +52,8 @@ public class Split{
 			root.setBottom(vb);
 			root.setBackground(bg);
 			root.setRight(back);
-			
-			Stage s1 =new Stage();
+
+			Stage s1 = new Stage();
 			Scene scene = new Scene(root);
 			s1.setWidth(500);
 			s1.setHeight(575);
@@ -60,7 +61,7 @@ public class Split{
 			s1.setScene(scene);
 			s1.setTitle("As a host or guest");
 			s1.show();
-			
+
 			back.setOnAction(new EventHandler<ActionEvent>() {
 
 				@SuppressWarnings("unused")
@@ -70,27 +71,25 @@ public class Split{
 					s1.close();
 				}
 			});
-				
+
 			host.setOnAction(new EventHandler<ActionEvent>() {
 
 				@SuppressWarnings("unused")
 				@Override
 				public void handle(ActionEvent arg0) {
-					
-					new Thread(() -> { 
-					    TankServer ts = new TankServer();
-					    ts.start();
-					  }).start();
-					
+
+					new Thread(() -> {
+						TankServer ts = new TankServer();
+						ts.start();
+					}).start();
 					System.out.println("Server has been started");
-			        
-			        ServerStart ss = new ServerStart();			        
-			        s1.close();
-			        
-					
+
+					ServerStart ss = new ServerStart();
+					s1.close();
+
 				}
 			});
-			
+
 			guest.setOnAction(new EventHandler<ActionEvent>() {
 
 				@SuppressWarnings("unused")
@@ -100,10 +99,18 @@ public class Split{
 					s1.close();
 				}
 			});
-			
-		} catch(Exception e) {
+			s1.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+				@Override
+				public void handle(WindowEvent arg0) {
+					System.exit(0);
+					s1.close();
+				}
+			});
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

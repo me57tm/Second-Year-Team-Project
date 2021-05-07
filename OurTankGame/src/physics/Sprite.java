@@ -98,18 +98,6 @@ public class Sprite
 		this.limitFrame((map.MAP_WIDTH_IN_TILES-1)*map.TILE_WIDTH,(map.MAP_HEIGHT_IN_TILES-1)*map.TILE_HEIGHT);
 	}
 	
-	public void updateOnline(double deltaTime)
-	{
-		this.boundary.setPosition(this.position.x - this.image.getWidth()/2, this.position.y - this.image.getHeight()/2);
-		// increase elapsed time for this sprite
-		this.elapsedTime += deltaTime;
-		// update position according to velocity
-		if (!collideMapFuture(map,deltaTime)) {
-			this.position.add(this.velocity.x * deltaTime, this.velocity.y * deltaTime);
-		}
-		// wrap around screen
-		this.limitFrame((map.MAP_WIDTH_IN_TILES-1)*map.TILE_WIDTH,(map.MAP_HEIGHT_IN_TILES-1)*map.TILE_HEIGHT);
-	}
 
 	public boolean isShot(Sprite bullet) {
 		if(this.overlaps(bullet)) {

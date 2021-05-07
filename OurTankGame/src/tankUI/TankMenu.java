@@ -1,5 +1,6 @@
 package tankUI;
 
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class TankMenu {
 	
@@ -79,6 +81,14 @@ public class TankMenu {
 		b4.setOnAction(e -> {
 			s1.close();
 			System.exit(0);
+		});
+		s1.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent arg0) {
+				System.exit(0);
+				s1.close();
+			}
 		});
 		
 		Group g1 = new Group();

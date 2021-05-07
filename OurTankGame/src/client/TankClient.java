@@ -26,6 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import physics.Tank;
 import tankUI.Auto_window;
 import tankUI.Split;
@@ -124,6 +125,14 @@ public class TankClient {
 				s1.close();
 			}
 		});
+		s1.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent arg0) {
+				System.exit(0);
+				s1.close();
+			}
+		});
 
 		login.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -190,9 +199,6 @@ public class TankClient {
 		this.nc = nc;
 	}
 
-//	public void giveID(int id) {
-//		this.id = id;
-//	}
 	public int myID() {
 		return id;
 	}

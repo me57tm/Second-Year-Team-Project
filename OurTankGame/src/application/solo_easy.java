@@ -31,6 +31,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import physics.Bullet;
 import physics.Layer;
 import physics.Map;
@@ -362,7 +363,7 @@ public class solo_easy {
 					stage.close();
 				}
 			});
-
+       
 			MenuItem volume = new MenuItem("Music off");
 			MenuItem volume1 = new MenuItem("Music on");
 			Audio.getItems().addAll(volume, volume1);
@@ -510,6 +511,14 @@ public class solo_easy {
 						muteButton.setImage("file:src/grimfandango-art/musicnoteoff.png");
 						AudioManager.mute();
 					}
+				}
+			});
+			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+				@Override
+				public void handle(WindowEvent arg0) {
+					System.exit(0);
+					stage.close();
 				}
 			});
 

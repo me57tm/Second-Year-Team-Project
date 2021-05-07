@@ -5,7 +5,9 @@ import javafx.stage.Stage;
 import tankUI.TankMenu;
 
 public class Main extends Application
-
+/**
+ * Entrance to the entire program
+ */
 {
 	public static void main(String[] args)
 	{

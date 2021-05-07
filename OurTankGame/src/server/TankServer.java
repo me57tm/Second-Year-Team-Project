@@ -10,15 +10,16 @@ import java.util.List;
 
 
 /**
- * 服务器端
+ * Service-Terminal.
+ * Create a network link to the server for PVP mode
  */
 
 public class TankServer {
 
-	public static int ID = 100;// id号的初始序列
-	public static final int tcpPort = 55555;// TCP端口号
-	public static final int udpPort = 55556;// 转发客户端数据的UDP端口号
-	private List<Client> clients = new ArrayList<>();// 客户端集合
+	public static int ID = 100;// TankClient ID and tank ID
+	public static final int tcpPort = 55555;// TCP port number
+	public static final int udpPort = 55556;// UDP port number for forwarding client data
+	private List<Client> clients = new ArrayList<>();// Client collection
 
 	public static void main(String[] args) {
 		TankServer ts = new TankServer();
@@ -31,8 +32,7 @@ public class TankServer {
 		new Thread(new OurUDPThread()).start();
 		ServerSocket ss = null;
 		try {
-			ss = new ServerSocket(tcpPort);// 在TCP欢迎套接字上监听客户端连接
-			// System.out.println("TankServer has started...");
+			ss = new ServerSocket(tcpPort);// Listen for client connections on TCP sockets
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -40,18 +40,18 @@ public class TankServer {
 		while (true) {
 			Socket s = null;
 			try {
-				s = ss.accept();// 给客户但分配专属TCP套接字
+				s = ss.accept();// Assign dedicated TCP sockets to customers
 
 				// System.out.println("A client has connected...");
 				DataInputStream dis = new DataInputStream(s.getInputStream());
-				int UDP_PORT = dis.readInt();// 记录客户端UDP端口
-				Client client = new Client(s.getInetAddress().getHostAddress(), UDP_PORT, ID);// 创建Client对象
-				clients.add(client);// 添加进客户端容器
+				int UDP_PORT = dis.readInt();// Record the client UDP port
+				Client client = new Client(s.getInetAddress().getHostAddress(), UDP_PORT, ID);
+				clients.add(client);// Add to client container
 
 				System.out.println("id : " + client.id + " - IP : " + client.IP);
 				DataOutputStream dos = new DataOutputStream(s.getOutputStream());
-				dos.writeInt(ID++);// 向客户端分配id号
-				dos.writeInt(TankServer.udpPort);// 告诉客户端自己的UDP端口号
+				dos.writeInt(ID++);// Assign an id number to the client
+				dos.writeInt(TankServer.udpPort);// Tell the client server's own UDP port number
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {

@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class StartGame {
 	@SuppressWarnings("unused")
@@ -88,6 +89,14 @@ public class StartGame {
 		b4.setOnAction(e -> {
 			TankMenu m1 = new TankMenu();
 			s1.close();
+		});
+		s1.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent arg0) {
+				System.exit(0);
+				s1.close();
+			}
 		});
 		
 		Group g1 = new Group();

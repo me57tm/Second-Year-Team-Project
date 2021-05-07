@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -72,7 +73,15 @@ public class ServerStart{
 			        TankClient tc = new TankClient();
 			        s1.close();
 				}
-			});			
+			});	
+			s1.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+				@Override
+				public void handle(WindowEvent arg0) {
+					System.exit(0);
+					s1.close();
+				}
+			});
 			
 		} catch(Exception e) {
 			e.printStackTrace();

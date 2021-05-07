@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class Singleplayer {
 	@SuppressWarnings("unused")
@@ -103,6 +104,14 @@ public class Singleplayer {
 	b4.setOnAction(e -> {
 		StartGame S1 = new StartGame();
 		s1.close();
+	});
+	s1.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+		@Override
+		public void handle(WindowEvent arg0) {
+			System.exit(0);
+			s1.close();
+		}
 	});
 	
 	Group g1 = new Group();

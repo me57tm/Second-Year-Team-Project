@@ -1,9 +1,13 @@
 package physics;
 
 import java.util.ArrayList;
-
 import audio.AudioManager;
 import javafx.scene.canvas.GraphicsContext;
+
+/**
+ *Create the tank object in the map, the tank object is an inherited class of the sprite object.
+ */
+
 
 public class Tank extends Sprite {
 	private int id;
