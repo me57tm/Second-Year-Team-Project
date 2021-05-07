@@ -22,7 +22,7 @@ public class Audio {
 		Image img  = new Image("images/tankmenuimg.png");
 		ImageView imgV = new ImageView(img);
 		
-		AudioManager.play("testMusic", "music");
+		AudioManager.play("music", "music");
 		
 		Label set1 = new Label("");
 		set1.setLayoutX(0);

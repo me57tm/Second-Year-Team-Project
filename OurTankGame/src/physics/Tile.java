@@ -17,16 +17,10 @@ public class Tile
 	
 	public Tile(String filename, boolean passability) {
 		passable=passability;
-		source = filename;
-		try
-		{
-			image = new Image(new FileInputStream(source));
-		}
-		catch (FileNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		source =filename;//.replaceAll("grimfandango-", "");
+		System.out.println(source);
+		//image = new Image(this.getClass().getResource(source).toExternalForm());
+		image = new Image(source);
 	}
 	
 	public Tile(int xCoord, int yCoord) {

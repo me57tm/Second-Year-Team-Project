@@ -71,7 +71,7 @@ public class solo_easy {
 		Map map = new Map();
 
 		Layer l1 = new Layer("background",map.MAP_WIDTH_IN_TILES,map.MAP_HEIGHT_IN_TILES);
-		Tile bg = new Tile("src/grimfandango-art/texture-bg.png",true);
+		Tile bg = new Tile("art/texture-bg.png",true);
 		
 		
 		//the background tile is added to every cell of the layer, so we iterate while adding it
@@ -83,31 +83,31 @@ public class solo_easy {
 		
 		Layer l2 = new Layer("walls",map.MAP_WIDTH_IN_TILES,map.MAP_HEIGHT_IN_TILES);
 		
-		Tile areaWallUpperLeft = new Tile("src/grimfandango-art/areawall-upper-left.png",false);
-		Tile areaWallUpperMid = new Tile("src/grimfandango-art/areawall-upper-mid.png",false);
-		Tile areaWallUpperRight = new Tile("src/grimfandango-art/areawall-upper-right.png",false);
-		Tile areaWallMidLeft = new Tile("src/grimfandango-art/areawall-mid-left.png",false);
-		Tile areaWallMidRight = new Tile("src/grimfandango-art/areawall-mid-right.png",false);
-		Tile areaWallLowLeft = new Tile("src/grimfandango-art/areawall-lower-left.png",false);
-		Tile areaWallLowMid = new Tile("src/grimfandango-art/areawall-lower-mid.png",false);
-		Tile areaWallLowRight = new Tile("src/grimfandango-art/areawall-lower-right.png",false);
+		Tile areaWallUpperLeft = new Tile("art/areawall-upper-left.png",false);
+		Tile areaWallUpperMid = new Tile("art/areawall-upper-mid.png",false);
+		Tile areaWallUpperRight = new Tile("art/areawall-upper-right.png",false);
+		Tile areaWallMidLeft = new Tile("art/areawall-mid-left.png",false);
+		Tile areaWallMidRight = new Tile("art/areawall-mid-right.png",false);
+		Tile areaWallLowLeft = new Tile("art/areawall-lower-left.png",false);
+		Tile areaWallLowMid = new Tile("art/areawall-lower-mid.png",false);
+		Tile areaWallLowRight = new Tile("art/areawall-lower-right.png",false);
 		
-		Tile wallLeft = new Tile("src/grimfandango-art/gamewall-left.png",false);
-		Tile wallMid = new Tile("src/grimfandango-art/gamewall-mid.png",false);
-		Tile wallRight = new Tile("src/grimfandango-art/gamewall-right.png",false);
-		Tile wallUp = new Tile("src/grimfandango-art/gamewall-up.png",false);
-		Tile wallDown = new Tile("src/grimfandango-art/gamewall-down.png",false);
-		Tile wallVertMid = new Tile("src/grimfandango-art/gamewall-vertmid.png",false);
+		Tile wallLeft = new Tile("art/gamewall-left.png",false);
+		Tile wallMid = new Tile("art/gamewall-mid.png",false);
+		Tile wallRight = new Tile("art/gamewall-right.png",false);
+		Tile wallUp = new Tile("art/gamewall-up.png",false);
+		Tile wallDown = new Tile("art/gamewall-down.png",false);
+		Tile wallVertMid = new Tile("art/gamewall-vertmid.png",false);
 		
-		Tile leavesUpperLeft = new Tile("src/grimfandango-art/leaves-upper-left.png",true);
-		Tile leavesUpperMid = new Tile("src/grimfandango-art/leaves-upper-mid.png",true);
-		Tile leavesUpperRight = new Tile("src/grimfandango-art/leaves-upper-right.png",true);
-		Tile leavesMidLeft = new Tile("src/grimfandango-art/leaves-mid-left.png",true);
-		Tile leavesMid = new Tile("src/grimfandango-art/leaves-mid.png",true);
-		Tile leavesMidRight = new Tile("src/grimfandango-art/leaves-mid-right.png",true);
-		Tile leavesLowLeft = new Tile("src/grimfandango-art/leaves-low-left.png",true);
-		Tile leavesLowMid = new Tile("src/grimfandango-art/leaves-low-mid.png",true);
-		Tile leavesLowRight = new Tile("src/grimfandango-art/leaves-low-right.png",true);
+		Tile leavesUpperLeft = new Tile("art/leaves-upper-left.png",true);
+		Tile leavesUpperMid = new Tile("art/leaves-upper-mid.png",true);
+		Tile leavesUpperRight = new Tile("art/leaves-upper-right.png",true);
+		Tile leavesMidLeft = new Tile("art/leaves-mid-left.png",true);
+		Tile leavesMid = new Tile("art/leaves-mid.png",true);
+		Tile leavesMidRight = new Tile("art/leaves-mid-right.png",true);
+		Tile leavesLowLeft = new Tile("art/leaves-low-left.png",true);
+		Tile leavesLowMid = new Tile("art/leaves-low-mid.png",true);
+		Tile leavesLowRight = new Tile("art/leaves-low-right.png",true);
 		
 		
 		
@@ -292,8 +292,8 @@ public class solo_easy {
 		map.addLayer(l1);
 		map.addLayer(l2);
 
-		Tank tank = new Tank("grimfandango-art/tank64.png",160d,160d);
-		Tank enemy = new Tank("grimfandango-art/tank-red.png",992,608);
+		Tank tank = new Tank("art/tank64.png",160d,160d);
+		Tank enemy = new Tank("art/tank-red.png",992,608);
 
 		ArrayList<PowerUp> toRemove = new ArrayList<>();
 		ArrayList<PowerUp> powerups = new ArrayList<>();
@@ -419,7 +419,7 @@ public class solo_easy {
 			rootControls.setAlignment(Pos.BASELINE_CENTER);
 			
 			// Choose your keyboard preferences
-			Image img = new Image("grimfandango-art/wasd.png");
+			Image img = new Image("art/wasd.png");
 			ImageView view = new ImageView(img);
 			Button wasdButton = new Button();
 			wasdButton.setPrefSize(250, 40);
@@ -428,7 +428,7 @@ public class solo_easy {
 			//wasdButton.setTranslateY(25);
 			wasdButton.setPrefSize(80, 80);
 			
-			Image imgArrows = new Image("grimfandango-art/arrows.png");
+			Image imgArrows = new Image("art/arrows.png");
 			ImageView viewArrows = new ImageView(imgArrows);
 			Button arrowsButton = new Button();
 			arrowsButton.setPrefSize(100, 40);
@@ -496,20 +496,20 @@ public class solo_easy {
 			});
 			Sprite muteButton;
 			if (AudioManager.isMute()) {
-				muteButton = new Sprite("file:src/grimfandango-art/musicnoteoff.png",1100,50);
+				muteButton = new Sprite("art/musicnoteoff.png",1100,50);
 			}
 			else {
-				muteButton = new Sprite("file:src/grimfandango-art/musicnote.png",1100,50);
+				muteButton = new Sprite("art/musicnote.png",1100,50);
 			}
 			scene.setOnMouseClicked((MouseEvent event) -> {
 				if (event.getX() > 1080 && event.getX() < 1110 && event.getY() > 59 && event.getY() < 95) {
 					System.out.println(event.getY());
 					if (AudioManager.isMute()){
-						muteButton.setImage("file:src/grimfandango-art/musicnote.png");
+						muteButton.setImage("art/musicnote.png");
 						AudioManager.unmute();
 					}
 					else {
-						muteButton.setImage("file:src/grimfandango-art/musicnoteoff.png");
+						muteButton.setImage("art/musicnoteoff.png");
 						AudioManager.mute();
 					}
 				}
@@ -748,24 +748,24 @@ public class solo_easy {
 					
 					//Gameover Logic
 					if (tank.hp <= 0) {
-						Sprite youLose = new Sprite("grimfandango-art/YouLose.png",576, 400);
+						Sprite youLose = new Sprite("art/YouLose.png",576, 400);
 						gameOver(youLose,context);
 						this.stop();
 					}
 					if (enemy.hp <= 0) {
 						
-						Sprite youWin = new Sprite("grimfandango-art/YouWin.png",576, 400);
+						Sprite youWin = new Sprite("art/YouWin.png",576, 400);
 						gameOver(youWin,context);
 						this.stop();
 					}
 					if(elapsedGameTime > TOTALGAMETIME) {
 						if(tank.getScore() > enemy.getScore()) {
-							Sprite youWin = new Sprite("grimfandango-art/YouWin.png",576, 400);
+							Sprite youWin = new Sprite("art/YouWin.png",576, 400);
 							gameOver(youWin,context);
 							this.stop();
 						}
 						else {
-							Sprite youLose = new Sprite("grimfandango-art/YouLose.png",576, 400);
+							Sprite youLose = new Sprite("art/YouLose.png",576, 400);
 							gameOver(youLose,context);
 							this.stop();
 						}

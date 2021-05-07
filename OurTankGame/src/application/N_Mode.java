@@ -51,7 +51,7 @@ public class N_Mode {
 		Map map = new Map();
 
 		Layer l1 = new Layer("background", map.MAP_WIDTH_IN_TILES, map.MAP_HEIGHT_IN_TILES);
-		Tile bg = new Tile("src/grimfandango-art/texture-bg.png", true);
+		Tile bg = new Tile("art/texture-bg.png", true);
 
 		// the background tile is added to every cell of the layer, so we iterate while
 		// adding it
@@ -63,31 +63,31 @@ public class N_Mode {
 
 		Layer l2 = new Layer("walls", map.MAP_WIDTH_IN_TILES, map.MAP_HEIGHT_IN_TILES);
 
-		Tile areaWallUpperLeft = new Tile("src/grimfandango-art/areawall-upper-left.png", false);
-		Tile areaWallUpperMid = new Tile("src/grimfandango-art/areawall-upper-mid.png", false);
-		Tile areaWallUpperRight = new Tile("src/grimfandango-art/areawall-upper-right.png", false);
-		Tile areaWallMidLeft = new Tile("src/grimfandango-art/areawall-mid-left.png", false);
-		Tile areaWallMidRight = new Tile("src/grimfandango-art/areawall-mid-right.png", false);
-		Tile areaWallLowLeft = new Tile("src/grimfandango-art/areawall-lower-left.png", false);
-		Tile areaWallLowMid = new Tile("src/grimfandango-art/areawall-lower-mid.png", false);
-		Tile areaWallLowRight = new Tile("src/grimfandango-art/areawall-lower-right.png", false);
+		Tile areaWallUpperLeft = new Tile("art/areawall-upper-left.png", false);
+		Tile areaWallUpperMid = new Tile("art/areawall-upper-mid.png", false);
+		Tile areaWallUpperRight = new Tile("art/areawall-upper-right.png", false);
+		Tile areaWallMidLeft = new Tile("art/areawall-mid-left.png", false);
+		Tile areaWallMidRight = new Tile("art/areawall-mid-right.png", false);
+		Tile areaWallLowLeft = new Tile("art/areawall-lower-left.png", false);
+		Tile areaWallLowMid = new Tile("art/areawall-lower-mid.png", false);
+		Tile areaWallLowRight = new Tile("art/areawall-lower-right.png", false);
 
-		Tile wallLeft = new Tile("src/grimfandango-art/gamewall-left.png", false);
-		Tile wallMid = new Tile("src/grimfandango-art/gamewall-mid.png", false);
-		Tile wallRight = new Tile("src/grimfandango-art/gamewall-right.png", false);
-		Tile wallUp = new Tile("src/grimfandango-art/gamewall-up.png", false);
-		Tile wallDown = new Tile("src/grimfandango-art/gamewall-down.png", false);
-		Tile wallVertMid = new Tile("src/grimfandango-art/gamewall-vertmid.png", false);
+		Tile wallLeft = new Tile("art/gamewall-left.png", false);
+		Tile wallMid = new Tile("art/gamewall-mid.png", false);
+		Tile wallRight = new Tile("art/gamewall-right.png", false);
+		Tile wallUp = new Tile("art/gamewall-up.png", false);
+		Tile wallDown = new Tile("art/gamewall-down.png", false);
+		Tile wallVertMid = new Tile("art/gamewall-vertmid.png", false);
 
-		Tile leavesUpperLeft = new Tile("src/grimfandango-art/leaves-upper-left.png", true);
-		Tile leavesUpperMid = new Tile("src/grimfandango-art/leaves-upper-mid.png", true);
-		Tile leavesUpperRight = new Tile("src/grimfandango-art/leaves-upper-right.png", true);
-		Tile leavesMidLeft = new Tile("src/grimfandango-art/leaves-mid-left.png", true);
-		Tile leavesMid = new Tile("src/grimfandango-art/leaves-mid.png", true);
-		Tile leavesMidRight = new Tile("src/grimfandango-art/leaves-mid-right.png", true);
-		Tile leavesLowLeft = new Tile("src/grimfandango-art/leaves-low-left.png", true);
-		Tile leavesLowMid = new Tile("src/grimfandango-art/leaves-low-mid.png", true);
-		Tile leavesLowRight = new Tile("src/grimfandango-art/leaves-low-right.png", true);
+		Tile leavesUpperLeft = new Tile("art/leaves-upper-left.png", true);
+		Tile leavesUpperMid = new Tile("art/leaves-upper-mid.png", true);
+		Tile leavesUpperRight = new Tile("art/leaves-upper-right.png", true);
+		Tile leavesMidLeft = new Tile("art/leaves-mid-left.png", true);
+		Tile leavesMid = new Tile("art/leaves-mid.png", true);
+		Tile leavesMidRight = new Tile("art/leaves-mid-right.png", true);
+		Tile leavesLowLeft = new Tile("art/leaves-low-left.png", true);
+		Tile leavesLowMid = new Tile("art/leaves-low-mid.png", true);
+		Tile leavesLowRight = new Tile("art/leaves-low-right.png", true);
 
 		// adding the wall tiles according to their positioning on the drawn map (this
 		// is hardcoded)
@@ -441,20 +441,20 @@ public class N_Mode {
 			
 			Sprite muteButton;
 			if (AudioManager.isMute()) {
-				muteButton = new Sprite("file:src/grimfandango-art/musicnoteoff.png",1100,50);
+				muteButton = new Sprite("art/musicnoteoff.png",1100,50);
 			}
 			else {
-				muteButton = new Sprite("file:src/grimfandango-art/musicnote.png",1100,50);
+				muteButton = new Sprite("art/musicnote.png",1100,50);
 			}
 			scene.setOnMouseClicked((MouseEvent event) -> {
 				if (event.getX() > 1080 && event.getX() < 1110 && event.getY() > 59 && event.getY() < 95) {
 					System.out.println(event.getY());
 					if (AudioManager.isMute()){
-						muteButton.setImage("file:src/grimfandango-art/musicnote.png");
+						muteButton.setImage("art/musicnote.png");
 						AudioManager.unmute();
 					}
 					else {
-						muteButton.setImage("file:src/grimfandango-art/musicnoteoff.png");
+						muteButton.setImage("art/musicnoteoff.png");
 						AudioManager.mute();
 					}
 				}
@@ -564,6 +564,7 @@ public class N_Mode {
 					for (Sprite laser : laserListE) {
 						laser.render(context);
 					}
+					muteButton.render(context);
 
 					// Generate new powerups
 //					if (powerups.isEmpty()) {

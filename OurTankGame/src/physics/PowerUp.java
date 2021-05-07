@@ -11,14 +11,14 @@ public class PowerUp extends Sprite {
 		super();
 		switch(type) {
 		case "Speed":
-			setImage("grimfandango-art/powerup.png");
+			setImage("art/powerup.png");
 			break;
 		case "Score":
 			this.expiryTime = 10f;
-			setImage("grimfandango-art/coin-export1.png");
+			setImage("art/coin-export1.png");
 			break;
 		case "Energy":
-			setImage("grimfandango-art/energy-export1.png");
+			setImage("art/energy-export1.png");
 		}
 		this.type=type;
 		this.position.x = x;
