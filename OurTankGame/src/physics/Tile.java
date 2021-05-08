@@ -1,8 +1,4 @@
 package physics;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import javafx.scene.image.Image;
 
 public class Tile

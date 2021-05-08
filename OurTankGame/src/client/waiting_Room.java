@@ -74,10 +74,13 @@ public class waiting_Room {
 					for (int j = 0; j < newTanks.size(); j++) {
 //						System.out.println(newTanks.get(j).getId()+":     " + newTanks.get(j).getName());
 						if ((newTanks.get(j).getId() % 2) != 0 && !newTanks.get(j).getName().equals("PlayerUnknown")) {
-							@SuppressWarnings("unused")
-							N_Mode nomode = new N_Mode(newTanks, id, nc);
-							s1.close();
+							
 							this.stop();
+							s1.close();
+							System.gc();
+							@SuppressWarnings("unused")
+							N_Mode nomode = new N_Mode(newTanks, id, nc);							
+							
 						}
 					}
 

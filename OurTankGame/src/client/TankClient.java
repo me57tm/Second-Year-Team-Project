@@ -143,10 +143,10 @@ public class TankClient {
 
 				int len = name.length();
 
-				if (name.equals("") == false && len <= 8) {
+				if (!name.equals("") && len <= 8) {
 					// tips = new Auto_window(2000, dialog, new String("tips"), false);
-					player1 = new Tank("imagesProjectAI/tank.png",160d, 160d );
-					player2 = new Tank("grimfandango-art/tank-red.png",992, 608 );
+					player1 = new Tank("art/tank64.png",160d, 160d );
+					player2 = new Tank("art/tank-red.png",992, 608 );
 
 					nc.connect("127.0.0.1");
 					
@@ -167,9 +167,11 @@ public class TankClient {
 					s1.close();
 					waiting_Room waitingRoom = new waiting_Room(tanks, id, nc);
 
-				} else {
+				} else if(name.equals("")){
+					Auto_window a1 = new Auto_window(2200,"Please type in your name.", "Tips", false);
+				}else {
 					String s1 = "Please enter a name less than 9 characters.";
-					Auto_window a1 = new Auto_window(2200, s1, new String("tips"), false);
+					Auto_window a1 = new Auto_window(2200, s1, "Tips", false);
 				}
 			}
 		});

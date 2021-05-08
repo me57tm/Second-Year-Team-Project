@@ -46,8 +46,8 @@ public class N_Mode {
 
 	public N_Mode(List<Tank> newTanks, int id, NetClient nc) {
 
-		final int TOTALGAMETIME = 100; 
-		
+		final int TOTALGAMETIME = 100;
+
 		Map map = new Map();
 
 		Layer l1 = new Layer("background", map.MAP_WIDTH_IN_TILES, map.MAP_HEIGHT_IN_TILES);
@@ -272,10 +272,10 @@ public class N_Mode {
 
 		Tank tank, enemy;
 		tank = newTanks.get(0);
-		tank.setSpeedModifier(2);
+		tank.setSpeedModifier(5);
 		tank.setMap(map);
 		enemy = newTanks.get(1);
-		enemy.setSpeedModifier(2);
+		enemy.setSpeedModifier(5);
 		enemy.setMap(map);
 
 //		ArrayList<PowerUp> toRemove = new ArrayList<>();
@@ -287,8 +287,6 @@ public class N_Mode {
 //		PowerUp battery = new PowerUp("Energy", 96, 672);
 //		powerups.add(battery);
 
-		
-
 		DropShadow dropshadow = new DropShadow();
 		dropshadow.setRadius(10);
 		dropshadow.setOffsetX(0);
@@ -296,24 +294,18 @@ public class N_Mode {
 		dropshadow.setSpread(0.1);
 		dropshadow.setColor(Color.BLACK);
 
-
-
 		try {
 
 			// Label
-			Label score1 = new Label("Score: " + tank.getScore());
-			score1.setFont(Font.font("Segoe Print"));
-			Label hpB = new Label("HP(yellow): " + tank.getHP());
+
+			Label hpB = new Label(null);
+			Label hpB2 = new Label(null);
+
 			hpB.setFont(Font.font("Segoe Print"));
-			
+			hpB2.setFont(Font.font("Segoe Print"));
+
 			Label timer = new Label("Time Left: " + TOTALGAMETIME);
 			timer.setFont(Font.font("Segoe Print"));
-			
-			Label score2 = new Label("Score: " + enemy.getScore());
-			score2.setFont(Font.font("Segoe Print"));
-			Label hpB2 = new Label("HP(red): "+ enemy.getHP());
-			hpB2.setFont(Font.font("Segoe Print"));
-			
 
 			// HBox
 			HBox hpBar = new HBox();
@@ -331,16 +323,6 @@ public class N_Mode {
 			MenuItem quit = new MenuItem("Quit Game");
 			MenuItem returnM = new MenuItem("Return to Menu");
 			rq.getItems().addAll(quit, returnM);
-
-			returnM.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent arg0) {
-					@SuppressWarnings("unused")
-					TankMenu m1 = new TankMenu();
-					stage.close();
-				}
-			});
 
 			quit.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -423,7 +405,7 @@ public class N_Mode {
 				if (!keyPressedList.contains(keyName))
 					keyPressedList.add(keyName);
 				if (!keyPressedListE.contains(keyName))
-					keyPressedListE.add(keyName);				    
+					keyPressedListE.add(keyName);
 				if (!keyJustPressedList.contains(keyName))
 					keyJustPressedList.add(keyName);
 				if (!keyJustPressedListE.contains(keyName))
@@ -438,22 +420,20 @@ public class N_Mode {
 				if (keyPressedListE.contains(keyName))
 					keyPressedListE.remove(keyName);
 			});
-			
+
 			Sprite muteButton;
 			if (AudioManager.isMute()) {
-				muteButton = new Sprite("art/musicnoteoff.png",1100,50);
-			}
-			else {
-				muteButton = new Sprite("art/musicnote.png",1100,50);
+				muteButton = new Sprite("art/musicnoteoff.png", 1100, 50);
+			} else {
+				muteButton = new Sprite("art/musicnote.png", 1100, 50);
 			}
 			scene.setOnMouseClicked((MouseEvent event) -> {
 				if (event.getX() > 1080 && event.getX() < 1110 && event.getY() > 59 && event.getY() < 95) {
 					System.out.println(event.getY());
-					if (AudioManager.isMute()){
+					if (AudioManager.isMute()) {
 						muteButton.setImage("art/musicnote.png");
 						AudioManager.unmute();
-					}
-					else {
+					} else {
 						muteButton.setImage("art/musicnoteoff.png");
 						AudioManager.mute();
 					}
@@ -479,12 +459,10 @@ public class N_Mode {
 
 			AnimationTimer gameloop = new AnimationTimer() {
 
-				double elapsedGameTime = 0;	
-				
+				double elapsedGameTime = 0;
+
 				public void handle(long nanotime) {
-					
-					
-					
+
 					tank.moveOnline(keyPressedList, keyJustPressedList, context, laserListT);
 					enemy.enemyFireOnline(context, laserListE);
 					MovingMsg msg = new MovingMsg(id, tank.getCompass(), tank.getUp(), tank.getDown(), tank.getFire());
@@ -492,14 +470,11 @@ public class N_Mode {
 					// after processing user input, clear keyJustPressedList
 					keyJustPressedList.clear();
 
-
-					
-
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
 						laser1.update(FRAMERATE, map);
 						tank.collide(laser1);
-						
+
 //						for (PowerUp powerup : powerups) {
 //							powerup.collide(laser1);
 //						}
@@ -586,82 +561,91 @@ public class N_Mode {
 //						}
 //					}
 
-					score1.setText("Score: " + tank.getScore());
-					score2.setText("Score: " + enemy.getScore());
-					
 					elapsedGameTime += FRAMERATE;
 					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
-					//System.out.println(elapsedGameTime + "Time passed");
-					
+					// System.out.println(elapsedGameTime + "Time passed");
+
 					// Game over Logic
-					hpB.setText("HP: " + tank.hp);
-					hpB2.setText("HP: " + enemy.hp);
-					//HP bar
+					if (id % 2 == 0) {
+						hpB.setText("HP(yellow:" + tank.getName() + "):" + tank.hp);
+						hpB2.setText("HP(red:" + enemy.getName() + "):" + enemy.hp);
+					} else {
+						hpB2.setText("HP(red:" + tank.getName() + "):" + tank.hp);
+						hpB.setText("HP(yellow:" + enemy.getName() + "):" + enemy.hp);
+					}
+					// HP bar
 					Group rootg = new Group();
 					Rectangle rectangle1 = new Rectangle();
-			        rectangle1.setFill(Paint.valueOf("#FFFFFF"));
-			        rectangle1.setX(0);
-			        rectangle1.setY(50);
-			        rectangle1.setWidth(100.0);
-			        rectangle1.setHeight(15.0);
-			        rectangle1.setStroke(Color.RED);
-			        
-			        Rectangle rectangle2 = new Rectangle();
-			        rectangle2.setFill(Paint.valueOf("#FF0033"));
-			        rectangle2.setX(0);
-			        rectangle2.setY(50);
-			        rectangle2.setWidth(tank.hp);
-			        rectangle2.setHeight(15.0);
-			        rectangle2.setStroke(Color.RED);
-			        rootg.getChildren().addAll(rectangle1,rectangle2);
-			        
-			      //HP bar
+					rectangle1.setFill(Paint.valueOf("#FFFFFF"));
+					rectangle1.setX(0);
+					rectangle1.setY(50);
+					rectangle1.setWidth(100.0);
+					rectangle1.setHeight(15.0);
+					rectangle1.setStroke(Color.RED);
+
+					Rectangle rectangle2 = new Rectangle();
+					rectangle2.setFill(Paint.valueOf("#FF0033"));
+					rectangle2.setX(0);
+					rectangle2.setY(50);
+					if (id % 2 == 0) {
+						rectangle2.setWidth(tank.hp);
+					} else {
+						rectangle2.setWidth(enemy.hp);
+					}
+					rectangle2.setHeight(15.0);
+					rectangle2.setStroke(Color.RED);
+					rootg.getChildren().addAll(rectangle1, rectangle2);
+
+					// HP bar
 					Group rootg1 = new Group();
 					Rectangle rectangle3 = new Rectangle();
-			        rectangle3.setFill(Paint.valueOf("#FFFFFF"));
-			        rectangle3.setX(0);
-			        rectangle3.setY(50);
-			        rectangle3.setWidth(100.0);
-			        rectangle3.setHeight(15.0);
-			        rectangle3.setStroke(Color.RED);
-			        
-			        Rectangle rectangle4 = new Rectangle();
-			        rectangle4.setFill(Paint.valueOf("#FF0033"));
-			        rectangle4.setX(0);
-			        rectangle4.setY(50);
-			        rectangle4.setWidth(enemy.hp);
-			        rectangle4.setHeight(15.0);
-			        rectangle4.setStroke(Color.RED);
-			        rootg1.getChildren().addAll(rectangle3,rectangle4);
-			        
-			        // HBox
+					rectangle3.setFill(Paint.valueOf("#FFFFFF"));
+					rectangle3.setX(0);
+					rectangle3.setY(50);
+					rectangle3.setWidth(100.0);
+					rectangle3.setHeight(15.0);
+					rectangle3.setStroke(Color.RED);
+
+					Rectangle rectangle4 = new Rectangle();
+					rectangle4.setFill(Paint.valueOf("#FF0033"));
+					rectangle4.setX(0);
+					rectangle4.setY(50);
+					if (id % 2 == 0) {
+						rectangle4.setWidth(enemy.hp);
+					} else {
+						rectangle4.setWidth(tank.hp);
+					}
+					rectangle4.setHeight(15.0);
+					rectangle4.setStroke(Color.RED);
+					rootg1.getChildren().addAll(rectangle3, rectangle4);
+
+					// HBox
 					HBox hpBar = new HBox();
-					hpBar.getChildren().addAll(hpB,rootg,score1,timer,hpB2,rootg1,score2);
+					hpBar.getChildren().addAll(hpB, rootg, timer, hpB2, rootg1);
 					hpBar.setAlignment(Pos.CENTER);
 					hpBar.setSpacing(40);
-					
+
 					root.setBottom(hpBar);
-					
+
 					if (tank.hp <= 0) {
-						Sprite youLose = new Sprite("grimfandango-art/YouLose.png", 576, 400);
+						Sprite youLose = new Sprite("art/YouLose.png", 576, 400);
 						gameOveOnline(youLose, context);
 						this.stop();
 					}
 					if (enemy.hp <= 0) {
-						Sprite youWin = new Sprite("grimfandango-art/YouWin.png", 576, 400);
+						Sprite youWin = new Sprite("art/YouWin.png", 576, 400);
 						gameOveOnline(youWin, context);
 						this.stop();
 					}
-					if(elapsedGameTime > TOTALGAMETIME) {
-						if(tank.getScore() > enemy.getScore()) {
-							Sprite youWin = new Sprite("grimfandango-art/YouWin.png",576, 400);
-							gameOveOnline(youWin,context);
+					if (elapsedGameTime > TOTALGAMETIME) {
+						if (tank.getScore() > enemy.getScore()) {
+							Sprite youWin = new Sprite("art/YouWin.png", 576, 400);
+							gameOveOnline(youWin, context);
 							this.stop();
-						}
-						else {
-							
-							Sprite youLose = new Sprite("grimfandango-art/YouLose.png",576, 400);
-							gameOveOnline(youLose,context);
+						} else {
+
+							Sprite youLose = new Sprite("art/YouLose.png", 576, 400);
+							gameOveOnline(youLose, context);
 							this.stop();
 						}
 					}
@@ -669,33 +653,22 @@ public class N_Mode {
 			};
 
 			gameloop.start();
+			returnM.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0) {
+					@SuppressWarnings("unused")
+					TankMenu m1 = new TankMenu();
+					gameloop.stop();
+					stage.close();
+				}
+			});
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void gameOver(Sprite message, GraphicsContext context) {
-
-		context.setFill(new Color(0, 0, 0, 0.017));
-		new AnimationTimer() {
-			int i = 0;
-
-			public void handle(long nanotime) {
-				if (i < 100)
-					context.fillRect(0, 0, 1152, 800);
-				else if (i == 100) {
-
-					message.render(context);
-				} else if (i > 300) {
-					this.stop();
-					stage.close();
-					new TankMenu();
-				}
-				i++;
-			}
-		}.start();
-	}
 	public void gameOveOnline(Sprite message, GraphicsContext context) {
 
 		context.setFill(new Color(0, 0, 0, 0.017));
@@ -711,7 +684,7 @@ public class N_Mode {
 				} else if (i > 300) {
 					this.stop();
 					stage.close();
-                    System.exit(0);
+					System.exit(0);
 				}
 				i++;
 			}

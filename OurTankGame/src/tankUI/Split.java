@@ -82,6 +82,7 @@ public class Split {
 						TankServer ts = new TankServer();
 						ts.start();
 					}).start();
+					
 					System.out.println("Server has been started");
 
 					ServerStart ss = new ServerStart();

@@ -322,16 +322,6 @@ public class Local_PVP_Mode {
 			MenuItem returnM = new MenuItem("Return to Menu");
 			rq.getItems().addAll(quit, returnM);
 
-			returnM.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent arg0) {
-					@SuppressWarnings("unused")
-					TankMenu m1 = new TankMenu();
-					stage.close();
-				}
-			});
-
 			quit.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
@@ -652,8 +642,18 @@ public class Local_PVP_Mode {
 					}
 				}
 			};
-
+            Thread.sleep(200);
 			gameloop.start();
+			returnM.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent arg0) {
+					@SuppressWarnings("unused")
+					TankMenu m1 = new TankMenu();
+					gameloop.stop();
+					stage.close();
+				}
+			});
 
 		} catch (Exception e) {
 			e.printStackTrace();
