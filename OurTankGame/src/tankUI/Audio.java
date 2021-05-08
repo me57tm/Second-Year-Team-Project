@@ -19,7 +19,7 @@ public class Audio {
 		Stage s1 =new Stage();
 		s1.setTitle("Tank Game");
 		s1.getIcons().add(new Image("images/icon_tank.jpg"));
-		Image img  = new Image("images/tankmenuimg.png");
+		Image img  = new Image("images/TankMenu.jpg");
 		ImageView imgV = new ImageView(img);
 		
 		AudioManager.play("music", "music");
@@ -87,7 +87,8 @@ public class Audio {
 		sp.getChildren().addAll(imgV,g1);
 		
 		Scene scene = new Scene(sp,1152,800);
-		s1.setScene(scene);		
+		s1.setScene(scene);	
+		s1.setResizable(false);
 		s1.show();
 	}
 }

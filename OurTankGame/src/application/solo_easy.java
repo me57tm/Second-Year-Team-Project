@@ -592,20 +592,14 @@ public class solo_easy {
 							if (randomNumber == 1) {//1å�³è½¬
 								enemy.rotation += 2;
 								oneOrMinOne = 1;
-								System.out.println("å�³è½¬a");
-								System.out.println(a);
 								a++;
 							} else if (randomNumber == 2) {//2å·¦è½¬
 								enemy.rotation -= 2;
 								oneOrMinOne = -1;
-								System.out.println("å·¦è½¬a");
-								System.out.println(a);
 								a++;
 							} else if (randomNumber == 0) {//0ç›´èµ°
 								enemy.velocity.setAngle(enemy.rotation);
 								enemy.velocity.setLength(100);	
-								System.out.println("ç›´èµ°a");
-								System.out.println(a);
 								a++;
 							} 
 						}

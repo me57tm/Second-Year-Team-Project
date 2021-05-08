@@ -21,7 +21,7 @@ public class ServerStart{
 		try {
 
 			
-			Image img = new Image("images/tankmenuimg.png");
+			Image img  = new Image("images/TankMenu.jpg");
 			ImageView im = new ImageView();
 			im.setImage(img);
 			BackgroundImage bgi = new BackgroundImage(img, null, null, null, null);
@@ -43,11 +43,12 @@ public class ServerStart{
 			
 			Stage s1 =new Stage();
 			Scene scene = new Scene(root);
-			s1.setWidth(500);
-			s1.setHeight(575);
+			s1.setWidth(1160);
+			s1.setHeight(820);
 			s1.setResizable(false);
 			s1.setScene(scene);
-			s1.setTitle("Jion Game");
+			s1.setTitle("Join Game");
+			s1.setResizable(false);
 			s1.show();
 			
 			back.setOnAction(new EventHandler<ActionEvent>() {
@@ -65,10 +66,6 @@ public class ServerStart{
 				@SuppressWarnings("unused")
 				@Override
 				public void handle(ActionEvent arg0) {
-//					
-//					TankServer ts = new TankServer();
-//			        ts.launchFrame();
-//			        ts.start();
 			        
 			        TankClient tc = new TankClient();
 			        s1.close();

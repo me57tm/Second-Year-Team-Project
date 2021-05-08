@@ -55,15 +55,8 @@ public class TankClient {
 
 		// Button
 		Button back = new Button("Back");
-
-		// Label
-		Label lb = new Label("Tank Battle");
-		Font f = new Font("Segoe Print", 70);
-		lb.setFont(f);
-		lb.setTextFill(Paint.valueOf("#f2eada"));
-
 		// image
-		Image img = new Image("images/tankmenuimg.png");
+		Image img  = new Image("images/TankMenu.jpg");
 		ImageView im = new ImageView();
 		im.setImage(img);
 
@@ -96,7 +89,7 @@ public class TankClient {
 		hb.setSpacing(20);
 		hb.getChildren().addAll(username, fusername, login);
 
-		vb.getChildren().addAll(lb);
+
 		vb.setAlignment(Pos.CENTER);
 		vb.setSpacing(10);
 
@@ -111,8 +104,8 @@ public class TankClient {
 		Stage s1 = new Stage();
 		s1.setScene(scene);
 		s1.setTitle("Tank Battle Login");
-		s1.setWidth(500);
-		s1.setHeight(575);
+		s1.setWidth(1160);
+		s1.setHeight(820);
 		s1.setResizable(false);
 		s1.show();
 

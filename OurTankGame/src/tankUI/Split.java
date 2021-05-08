@@ -26,7 +26,7 @@ public class Split {
 
 			Font f = new Font("Segoe Print", 15);
 
-			Image img = new Image("images/tankmenuimg.png");
+			Image img  = new Image("images/TankMenu.jpg");
 			ImageView im = new ImageView();
 			im.setImage(img);
 			BackgroundImage bgi = new BackgroundImage(img, null, null, null, null);
@@ -55,8 +55,8 @@ public class Split {
 
 			Stage s1 = new Stage();
 			Scene scene = new Scene(root);
-			s1.setWidth(500);
-			s1.setHeight(575);
+			s1.setWidth(1160);
+			s1.setHeight(820);
 			s1.setResizable(false);
 			s1.setScene(scene);
 			s1.setTitle("As a host or guest");

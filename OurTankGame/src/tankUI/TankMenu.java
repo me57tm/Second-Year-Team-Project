@@ -18,7 +18,7 @@ public class TankMenu {
 		Stage s1 =new Stage();
 		s1.setTitle("Tank Game");
 		s1.getIcons().add(new Image("images/icon_tank.jpg"));
-		Image img  = new Image("images/tankmenuimg.png");
+		Image img  = new Image("images/TankMenu.jpg");
 		ImageView imgV = new ImageView(img);
 		//imgV.setScaleX(2.5);
 		//imgV.setScaleY(2.5);
@@ -98,7 +98,8 @@ public class TankMenu {
 		sp.getChildren().addAll(imgV,g1);
 		
 		Scene scene = new Scene(sp,1152,800);
-		s1.setScene(scene);		
+		s1.setScene(scene);	
+		s1.setResizable(false);
 		s1.show();
 	}
 }
