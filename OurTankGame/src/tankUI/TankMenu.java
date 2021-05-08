@@ -12,7 +12,10 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class TankMenu {
-	
+	/**
+	 * Entrance to the entire program
+	 *
+	 */
 	@SuppressWarnings("unused")
 	public TankMenu() {
 		Stage s1 =new Stage();

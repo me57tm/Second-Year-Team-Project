@@ -42,7 +42,7 @@ import physics.Tile;
 import tankUI.Player;
 import tankUI.TankMenu;
 
-public class solo_hard {
+public class solo_Mode {
 	private final Stage stage = new Stage();
 	private boolean isWASD;
 
@@ -64,249 +64,254 @@ public class solo_hard {
 		}
 	}
 
-	public solo_hard() {
-		
-		final int TOTALGAMETIME = 80; 
+	public solo_Mode(int difficulty) {
+
+		final int TOTALGAMETIME = 80;
 
 		Map map = new Map();
 
-		Layer l1 = new Layer("background",map.MAP_WIDTH_IN_TILES,map.MAP_HEIGHT_IN_TILES);
-		Tile bg = new Tile("art/texture-bg.png",true);
-		
-		
-		//the background tile is added to every cell of the layer, so we iterate while adding it
-		for(int i=0; i<l1.widthInTiles; i++) {
-			for(int j=0; j<l1.heightInTiles; j++) {
-					l1.addTile(bg, i, j);
+		Layer l1 = new Layer("background", map.MAP_WIDTH_IN_TILES, map.MAP_HEIGHT_IN_TILES);
+		Tile bg = new Tile("art/texture-bg.png", true);
+
+		// the background tile is added to every cell of the layer, so we iterate while
+		// adding it
+		for (int i = 0; i < l1.widthInTiles; i++) {
+			for (int j = 0; j < l1.heightInTiles; j++) {
+				l1.addTile(bg, i, j);
 			}
 		}
-		
-		Layer l2 = new Layer("walls",map.MAP_WIDTH_IN_TILES,map.MAP_HEIGHT_IN_TILES);
-		
-		Tile areaWallUpperLeft = new Tile("art/areawall-upper-left.png",false);
-		Tile areaWallUpperMid = new Tile("art/areawall-upper-mid.png",false);
-		Tile areaWallUpperRight = new Tile("art/areawall-upper-right.png",false);
-		Tile areaWallMidLeft = new Tile("art/areawall-mid-left.png",false);
-		Tile areaWallMidRight = new Tile("art/areawall-mid-right.png",false);
-		Tile areaWallLowLeft = new Tile("art/areawall-lower-left.png",false);
-		Tile areaWallLowMid = new Tile("art/areawall-lower-mid.png",false);
-		Tile areaWallLowRight = new Tile("art/areawall-lower-right.png",false);
-		
-		Tile wallLeft = new Tile("art/gamewall-left.png",false);
-		Tile wallMid = new Tile("art/gamewall-mid.png",false);
-		Tile wallRight = new Tile("art/gamewall-right.png",false);
-		Tile wallUp = new Tile("art/gamewall-up.png",false);
-		Tile wallDown = new Tile("art/gamewall-down.png",false);
-		Tile wallVertMid = new Tile("art/gamewall-vertmid.png",false);
-		
-		Tile leavesUpperLeft = new Tile("art/leaves-upper-left.png",true);
-		Tile leavesUpperMid = new Tile("art/leaves-upper-mid.png",true);
-		Tile leavesUpperRight = new Tile("art/leaves-upper-right.png",true);
-		Tile leavesMidLeft = new Tile("art/leaves-mid-left.png",true);
-		Tile leavesMid = new Tile("art/leaves-mid.png",true);
-		Tile leavesMidRight = new Tile("art/leaves-mid-right.png",true);
-		Tile leavesLowLeft = new Tile("art/leaves-low-left.png",true);
-		Tile leavesLowMid = new Tile("art/leaves-low-mid.png",true);
-		Tile leavesLowRight = new Tile("art/leaves-low-right.png",true);
-		
-		
-		
-		//adding the wall tiles according to their positioning on the drawn map (this is hardcoded)
-		
-		for(int i = 0; i<map.MAP_WIDTH_IN_TILES; i++) {
-			for(int j = 0; j<map.MAP_WIDTH_IN_TILES; j++) {
-				if(i==0 && j==0) {
+
+		Layer l2 = new Layer("walls", map.MAP_WIDTH_IN_TILES, map.MAP_HEIGHT_IN_TILES);
+
+		Tile areaWallUpperLeft = new Tile("art/areawall-upper-left.png", false);
+		Tile areaWallUpperMid = new Tile("art/areawall-upper-mid.png", false);
+		Tile areaWallUpperRight = new Tile("art/areawall-upper-right.png", false);
+		Tile areaWallMidLeft = new Tile("art/areawall-mid-left.png", false);
+		Tile areaWallMidRight = new Tile("art/areawall-mid-right.png", false);
+		Tile areaWallLowLeft = new Tile("art/areawall-lower-left.png", false);
+		Tile areaWallLowMid = new Tile("art/areawall-lower-mid.png", false);
+		Tile areaWallLowRight = new Tile("art/areawall-lower-right.png", false);
+
+		Tile wallLeft = new Tile("art/gamewall-left.png", false);
+		Tile wallMid = new Tile("art/gamewall-mid.png", false);
+		Tile wallRight = new Tile("art/gamewall-right.png", false);
+		Tile wallUp = new Tile("art/gamewall-up.png", false);
+		Tile wallDown = new Tile("art/gamewall-down.png", false);
+		Tile wallVertMid = new Tile("art/gamewall-vertmid.png", false);
+
+		Tile leavesUpperLeft = new Tile("art/leaves-upper-left.png", true);
+		Tile leavesUpperMid = new Tile("art/leaves-upper-mid.png", true);
+		Tile leavesUpperRight = new Tile("art/leaves-upper-right.png", true);
+		Tile leavesMidLeft = new Tile("art/leaves-mid-left.png", true);
+		Tile leavesMid = new Tile("art/leaves-mid.png", true);
+		Tile leavesMidRight = new Tile("art/leaves-mid-right.png", true);
+		Tile leavesLowLeft = new Tile("art/leaves-low-left.png", true);
+		Tile leavesLowMid = new Tile("art/leaves-low-mid.png", true);
+		Tile leavesLowRight = new Tile("art/leaves-low-right.png", true);
+
+		// adding the wall tiles according to their positioning on the drawn map (this
+		// is hardcoded)
+
+		for (int i = 0; i < map.MAP_WIDTH_IN_TILES; i++) {
+			for (int j = 0; j < map.MAP_WIDTH_IN_TILES; j++) {
+				if (i == 0 && j == 0) {
 					l2.addTile(areaWallUpperLeft, i, j);
 				} else {
-					if(i==35 && j==0) {
+					if (i == 35 && j == 0) {
 						l2.addTile(areaWallUpperRight, i, j);
 					} else {
-						if(j==0) {
+						if (j == 0) {
 							l2.addTile(areaWallUpperMid, i, j);
 						}
 					}
-				} 
+				}
 			}
 		}
-		
-		for(int i = 0; i<map.MAP_WIDTH_IN_TILES; i++) {
-			for(int j = 0; j<map.MAP_WIDTH_IN_TILES; j++) {
-				if(i==0 && j==23) {
+
+		for (int i = 0; i < map.MAP_WIDTH_IN_TILES; i++) {
+			for (int j = 0; j < map.MAP_WIDTH_IN_TILES; j++) {
+				if (i == 0 && j == 23) {
 					l2.addTile(areaWallLowLeft, i, j);
 				} else {
-					if(i==35 && j==23) {
+					if (i == 35 && j == 23) {
 						l2.addTile(areaWallLowRight, i, j);
 					} else {
-						if(j==23) {
+						if (j == 23) {
 							l2.addTile(areaWallLowMid, i, j);
 						}
 					}
-				} 
+				}
 			}
 		}
-		
-		for(int j = 1; j<map.MAP_HEIGHT_IN_TILES-1; j++) {
+
+		for (int j = 1; j < map.MAP_HEIGHT_IN_TILES - 1; j++) {
 			l2.addTile(areaWallMidLeft, 0, j);
 		}
-		
-		for(int j = 1; j<map.MAP_HEIGHT_IN_TILES-1; j++) {
+
+		for (int j = 1; j < map.MAP_HEIGHT_IN_TILES - 1; j++) {
 			l2.addTile(areaWallMidRight, 35, j);
 		}
-		
-		//adding the leaves-upper left
-		for(int i =2; i<8; i++) {
-				if(i==2) {
-					l2.addTile(leavesUpperLeft, i, 2);
-				} else if(i==7) {
-					l2.addTile(leavesUpperRight, i, 2);
-				} else {
-					l2.addTile(leavesUpperMid, i, 2);
-				}
+
+		// adding the leaves-upper left
+		for (int i = 2; i < 8; i++) {
+			if (i == 2) {
+				l2.addTile(leavesUpperLeft, i, 2);
+			} else if (i == 7) {
+				l2.addTile(leavesUpperRight, i, 2);
+			} else {
+				l2.addTile(leavesUpperMid, i, 2);
+			}
 		}
-		
-		for(int i =2; i<8; i++) {
-			if(i==2) {
+
+		for (int i = 2; i < 8; i++) {
+			if (i == 2) {
 				l2.addTile(leavesLowLeft, i, 7);
-			} else if(i==7) {
+			} else if (i == 7) {
 				l2.addTile(leavesLowRight, i, 7);
 			} else {
 				l2.addTile(leavesLowMid, i, 7);
 			}
 		}
-		
-		for(int j =3; j<7; j++) {
-				l2.addTile(leavesMidLeft, 2, j);
+
+		for (int j = 3; j < 7; j++) {
+			l2.addTile(leavesMidLeft, 2, j);
 		}
-		
-		for(int j =3; j<7; j++) {
+
+		for (int j = 3; j < 7; j++) {
 			l2.addTile(leavesMidRight, 7, j);
 		}
-		
-		for(int i=3; i<7; i++) {
-			for(int j=3; j<7; j++) {
+
+		for (int i = 3; i < 7; i++) {
+			for (int j = 3; j < 7; j++) {
 				l2.addTile(leavesMid, i, j);
 			}
 		}
-		
-		//adding the leaves-lower right
-				for(int i =28; i<34; i++) {
-						if(i==28) {
-							l2.addTile(leavesUpperLeft, i, 16);
-						} else if(i==33) {
-							l2.addTile(leavesUpperRight, i, 16);
-						} else {
-							l2.addTile(leavesUpperMid, i, 16);
-						}
-				}
-				
-				for(int i =28; i<34; i++) {
-					if(i==28) {
-						l2.addTile(leavesLowLeft, i, 21);
-					} else if(i==33) {
-						l2.addTile(leavesLowRight, i, 21);
-					} else {
-						l2.addTile(leavesLowMid, i, 21);
-					}
-				}
-				
-				for(int j =17; j<21; j++) {
-						l2.addTile(leavesMidLeft, 28, j);
-				}
-				
-				for(int j =17; j<21; j++) {
-					l2.addTile(leavesMidRight, 33, j);
-				}
-				
-				for(int i=29; i<33; i++) {
-					for(int j=17; j<21; j++) {
-						l2.addTile(leavesMid, i, j);
-					}
-				}
-	
-		
-		//adding the horizontal walls
-		for(int i=4; i<10; i++) {
-			if(i==4) {
+
+		// adding the leaves-lower right
+		for (int i = 28; i < 34; i++) {
+			if (i == 28) {
+				l2.addTile(leavesUpperLeft, i, 16);
+			} else if (i == 33) {
+				l2.addTile(leavesUpperRight, i, 16);
+			} else {
+				l2.addTile(leavesUpperMid, i, 16);
+			}
+		}
+
+		for (int i = 28; i < 34; i++) {
+			if (i == 28) {
+				l2.addTile(leavesLowLeft, i, 21);
+			} else if (i == 33) {
+				l2.addTile(leavesLowRight, i, 21);
+			} else {
+				l2.addTile(leavesLowMid, i, 21);
+			}
+		}
+
+		for (int j = 17; j < 21; j++) {
+			l2.addTile(leavesMidLeft, 28, j);
+		}
+
+		for (int j = 17; j < 21; j++) {
+			l2.addTile(leavesMidRight, 33, j);
+		}
+
+		for (int i = 29; i < 33; i++) {
+			for (int j = 17; j < 21; j++) {
+				l2.addTile(leavesMid, i, j);
+			}
+		}
+
+		// adding the horizontal walls
+		for (int i = 4; i < 10; i++) {
+			if (i == 4) {
 				l2.addTile(wallLeft, i, 11);
-			} else if(i==9) {
+			} else if (i == 9) {
 				l2.addTile(wallRight, i, 11);
 			} else {
 				l2.addTile(wallMid, i, 11);
 			}
-				
+
 		}
-		
-		for(int i=26; i<32; i++) {
-			if(i==26) {
+
+		for (int i = 26; i < 32; i++) {
+			if (i == 26) {
 				l2.addTile(wallLeft, i, 11);
-			} else if(i==31) {
+			} else if (i == 31) {
 				l2.addTile(wallRight, i, 11);
 			} else {
 				l2.addTile(wallMid, i, 11);
 			}
-				
+
 		}
-		
-		//adding the vertical walls
-		for(int j=5; j<17;j++) {
-			if(j==5) {
+
+		// adding the vertical walls
+		for (int j = 5; j < 17; j++) {
+			if (j == 5) {
 				l2.addTile(wallUp, 13, j);
-			} else if(j==16) {
+			} else if (j == 16) {
 				l2.addTile(wallDown, 13, j);
 			} else {
 				l2.addTile(wallVertMid, 13, j);
 			}
 		}
-		
-		for(int j=5; j<17;j++) {
-			if(j==5) {
+
+		for (int j = 5; j < 17; j++) {
+			if (j == 5) {
 				l2.addTile(wallUp, 21, j);
-			} else if(j==16) {
+			} else if (j == 16) {
 				l2.addTile(wallDown, 21, j);
 			} else {
 				l2.addTile(wallVertMid, 21, j);
 			}
 		}
-		
-		//adding the middle vertical walls
-		for(int j=1; j<9;j++) {
-			if(j==1) {
+
+		// adding the middle vertical walls
+		for (int j = 1; j < 9; j++) {
+			if (j == 1) {
 				l2.addTile(wallUp, 17, j);
-			} else if(j==8) {
+			} else if (j == 8) {
 				l2.addTile(wallDown, 17, j);
 			} else {
 				l2.addTile(wallVertMid, 17, j);
 			}
 		}
-		
-		for(int j=14; j<23;j++) {
-			if(j==14) {
+
+		for (int j = 14; j < 23; j++) {
+			if (j == 14) {
 				l2.addTile(wallUp, 17, j);
-			} else if(j==22) {
+			} else if (j == 22) {
 				l2.addTile(wallDown, 17, j);
 			} else {
 				l2.addTile(wallVertMid, 17, j);
 			}
 		}
-		
+
 		map.addLayer(l1);
 		map.addLayer(l2);
 
-		Tank tank = new Tank("art/tank64.png",160d,160d);
-		
+		Tank tank = new Tank("art/tank64.png", 160d, 160d);
 
 		ArrayList<PowerUp> toRemove = new ArrayList<>();
 		ArrayList<PowerUp> powerups = new ArrayList<>();
-		PowerUp speedPowerup = new PowerUp("Speed", 150,500);
+		PowerUp speedPowerup = new PowerUp("Speed", 150, 500);
 		powerups.add(speedPowerup);
-		PowerUp coin = new PowerUp("Score",480, 64);
+		PowerUp coin = new PowerUp("Score", 480, 64);
 		powerups.add(coin);
-		PowerUp battery = new PowerUp("Energy",96, 672);
+		PowerUp battery = new PowerUp("Energy", 96, 672);
 		powerups.add(battery);
 
-		Tank enemy = new Tank("art/tank-red.png",992,608);
-		Tank enemy2 = new Tank("art/tank-red.png",992,160d);
-		Tank enemy3 = new Tank("art/tank-red.png",148d,520);
+		Tank enemy = new Tank("art/tank-red.png", 992, 608);
+
+		Tank enemy2 = new Tank("art/tank-red.png", 992, 160d);
+
+		Tank enemy3 = new Tank("art/tank-red.png", 148d, 520);
+		if (difficulty == 1) {
+			enemy2.setHP(0);
+			enemy3.setHP(0);
+		} else if (difficulty == 2) {
+			enemy2.setHP(0);
+		}
 
 		DropShadow dropshadow = new DropShadow();
 		dropshadow.setRadius(10);
@@ -318,13 +323,11 @@ public class solo_hard {
 		@SuppressWarnings("unused")
 		URL url = this.getClass().getClassLoader().getResource("application/music.mp3");
 
-		
-
 		try {
 
 			// Label
 			Label score1 = new Label("Score: " + tank.getScore());
-			score1.setFont(Font.font("Segoe Print" , 80d));
+			score1.setFont(Font.font("Segoe Print", 80d));
 			Label hpB = new Label("HP: " + tank.hp);
 			hpB.setFont(Font.font("Segoe Print"));
 			Label timer = new Label("Time Left: " + TOTALGAMETIME);
@@ -348,8 +351,6 @@ public class solo_hard {
 			MenuItem quit = new MenuItem("Quit Game");
 			MenuItem returnM = new MenuItem("Return to Menu");
 			rq.getItems().addAll(quit, returnM);
-
-	
 
 			quit.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -416,40 +417,40 @@ public class solo_hard {
 			stage.setResizable(false);
 			stage.setScene(scene);
 			stage.setTitle("Singleplayer Mode");
-			
+
 			TilePane rootControls = new TilePane();
 			rootControls.setPadding(new Insets(20));
 			rootControls.setAlignment(Pos.BASELINE_CENTER);
-			
+
 			// Choose your keyboard preferences
 			Image img = new Image("art/wasd.png");
 			ImageView view = new ImageView(img);
 			Button wasdButton = new Button();
 			wasdButton.setPrefSize(250, 40);
 			wasdButton.setGraphic(view);
-			//wasdButton.setTranslateX(10);
-			//wasdButton.setTranslateY(25);
+			// wasdButton.setTranslateX(10);
+			// wasdButton.setTranslateY(25);
 			wasdButton.setPrefSize(80, 80);
-			
+
 			Image imgArrows = new Image("art/arrows.png");
 			ImageView viewArrows = new ImageView(imgArrows);
 			Button arrowsButton = new Button();
 			arrowsButton.setPrefSize(100, 40);
 			arrowsButton.setGraphic(viewArrows);
-			//arrowsButton.setTranslateX(100);
-			//arrowsButton.setTranslateY(25);
+			// arrowsButton.setTranslateX(100);
+			// arrowsButton.setTranslateY(25);
 			arrowsButton.setPrefSize(80, 80);
 
-			rootControls.getChildren().addAll(wasdButton,arrowsButton);
-			Scene sceneControls = new Scene(rootControls,600,200);
+			rootControls.getChildren().addAll(wasdButton, arrowsButton);
+			Scene sceneControls = new Scene(rootControls, 600, 200);
 			Stage stageControls = new Stage();
 			stageControls.setScene(sceneControls);
 			stageControls.setTitle("Choose your controls:");
 
 			stageControls.show();
-			
+
 			wasdButton.setOnAction(new EventHandler<ActionEvent>() {
-				
+
 				@Override
 				public void handle(ActionEvent arg0) {
 					isWASD = true;
@@ -457,7 +458,7 @@ public class solo_hard {
 					stage.show();
 				}
 			});
-			
+
 			arrowsButton.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
@@ -467,8 +468,6 @@ public class solo_hard {
 					stage.show();
 				}
 			});
-			
-			
 
 			Canvas canvas = new Canvas(1150, 770);
 			GraphicsContext context = canvas.getGraphicsContext2D();
@@ -496,22 +495,20 @@ public class solo_hard {
 				if (keyPressedList.contains(keyName))
 					keyPressedList.remove(keyName);
 			});
-			
+
 			Sprite muteButton;
 			if (AudioManager.isMute()) {
-				muteButton = new Sprite("art/musicnoteoff.png",1100,50);
-			}
-			else {
-				muteButton = new Sprite("art/musicnote.png",1100,50);
+				muteButton = new Sprite("art/musicnoteoff.png", 1100, 50);
+			} else {
+				muteButton = new Sprite("art/musicnote.png", 1100, 50);
 			}
 			scene.setOnMouseClicked((MouseEvent event) -> {
 				if (event.getX() > 1080 && event.getX() < 1110 && event.getY() > 59 && event.getY() < 95) {
 					System.out.println(event.getY());
-					if (AudioManager.isMute()){
+					if (AudioManager.isMute()) {
 						muteButton.setImage("art/musicnote.png");
 						AudioManager.unmute();
-					}
-					else {
+					} else {
 						muteButton.setImage("art/musicnoteoff.png");
 						AudioManager.mute();
 					}
@@ -520,123 +517,125 @@ public class solo_hard {
 
 			ArrayList<Bullet> laserListT = new ArrayList<Bullet>();
 			ArrayList<Bullet> laserListE = new ArrayList<Bullet>();
-			//Bullet bullet = new Bullet("imagesProjectAI/red-circle.png", enemy);
-			//laserListE.add(bullet);
+			// Bullet bullet = new Bullet("imagesProjectAI/red-circle.png", enemy);
+			// laserListE.add(bullet);
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
 			final double FRAMERATE = 1 / 60d;
-					
+
 			AnimationTimer gameloop = new AnimationTimer() {
 
 				int times, times2, times3 = 0;
-				int oneOrMinOne,oneOrMinOne2,oneOrMinOne3  = 0;
-						
-				int time[] = {0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0};
+				int oneOrMinOne, oneOrMinOne2, oneOrMinOne3 = 0;
+
+				int time[] = { 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0 };
 				int a = 0;
-				int Time[] = {0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,2,2,1,0,0,0,0,0,0,0,1,1,1,2};
+				int Time[] = { 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2 };
 				int b = 0;
-				double elapsedGameTime = 0;	
+				double elapsedGameTime = 0;
 
 				public void handle(long nanotime) {
-					
-					//HP bar
+
+					// HP bar
 					Group rootg = new Group();
 					Rectangle rectangle1 = new Rectangle();
-			        rectangle1.setFill(Paint.valueOf("#FFFFFF"));
-			        rectangle1.setX(0);
-			        rectangle1.setY(50);
-			        rectangle1.setWidth(100.0);
-			        rectangle1.setHeight(15.0);
-			        rectangle1.setStroke(Color.RED);
-			        
-			        Rectangle rectangle2 = new Rectangle();
-			        rectangle2.setFill(Paint.valueOf("#FF0033"));
-			        rectangle2.setX(0);
-			        rectangle2.setY(50);
-			        rectangle2.setWidth(tank.hp);
-			        rectangle2.setHeight(15.0);
-			        rectangle2.setStroke(Color.RED);
-			        rootg.getChildren().addAll(rectangle1,rectangle2);
-			        
-			        // HBox
+					rectangle1.setFill(Paint.valueOf("#FFFFFF"));
+					rectangle1.setX(0);
+					rectangle1.setY(50);
+					rectangle1.setWidth(100.0);
+					rectangle1.setHeight(15.0);
+					rectangle1.setStroke(Color.RED);
+
+					Rectangle rectangle2 = new Rectangle();
+					rectangle2.setFill(Paint.valueOf("#FF0033"));
+					rectangle2.setX(0);
+					rectangle2.setY(50);
+					rectangle2.setWidth(tank.hp);
+					rectangle2.setHeight(15.0);
+					rectangle2.setStroke(Color.RED);
+					rootg.getChildren().addAll(rectangle1, rectangle2);
+
+					// HBox
 					HBox hpBar = new HBox();
-					hpBar.getChildren().addAll(hpB,rootg,timer,score);
+					hpBar.getChildren().addAll(hpB, rootg, timer, score);
 					hpBar.setAlignment(Pos.CENTER);
 					hpBar.setSpacing(40);
-					
+
 					root.setBottom(hpBar);
-					
-					//enemy1
+
+					// enemy1
 					double checkRotation = enemy.rotation % 90;
-					//System.out.println(enemy.rotation);
-					if (checkRotation == 0) {
-						oneOrMinOne = 0;
-						if (Math.random() < 0.01 && enemy.getHP()>=0) {
+					// System.out.println(enemy.rotation);
+					if (enemy.hp > 0) {
+						if (checkRotation == 0) {
+							oneOrMinOne = 0;
+							if (Math.random() < 0.01 && enemy.getHP() >= 0) {
 
-							context.save();
+								context.save();
 
-							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
-							//modified the position a bit so it looks like it shoots from the turret
-							laserE.position.set(enemy.position.x, enemy.position.y);
-							laserE.velocity.setLength(200);
-							laserE.velocity.setAngle(enemy.rotation);
-							laserListE.add(laserE);
-						}
+								Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
+								// modified the position a bit so it looks like it shoots from the turret
+								laserE.position.set(enemy.position.x, enemy.position.y);
+								laserE.velocity.setLength(200);
+								laserE.velocity.setAngle(enemy.rotation);
+								laserListE.add(laserE);
+							}
 
-						times++;
-						int i = times % 210;
+							times++;
+							int i = times % 210;
 //						double randomNumber = Math.random();
-						
-						int randomNumber = time[a];						
+
+							int randomNumber = time[a];
 //						System.out.println(a);						
-						
-						enemy.velocity.setAngle(enemy.rotation);
-						enemy.velocity.setLength(10);
-						if (i == 0) {
-							if (randomNumber == 1) {//1å�³è½¬
-								enemy.rotation += 2;
-								oneOrMinOne = 1;
-								System.out.println("å�³è½¬a");
-								System.out.println(a);
-								a++;
-							} else if (randomNumber == 2) {//2å·¦è½¬
-								enemy.rotation -= 2;
-								oneOrMinOne = -1;
-								System.out.println("å·¦è½¬a");
-								System.out.println(a);
-								a++;
-							} else if (randomNumber == 0) {//0ç›´èµ°
-								enemy.velocity.setAngle(enemy.rotation);
-								enemy.velocity.setLength(100);	
-								System.out.println("ç›´èµ°a");
-								System.out.println(a);
-								a++;
-							} 
+
+							enemy.velocity.setAngle(enemy.rotation);
+							enemy.velocity.setLength(10);
+							if (i == 0) {
+								if (randomNumber == 1) {// 1å�³è½¬
+									enemy.rotation += 2;
+									oneOrMinOne = 1;
+									System.out.println("å�³è½¬a");
+									System.out.println(a);
+									a++;
+								} else if (randomNumber == 2) {// 2å·¦è½¬
+									enemy.rotation -= 2;
+									oneOrMinOne = -1;
+									System.out.println("å·¦è½¬a");
+									System.out.println(a);
+									a++;
+								} else if (randomNumber == 0) {// 0ç›´èµ°
+									enemy.velocity.setAngle(enemy.rotation);
+									enemy.velocity.setLength(100);
+									System.out.println("ç›´èµ°a");
+									System.out.println(a);
+									a++;
+								}
+							}
+						}
+						if (oneOrMinOne == 1) {
+							enemy.rotation += 2;
+						}
+						if (oneOrMinOne == -1) {
+							enemy.rotation -= 2;
+						}
+						if (a == time.length) {
+							a = 0;
 						}
 					}
-					 if (oneOrMinOne == 1){
-						enemy.rotation += 2;
-					}
-					 if (oneOrMinOne == -1) {
-						enemy.rotation -= 2;
-					}
-					if(a==time.length) {
-						a=0;							
-					}
-			
-					
-					//enemy2					
-					 double checkRotation2 = enemy2.rotation % 90;
-						//System.out.println(enemy.rotation);
+
+					if (enemy2.hp > 0) {
+						// enemy2
+						double checkRotation2 = enemy2.rotation % 90;
+						// System.out.println(enemy.rotation);
 						if (checkRotation2 == 0) {
 							oneOrMinOne2 = 0;
-							if (Math.random() < 0.01 && enemy2.getHP()>=0) {
+							if (Math.random() < 0.01 && enemy2.getHP() >= 0) {
 
 								context.save();
 
 								Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy2);
-								//modified the position a bit so it looks like it shoots from the turret
+								// modified the position a bit so it looks like it shoots from the turret
 								laserE.position.set(enemy2.position.x, enemy2.position.y);
 								laserE.velocity.setLength(200);
 								laserE.velocity.setAngle(enemy2.rotation);
@@ -655,118 +654,119 @@ public class solo_hard {
 								} else if (randomNumber2 > 0.5) {
 									enemy2.rotation -= 2;
 									oneOrMinOne2 = -1;
-								} 
+								}
 							}
 						}
-						 if (oneOrMinOne2 == 1){
+						if (oneOrMinOne2 == 1) {
 							enemy2.rotation += 2;
 						}
-						 if (oneOrMinOne2 == -1) {
+						if (oneOrMinOne2 == -1) {
 							enemy2.rotation -= 2;
-						}	 
-						 
-						 
-						 double checkRotation3 = enemy3.rotation % 90;
-							//System.out.println(enemy.rotation);
-							if (checkRotation3 == 0) {
-								oneOrMinOne3 = 0;
-								if (Math.random() < 0.01 && enemy3.getHP()>=0) {
+						}
+					}
 
-									context.save();
+					if (enemy3.hp > 0) {
 
-									Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy3);
-									//modified the position a bit so it looks like it shoots from the turret
-									laserE.position.set(enemy3.position.x, enemy3.position.y);
-									laserE.velocity.setLength(200);
-									laserE.velocity.setAngle(enemy3.rotation);
-									laserListE.add(laserE);
-								}
+						double checkRotation3 = enemy3.rotation % 90;
+						// System.out.println(enemy.rotation);
+						if (checkRotation3 == 0) {
+							oneOrMinOne3 = 0;
+							if (Math.random() < 0.01 && enemy3.getHP() >= 0) {
 
-								times3++;
-								int i = times3 % 210;
+								context.save();
+
+								Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy3);
+								// modified the position a bit so it looks like it shoots from the turret
+								laserE.position.set(enemy3.position.x, enemy3.position.y);
+								laserE.velocity.setLength(200);
+								laserE.velocity.setAngle(enemy3.rotation);
+								laserListE.add(laserE);
+							}
+
+							times3++;
+							int i = times3 % 210;
 //								double randomNumber = Math.random();
-								
-								int randomNumber3 = Time[b];						
+
+							int randomNumber3 = Time[b];
 //								System.out.println(a);						
-								
-								enemy3.velocity.setAngle(enemy3.rotation);
-								enemy3.velocity.setLength(10);
-								if (i == 0) {
-									if (randomNumber3 == 1) {//1å�³è½¬
-										enemy3.rotation += 2;
-										oneOrMinOne3 = 1;
-										System.out.println("å�³è½¬b");
-										System.out.println(b);
-										b++;
-									} else if (randomNumber3 == 2) {//2å·¦è½¬
-										enemy3.rotation -= 2;
-										oneOrMinOne3 = -1;
-										System.out.println("å·¦è½¬b");
-										System.out.println(b);
-										b++;
-									} else if (randomNumber3 == 0) {//0ç›´èµ°
-										enemy3.velocity.setAngle(enemy3.rotation);
-										enemy3.velocity.setLength(100);	
-										System.out.println("ç›´èµ°b");
-										System.out.println(b);
-										b++;
-									} 
+
+							enemy3.velocity.setAngle(enemy3.rotation);
+							enemy3.velocity.setLength(10);
+							if (i == 0) {
+								if (randomNumber3 == 1) {// 1å�³è½¬
+									enemy3.rotation += 2;
+									oneOrMinOne3 = 1;
+									System.out.println("å�³è½¬b");
+									System.out.println(b);
+									b++;
+								} else if (randomNumber3 == 2) {// 2å·¦è½¬
+									enemy3.rotation -= 2;
+									oneOrMinOne3 = -1;
+									System.out.println("å·¦è½¬b");
+									System.out.println(b);
+									b++;
+								} else if (randomNumber3 == 0) {// 0ç›´èµ°
+									enemy3.velocity.setAngle(enemy3.rotation);
+									enemy3.velocity.setLength(100);
+									System.out.println("ç›´èµ°b");
+									System.out.println(b);
+									b++;
 								}
 							}
-							 if (oneOrMinOne3 == 1){
-								enemy3.rotation += 2;
-							}
-							 if (oneOrMinOne3 == -1) {
-								enemy3.rotation -= 2;
-							}
-							if(b==Time.length) {
-								b=0;							
-							}
-												
-					
+						}
+						if (oneOrMinOne3 == 1) {
+							enemy3.rotation += 2;
+						}
+						if (oneOrMinOne3 == -1) {
+							enemy3.rotation -= 2;
+						}
+						if (b == Time.length) {
+							b = 0;
+						}
+					}
+
 					// If bool is true, WASD was chosen
-					 if(isWASD) {
-					tank.moveWASD(keyPressedList,keyJustPressedList,context,laserListT);
-					 }
+					if (isWASD) {
+						tank.moveWASD(keyPressedList, keyJustPressedList, context, laserListT);
+					}
 					// If bool is false, Arrows was chosen
 					else {
-					tank.move(keyPressedList,keyJustPressedList,context,laserListT);
-					 }
+						tank.move(keyPressedList, keyJustPressedList, context, laserListT);
+					}
 					tank.setBulletMsg(0);
-					
 
 					// after processing user input, clear keyJustPressedList
 					keyJustPressedList.clear();
 
-					tank.update(FRAMERATE,map);
+					tank.update(FRAMERATE, map);
 					hpB.setText("HP: " + tank.hp);
-					enemy.update(FRAMERATE,map);
-					enemy2.update(FRAMERATE,map);
-					enemy3.update(FRAMERATE,map);
-						
+					enemy.update(FRAMERATE, map);
+					enemy2.update(FRAMERATE, map);
+					enemy3.update(FRAMERATE, map);
+
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
-						laser1.update(FRAMERATE,map);
+						laser1.update(FRAMERATE, map);
 						tank.collide(laser1);
-						for(PowerUp powerup : powerups) {
+						for (PowerUp powerup : powerups) {
 							powerup.collide(laser1);
 						}
 					}
 
 					for (int n = 0; n < laserListT.size(); n++) {
 						Bullet laser = laserListT.get(n);
-						
-						laser.update(FRAMERATE,map);
 
-						enemy.collide(laser); // TODO: this is a marker that I edited this one
+						laser.update(FRAMERATE, map);
+
+						enemy.collide(laser);
 						enemy2.collide(laser);
 						enemy3.collide(laser);
-						
-						for(PowerUp powerup : powerups) {
+
+						for (PowerUp powerup : powerups) {
 							powerup.collide(laser);
 						}
 					}
-					
+
 					for (PowerUp powerup : powerups) {
 						powerup.update(FRAMERATE, map);
 						powerup.collide(tank);
@@ -788,24 +788,23 @@ public class solo_hard {
 
 					// Render everything
 					map.renderMap(context);
-					//tank.render(context); 
-					//System.out.println("current score:"+tank.getScore());
-					//System.out.println("current hp:"+tank.getHP());
-				
-					for(PowerUp powerup : powerups) {
+					// tank.render(context);
+					// System.out.println("current score:"+tank.getScore());
+					// System.out.println("current hp:"+tank.getHP());
+
+					for (PowerUp powerup : powerups) {
 						if (powerup.hp > 1) {
 							powerup.render(context);
-						}
-						else {
+						} else {
 							toRemove.add(powerup);
 						}
 					}
 					powerups.removeAll(toRemove);
-					
+
 //					if (speedPowerup.hp < 1) {
 //						tank.velocity.setLength(800);
 //					}
-					if (tank.hp > 0) {       
+					if (tank.hp > 0) {
 						tank.render(context);
 					}
 					if (enemy.hp > 0) {
@@ -817,7 +816,7 @@ public class solo_hard {
 					if (enemy3.hp > 0) {
 						enemy3.render(context);
 					}
-					
+
 					for (Sprite laser : laserListT) {
 						laser.render(context);
 					}
@@ -825,53 +824,52 @@ public class solo_hard {
 						laser.render(context);
 					}
 					muteButton.render(context);
-					
-					//Generate new powerups
+
+					// Generate new powerups
 					if (powerups.isEmpty()) {
 						PowerUp powerup;
-						//Allows only three powerups to be spawned at once
-						for(int i = 0; i < 3; i++) {
-						Random rand = new Random();
-						int newPUX;
-						int newPUY;
-						do {	
-						newPUX = rand.nextInt(map.MAP_WIDTH_IN_TILES);
-						newPUY = rand.nextInt(map.MAP_HEIGHT_IN_TILES);
-						powerup = PowerUp.randomPowerUp(newPUX*map.TILE_WIDTH, newPUY*map.TILE_HEIGHT);
-						} 
-						//Checks for collision with the walls with the current coordinates
-						while (powerup.collideMap(map));
-						//If the coordinates do not collide with the walls, the powerup is spawned
-						powerups.add(powerup);
+						// Allows only three powerups to be spawned at once
+						for (int i = 0; i < 3; i++) {
+							Random rand = new Random();
+							int newPUX;
+							int newPUY;
+							do {
+								newPUX = rand.nextInt(map.MAP_WIDTH_IN_TILES);
+								newPUY = rand.nextInt(map.MAP_HEIGHT_IN_TILES);
+								powerup = PowerUp.randomPowerUp(newPUX * map.TILE_WIDTH, newPUY * map.TILE_HEIGHT);
+							}
+							// Checks for collision with the walls with the current coordinates
+							while (powerup.collideMap(map));
+							// If the coordinates do not collide with the walls, the powerup is spawned
+							powerups.add(powerup);
 						}
-				}
+					}
 					score.setText("Score: " + tank.getScore());
-					
+
 					elapsedGameTime += FRAMERATE;
 					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
-					//System.out.println(elapsedGameTime + "Time passed");
-								
-					//Gameover Logic
+					// System.out.println(elapsedGameTime + "Time passed");
+
+					// Gameover Logic
 					if (tank.hp <= 0) {
-						Sprite youLose = new Sprite("art/YouLose.png",576, 400);
-						gameOver(youLose,context);
+						Sprite youLose = new Sprite("art/YouLose.png", 576, 400);
+						gameOver(youLose, context);
 						this.stop();
 					}
 					if (enemy.hp <= 0 && enemy2.hp <= 0 && enemy3.hp <= 0) {
-						Sprite youWin = new Sprite("art/YouWin.png",576, 400);
-						gameOver(youWin,context);
+						Sprite youWin = new Sprite("art/YouWin.png", 576, 400);
+						gameOver(youWin, context);
 						this.stop();
 					}
-					
-					if(elapsedGameTime > TOTALGAMETIME) {
-						if(tank.getScore() > enemy.getScore()) {
-							Sprite youWin = new Sprite("art/YouWin.png",576, 400);
-							gameOver(youWin,context);
+
+					if (elapsedGameTime > TOTALGAMETIME) {
+						if (tank.getScore() > enemy.getScore()) {
+							Sprite youWin = new Sprite("art/YouWin.png", 576, 400);
+							gameOver(youWin, context);
 							this.stop();
-						}
-						else {
-							Sprite youLose = new Sprite("art/YouLose.png",576, 400);
-							gameOver(youLose,context);
+						} else {
+							Sprite youLose = new Sprite("art/YouLose.png", 576, 400);
+							gameOver(youLose, context);
 							this.stop();
 						}
 					}
@@ -894,19 +892,19 @@ public class solo_hard {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void gameOver(Sprite message, GraphicsContext context) {
-		context.setFill(new Color(0,0,0,0.017));
+		context.setFill(new Color(0, 0, 0, 0.017));
 		new AnimationTimer() {
 			int i = 0;
+
 			public void handle(long nanotime) {
 				if (i < 100)
-					context.fillRect(0,0,1152,800);
+					context.fillRect(0, 0, 1152, 800);
 				else if (i == 100) {
-					
+
 					message.render(context);
-				}
-				else if(i > 300)  {
+				} else if (i > 300) {
 					this.stop();
 					stage.close();
 					new TankMenu();
@@ -915,6 +913,5 @@ public class solo_hard {
 			}
 		}.start();
 	}
-	
-	
+
 }
