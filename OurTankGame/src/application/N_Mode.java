@@ -46,7 +46,7 @@ public class N_Mode {
 
 	public N_Mode(List<Tank> newTanks, int id, NetClient nc) {
 
-		final int TOTALGAMETIME = 100;
+
 
 		Map map = new Map();
 
@@ -304,8 +304,8 @@ public class N_Mode {
 			hpB.setFont(Font.font("Segoe Print"));
 			hpB2.setFont(Font.font("Segoe Print"));
 
-			Label timer = new Label("Time Left: " + TOTALGAMETIME);
-			timer.setFont(Font.font("Segoe Print"));
+//			Label timer = new Label("Time Left: " + TOTALGAMETIME);
+//			timer.setFont(Font.font("Segoe Print"));
 
 			// HBox
 			HBox hpBar = new HBox();
@@ -317,8 +317,7 @@ public class N_Mode {
 			Menu rq = new Menu("Quit or Return");
 			Menu players = new Menu("Player");
 			Menu Audio = new Menu("Audio");
-			Menu help = new Menu("Help");
-			menuBar.getMenus().addAll(players, Audio, help, rq);
+			menuBar.getMenus().addAll(players, Audio,rq);
 
 			MenuItem quit = new MenuItem("Quit Game");
 			MenuItem returnM = new MenuItem("Return to Menu");
@@ -459,8 +458,6 @@ public class N_Mode {
 
 			AnimationTimer gameloop = new AnimationTimer() {
 
-				double elapsedGameTime = 0;
-
 				public void handle(long nanotime) {
 
 					tank.moveOnline(keyPressedList, keyJustPressedList, context, laserListT);
@@ -561,8 +558,8 @@ public class N_Mode {
 //						}
 //					}
 
-					elapsedGameTime += FRAMERATE;
-					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
+//					elapsedGameTime += FRAMERATE;
+//					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
 					// System.out.println(elapsedGameTime + "Time passed");
 
 					// Game over Logic
@@ -621,7 +618,7 @@ public class N_Mode {
 
 					// HBox
 					HBox hpBar = new HBox();
-					hpBar.getChildren().addAll(hpB, rootg, timer, hpB2, rootg1);
+					hpBar.getChildren().addAll(hpB, rootg, hpB2, rootg1);
 					hpBar.setAlignment(Pos.CENTER);
 					hpBar.setSpacing(40);
 
@@ -637,18 +634,13 @@ public class N_Mode {
 						gameOveOnline(youWin, context);
 						this.stop();
 					}
-					if (elapsedGameTime > TOTALGAMETIME) {
-						if (tank.getScore() > enemy.getScore()) {
-							Sprite youWin = new Sprite("art/YouWin.png", 576, 400);
-							gameOveOnline(youWin, context);
-							this.stop();
-						} else {
-
-							Sprite youLose = new Sprite("art/YouLose.png", 576, 400);
-							gameOveOnline(youLose, context);
-							this.stop();
-						}
-					}
+//					if (elapsedGameTime > TOTALGAMETIME) {
+//
+//						Sprite youLose = new Sprite("art/YouLose.png", 576, 400);
+//						gameOveOnline(youLose, context);
+//						this.stop();
+//
+//					}
 				}
 			};
 

@@ -21,11 +21,6 @@ public class TankServer {
 	public static final int udpPort = 55556;// UDP port number for forwarding client data
 	private List<Client> clients = new ArrayList<>();// Client collection
 
-	public static void main(String[] args) {
-		TankServer ts = new TankServer();
-		ts.start();
-
-	}
 
 	@SuppressWarnings("resource")
 	public void start() {
@@ -46,8 +41,9 @@ public class TankServer {
 				DataInputStream dis = new DataInputStream(s.getInputStream());
 				int UDP_PORT = dis.readInt();// Record the client UDP port
 				Client client = new Client(s.getInetAddress().getHostAddress(), UDP_PORT, ID);
+				if(clients.size() < 2) {
 				clients.add(client);// Add to client container
-
+				}
 				System.out.println("id : " + client.id + " - IP : " + client.IP);
 				DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 				dos.writeInt(ID++);// Assign an id number to the client
@@ -83,7 +79,6 @@ public class TankServer {
 				DatagramPacket dp = new DatagramPacket(buf, buf.length);
 				try {
 					ds.receive(dp);
-
 					for (int i = 0; i < clients.size();i++) {
 						dp.setSocketAddress(new InetSocketAddress(clients.get(i).IP, clients.get(i).udpPort));
 						ds.send(dp);

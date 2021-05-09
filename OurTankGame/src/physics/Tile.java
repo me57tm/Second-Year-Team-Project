@@ -14,7 +14,6 @@ public class Tile
 	public Tile(String filename, boolean passability) {
 		passable=passability;
 		source =filename;//.replaceAll("grimfandango-", "");
-		System.out.println(source);
 		//image = new Image(this.getClass().getResource(source).toExternalForm());
 		image = new Image(source);
 	}

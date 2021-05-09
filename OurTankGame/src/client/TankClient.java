@@ -30,6 +30,7 @@ import javafx.stage.WindowEvent;
 import physics.Tank;
 import tankUI.Auto_window;
 import tankUI.Split;
+import tankUI.Warning;
 
 public class TankClient {
 	public int id;
@@ -56,7 +57,7 @@ public class TankClient {
 		// Button
 		Button back = new Button("Back");
 		// image
-		Image img  = new Image("images/TankMenu.jpg");
+		Image img = new Image("images/TankMenu.jpg");
 		ImageView im = new ImageView();
 		im.setImage(img);
 
@@ -88,7 +89,6 @@ public class TankClient {
 		hb.setAlignment(Pos.CENTER);
 		hb.setSpacing(20);
 		hb.getChildren().addAll(username, fusername, login);
-
 
 		vb.setAlignment(Pos.CENTER);
 		vb.setSpacing(10);
@@ -138,31 +138,35 @@ public class TankClient {
 
 				if (!name.equals("") && len <= 8) {
 					// tips = new Auto_window(2000, dialog, new String("tips"), false);
-					player1 = new Tank("art/tank64.png",160d, 160d );
-					player2 = new Tank("art/tank-red.png",992, 608 );
+					player1 = new Tank("art/tank64.png", 160d, 160d);
+					player2 = new Tank("art/tank-red.png", 992, 608);
 
 					nc.connect("127.0.0.1");
-					
-					if ((id & 1) == 0 ? true : false) {
-						player1.setId(id);
-						player2.setId(id + 1);
-						tanks.add(player1);
-						tanks.add(player2);
-					} else {
-						player1.setId(id - 1);
-						player2.setId(id);
-						tanks.add(player2);
-						tanks.add(player1);
-					}
-					tankNameMsg nameMsg = new tankNameMsg(id, name);
-					nc.send(nameMsg);
-					
-					s1.close();
-					waiting_Room waitingRoom = new waiting_Room(tanks, id, nc);
 
-				} else if(name.equals("")){
-					Auto_window a1 = new Auto_window(2200,"Please type in your name.", "Tips", false);
-				}else {
+					if (id < 102) {
+						if ((id & 1) == 0 ? true : false) {
+							player1.setId(id);
+							player2.setId(id + 1);
+							tanks.add(player1);
+							tanks.add(player2);
+						} else {
+							player1.setId(id - 1);
+							player2.setId(id);
+							tanks.add(player2);
+							tanks.add(player1);
+						}
+						tankNameMsg nameMsg = new tankNameMsg(id, name);
+						nc.send(nameMsg);
+
+						s1.close();
+						waiting_Room waitingRoom = new waiting_Room(tanks, id, nc);
+					}else {
+						s1.close();
+						Warning warning = new Warning();
+					}
+				} else if (name.equals("")) {
+					Auto_window a1 = new Auto_window(2200, "Please type in your name.", "Tips", false);
+				} else {
 					String s1 = "Please enter a name less than 9 characters.";
 					Auto_window a1 = new Auto_window(2200, s1, "Tips", false);
 				}

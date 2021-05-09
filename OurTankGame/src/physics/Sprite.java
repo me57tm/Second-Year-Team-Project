@@ -175,7 +175,6 @@ public class Sprite
 			}
 
 		}
-		System.out.println(collision + "CollideMap");
 		return collision;
 	}
 

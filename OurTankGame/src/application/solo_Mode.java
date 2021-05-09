@@ -345,8 +345,7 @@ public class solo_Mode {
 			Menu rq = new Menu("Quit or Return");
 			Menu players = new Menu("Player");
 			Menu Audio = new Menu("Audio");
-			Menu help = new Menu("Help");
-			menuBar.getMenus().addAll(players, Audio, help, rq);
+			menuBar.getMenus().addAll(players, Audio, rq);
 
 			MenuItem quit = new MenuItem("Quit Game");
 			MenuItem returnM = new MenuItem("Return to Menu");
@@ -537,32 +536,7 @@ public class solo_Mode {
 
 				public void handle(long nanotime) {
 
-					// HP bar
-					Group rootg = new Group();
-					Rectangle rectangle1 = new Rectangle();
-					rectangle1.setFill(Paint.valueOf("#FFFFFF"));
-					rectangle1.setX(0);
-					rectangle1.setY(50);
-					rectangle1.setWidth(100.0);
-					rectangle1.setHeight(15.0);
-					rectangle1.setStroke(Color.RED);
-
-					Rectangle rectangle2 = new Rectangle();
-					rectangle2.setFill(Paint.valueOf("#FF0033"));
-					rectangle2.setX(0);
-					rectangle2.setY(50);
-					rectangle2.setWidth(tank.hp);
-					rectangle2.setHeight(15.0);
-					rectangle2.setStroke(Color.RED);
-					rootg.getChildren().addAll(rectangle1, rectangle2);
-
-					// HBox
-					HBox hpBar = new HBox();
-					hpBar.getChildren().addAll(hpB, rootg, timer, score);
-					hpBar.setAlignment(Pos.CENTER);
-					hpBar.setSpacing(40);
-
-					root.setBottom(hpBar);
+					
 
 					// enemy1
 					double checkRotation = enemy.rotation % 90;
@@ -595,8 +569,6 @@ public class solo_Mode {
 								if (randomNumber == 1) {// 1å�³è½¬
 									enemy.rotation += 2;
 									oneOrMinOne = 1;
-									System.out.println("å�³è½¬a");
-									System.out.println(a);
 									a++;
 								} else if (randomNumber == 2) {// 2å·¦è½¬
 									enemy.rotation -= 2;
@@ -607,8 +579,6 @@ public class solo_Mode {
 								} else if (randomNumber == 0) {// 0ç›´èµ°
 									enemy.velocity.setAngle(enemy.rotation);
 									enemy.velocity.setLength(100);
-									System.out.println("ç›´èµ°a");
-									System.out.println(a);
 									a++;
 								}
 							}
@@ -696,8 +666,7 @@ public class solo_Mode {
 								if (randomNumber3 == 1) {// 1å�³è½¬
 									enemy3.rotation += 2;
 									oneOrMinOne3 = 1;
-									System.out.println("å�³è½¬b");
-									System.out.println(b);
+
 									b++;
 								} else if (randomNumber3 == 2) {// 2å·¦è½¬
 									enemy3.rotation -= 2;
@@ -708,8 +677,6 @@ public class solo_Mode {
 								} else if (randomNumber3 == 0) {// 0ç›´èµ°
 									enemy3.velocity.setAngle(enemy3.rotation);
 									enemy3.velocity.setLength(100);
-									System.out.println("ç›´èµ°b");
-									System.out.println(b);
 									b++;
 								}
 							}
@@ -850,6 +817,34 @@ public class solo_Mode {
 					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
 					// System.out.println(elapsedGameTime + "Time passed");
 
+				
+					// HP bar
+					Group rootg = new Group();
+					Rectangle rectangle1 = new Rectangle();
+					rectangle1.setFill(Paint.valueOf("#FFFFFF"));
+					rectangle1.setX(0);
+					rectangle1.setY(50);
+					rectangle1.setWidth(100.0);
+					rectangle1.setHeight(15.0);
+					rectangle1.setStroke(Color.RED);
+
+					Rectangle rectangle2 = new Rectangle();
+					rectangle2.setFill(Paint.valueOf("#FF0033"));
+					rectangle2.setX(0);
+					rectangle2.setY(50);
+					rectangle2.setWidth(tank.hp);
+					rectangle2.setHeight(15.0);
+					rectangle2.setStroke(Color.RED);
+					rootg.getChildren().addAll(rectangle1, rectangle2);
+
+					// HBox
+					HBox hpBar = new HBox();
+					hpBar.getChildren().addAll(hpB, rootg, timer, score);
+					hpBar.setAlignment(Pos.CENTER);
+					hpBar.setSpacing(40);
+
+					root.setBottom(hpBar);
+					
 					// Gameover Logic
 					if (tank.hp <= 0) {
 						Sprite youLose = new Sprite("art/YouLose.png", 576, 400);

@@ -315,8 +315,8 @@ public class Local_PVP_Mode {
 			Menu rq = new Menu("Quit or Return");
 			Menu players = new Menu("Player");
 			Menu Audio = new Menu("Audio");
-			Menu help = new Menu("Help");
-			menuBar.getMenus().addAll(players, Audio, help, rq);
+
+			menuBar.getMenus().addAll(players, Audio, rq);
 
 			MenuItem quit = new MenuItem("Quit Game");
 			MenuItem returnM = new MenuItem("Return to Menu");
@@ -462,51 +462,7 @@ public class Local_PVP_Mode {
 				
 				public void handle(long nanotime) {
 					
-					//HP bar
-					Group rootg = new Group();
-					Rectangle rectangle1 = new Rectangle();
-			        rectangle1.setFill(Paint.valueOf("#FFFFFF"));
-			        rectangle1.setX(0);
-			        rectangle1.setY(50);
-			        rectangle1.setWidth(100.0);
-			        rectangle1.setHeight(15.0);
-			        rectangle1.setStroke(Color.RED);
-			        
-			        Rectangle rectangle2 = new Rectangle();
-			        rectangle2.setFill(Paint.valueOf("#FF0033"));
-			        rectangle2.setX(0);
-			        rectangle2.setY(50);
-			        rectangle2.setWidth(tank.hp);
-			        rectangle2.setHeight(15.0);
-			        rectangle2.setStroke(Color.RED);
-			        rootg.getChildren().addAll(rectangle1,rectangle2);
-			        
-			      //HP bar
-					Group rootg1 = new Group();
-					Rectangle rectangle3 = new Rectangle();
-			        rectangle3.setFill(Paint.valueOf("#FFFFFF"));
-			        rectangle3.setX(0);
-			        rectangle3.setY(50);
-			        rectangle3.setWidth(100.0);
-			        rectangle3.setHeight(15.0);
-			        rectangle3.setStroke(Color.RED);
-			        
-			        Rectangle rectangle4 = new Rectangle();
-			        rectangle4.setFill(Paint.valueOf("#FF0033"));
-			        rectangle4.setX(0);
-			        rectangle4.setY(50);
-			        rectangle4.setWidth(enemy.hp);
-			        rectangle4.setHeight(15.0);
-			        rectangle4.setStroke(Color.RED);
-			        rootg1.getChildren().addAll(rectangle3,rectangle4);
-			        
-			        // HBox
-					HBox hpBar = new HBox();
-					hpBar.getChildren().addAll(hpB,rootg,score1,timer,hpB2,rootg1,score2);
-					hpBar.setAlignment(Pos.CENTER);
-					hpBar.setSpacing(40);
 					
-					root.setBottom(hpBar);
 					
 					tank.moveLocalWASD(keyPressedList, keyJustPressedList, context, laserListT);
 					enemy.moveLocal(keyPressedListE, keyJustPressedListE, context, laserListE);
@@ -516,9 +472,9 @@ public class Local_PVP_Mode {
 					keyJustPressedList.clear();
 
 					tank.update(FRAMERATE, map);
-					hpB.setText("HP: " + tank.hp);
+					
 					enemy.update(FRAMERATE, map);
-					hpB2.setText("HP: " + enemy.hp);
+					
 
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
@@ -617,6 +573,55 @@ public class Local_PVP_Mode {
 					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
 					//System.out.println(elapsedGameTime + "Time passed");
 					
+					
+					//HP bar
+					Group rootg = new Group();
+					Rectangle rectangle1 = new Rectangle();
+			        rectangle1.setFill(Paint.valueOf("#FFFFFF"));
+			        rectangle1.setX(0);
+			        rectangle1.setY(50);
+			        rectangle1.setWidth(100.0);
+			        rectangle1.setHeight(15.0);
+			        rectangle1.setStroke(Color.RED);
+			        
+			        Rectangle rectangle2 = new Rectangle();
+			        rectangle2.setFill(Paint.valueOf("#FF0033"));
+			        rectangle2.setX(0);
+			        rectangle2.setY(50);
+			        rectangle2.setWidth(tank.hp);
+			        rectangle2.setHeight(15.0);
+			        rectangle2.setStroke(Color.RED);
+			        rootg.getChildren().addAll(rectangle1,rectangle2);
+			        
+			      //HP bar
+					Group rootg1 = new Group();
+					Rectangle rectangle3 = new Rectangle();
+			        rectangle3.setFill(Paint.valueOf("#FFFFFF"));
+			        rectangle3.setX(0);
+			        rectangle3.setY(50);
+			        rectangle3.setWidth(100.0);
+			        rectangle3.setHeight(15.0);
+			        rectangle3.setStroke(Color.RED);
+			        
+			        Rectangle rectangle4 = new Rectangle();
+			        rectangle4.setFill(Paint.valueOf("#FF0033"));
+			        rectangle4.setX(0);
+			        rectangle4.setY(50);
+			        rectangle4.setWidth(enemy.hp);
+			        rectangle4.setHeight(15.0);
+			        rectangle4.setStroke(Color.RED);
+			        rootg1.getChildren().addAll(rectangle3,rectangle4);
+			        
+			        // HBox
+					HBox hpBar = new HBox();
+					hpBar.getChildren().addAll(hpB,rootg,score1,timer,hpB2,rootg1,score2);
+					hpBar.setAlignment(Pos.CENTER);
+					hpBar.setSpacing(40);
+					
+					root.setBottom(hpBar);
+					
+					hpB.setText("HP: " + tank.hp);
+					hpB2.setText("HP: " + enemy.hp);
 					// Gameover Logic
 					if (tank.hp <= 0) {
 						Sprite youLose = new Sprite("art/YouLose.png", 576, 400);
