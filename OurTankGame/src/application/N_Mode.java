@@ -41,6 +41,9 @@ import physics.Tile;
 import tankUI.Player;
 import tankUI.TankMenu;
 
+/**
+ * Network PVP mode, which can establish a server for battle mode
+ */
 public class N_Mode {
 	private final Stage stage = new Stage();
 
@@ -272,20 +275,12 @@ public class N_Mode {
 
 		Tank tank, enemy;
 		tank = newTanks.get(0);
-		tank.setSpeedModifier(5);
+		tank.setSpeedModifier(2);
 		tank.setMap(map);
 		enemy = newTanks.get(1);
-		enemy.setSpeedModifier(5);
+		enemy.setSpeedModifier(2);
 		enemy.setMap(map);
 
-//		ArrayList<PowerUp> toRemove = new ArrayList<>();
-//		ArrayList<PowerUp> powerups = new ArrayList<>();
-//		PowerUp speedPowerup = new PowerUp("Speed", 150, 500);
-//		powerups.add(speedPowerup);
-//		PowerUp coin = new PowerUp("Score", 480, 64);
-//		powerups.add(coin);
-//		PowerUp battery = new PowerUp("Energy", 96, 672);
-//		powerups.add(battery);
 
 		DropShadow dropshadow = new DropShadow();
 		dropshadow.setRadius(10);
@@ -304,8 +299,6 @@ public class N_Mode {
 			hpB.setFont(Font.font("Segoe Print"));
 			hpB2.setFont(Font.font("Segoe Print"));
 
-//			Label timer = new Label("Time Left: " + TOTALGAMETIME);
-//			timer.setFont(Font.font("Segoe Print"));
 
 			// HBox
 			HBox hpBar = new HBox();
@@ -371,8 +364,6 @@ public class N_Mode {
 
 			// Scene
 			Scene scene = new Scene(root, 1150, 820);
-			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			// stage.setMaximized(true);
 			stage.setResizable(false);
 			stage.setScene(scene);
 			stage.setTitle("PVP mode");
@@ -449,10 +440,8 @@ public class N_Mode {
 
 			ArrayList<Bullet> laserListT = new ArrayList<Bullet>();
 			ArrayList<Bullet> laserListE = new ArrayList<Bullet>();
-			// Bullet bullet = new Bullet("imagesProjectAI/red-circle.png", enemy);
-			// laserListE.add(bullet);
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
-			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
+
 
 			final double FRAMERATE = 1 / 60d;
 
@@ -472,9 +461,7 @@ public class N_Mode {
 						laser1.update(FRAMERATE, map);
 						tank.collide(laser1);
 
-//						for (PowerUp powerup : powerups) {
-//							powerup.collide(laser1);
-//						}
+
 					}
 
 					for (int n = 0; n < laserListT.size(); n++) {
@@ -484,16 +471,8 @@ public class N_Mode {
 
 						enemy.collide(laser);
 
-//						for (PowerUp powerup : powerups) {
-//							powerup.collide(laser);
-//						}
 					}
 
-//					for (PowerUp powerup : powerups) {
-//						powerup.update(FRAMERATE, map);
-//						powerup.collide(tank);
-//						powerup.collide(enemy);
-//					}
 
 					// Remove Bullets that have collided with something
 					for (Bullet b : laserListT)
@@ -508,22 +487,7 @@ public class N_Mode {
 
 					// Render everything
 					map.renderMap(context);
-					// tank.render(context);
-					// System.out.println("current score:"+tank.getScore());
-					// System.out.println("current hp:"+tank.getHP());
 
-//					for (PowerUp powerup : powerups) {
-//						if (powerup.hp > 1) {
-//							powerup.render(context);
-//						} else {
-//							toRemove.add(powerup);
-//						}
-//					}
-//					powerups.removeAll(toRemove);
-
-//					if (speedPowerup.hp < 1) {
-//						tank.velocity.setLength(800);
-//					}
 					if (tank.hp > 0) {
 						tank.render(context);
 					}
@@ -538,29 +502,6 @@ public class N_Mode {
 					}
 					muteButton.render(context);
 
-					// Generate new powerups
-//					if (powerups.isEmpty()) {
-//						PowerUp powerup;
-//						// Allows only three powerups to be spawned at once
-//						for (int i = 0; i < 3; i++) {
-//							Random rand = new Random();
-//							int newPUX;
-//							int newPUY;
-//							do {
-//								newPUX = rand.nextInt(map.MAP_WIDTH_IN_TILES);
-//								newPUY = rand.nextInt(map.MAP_HEIGHT_IN_TILES);
-//								powerup = PowerUp.randomPowerUp(newPUX * map.TILE_WIDTH, newPUY * map.TILE_HEIGHT);
-//							}
-//							// Checks for collision with the walls with the current coordinates
-//							while (powerup.collideMap(map));
-//							// If the coordinates do not collide with the walls, the powerup is spawned
-//							powerups.add(powerup);
-//						}
-//					}
-
-//					elapsedGameTime += FRAMERATE;
-//					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
-					// System.out.println(elapsedGameTime + "Time passed");
 
 					// Game over Logic
 					if (id % 2 == 0) {
@@ -634,13 +575,7 @@ public class N_Mode {
 						gameOveOnline(youWin, context);
 						this.stop();
 					}
-//					if (elapsedGameTime > TOTALGAMETIME) {
-//
-//						Sprite youLose = new Sprite("art/YouLose.png", 576, 400);
-//						gameOveOnline(youLose, context);
-//						this.stop();
-//
-//					}
+
 				}
 			};
 

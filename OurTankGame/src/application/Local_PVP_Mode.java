@@ -35,15 +35,15 @@ import physics.PowerUp;
 import physics.Sprite;
 import physics.Tank;
 import physics.Tile;
-import tankUI.Player;
 import tankUI.TankMenu;
 
 public class Local_PVP_Mode {
 	private final Stage stage = new Stage();
+
 	public Local_PVP_Mode() {
 
-		final int TOTALGAMETIME = 100; 
-		
+		final int TOTALGAMETIME = 120;
+
 		Map map = new Map();
 
 		Layer l1 = new Layer("background", map.MAP_WIDTH_IN_TILES, map.MAP_HEIGHT_IN_TILES);
@@ -286,8 +286,6 @@ public class Local_PVP_Mode {
 		dropshadow.setSpread(0.1);
 		dropshadow.setColor(Color.BLACK);
 
-
-
 		try {
 
 			// Label
@@ -295,15 +293,14 @@ public class Local_PVP_Mode {
 			score1.setFont(Font.font("Segoe Print"));
 			Label hpB = new Label("HP(yellow): " + tank.getHP());
 			hpB.setFont(Font.font("Segoe Print"));
-			
+
 			Label timer = new Label("Time Left: " + TOTALGAMETIME);
 			timer.setFont(Font.font("Segoe Print"));
-			
+
 			Label score2 = new Label("Score: " + enemy.getScore());
 			score2.setFont(Font.font("Segoe Print"));
-			Label hpB2 = new Label("HP(red): "+ enemy.getHP());
+			Label hpB2 = new Label("HP(red): " + enemy.getHP());
 			hpB2.setFont(Font.font("Segoe Print"));
-			
 
 			// HBox
 			HBox hpBar = new HBox();
@@ -313,10 +310,9 @@ public class Local_PVP_Mode {
 			// Menu
 			MenuBar menuBar = new MenuBar();
 			Menu rq = new Menu("Quit or Return");
-			Menu players = new Menu("Player");
 			Menu Audio = new Menu("Audio");
 
-			menuBar.getMenus().addAll(players, Audio, rq);
+			menuBar.getMenus().addAll(Audio, rq);
 
 			MenuItem quit = new MenuItem("Quit Game");
 			MenuItem returnM = new MenuItem("Return to Menu");
@@ -333,9 +329,6 @@ public class Local_PVP_Mode {
 			MenuItem volume = new MenuItem("Music off");
 			MenuItem volume1 = new MenuItem("Music on");
 			Audio.getItems().addAll(volume, volume1);
-
-			MenuItem player0 = new MenuItem("Player List");
-			players.getItems().addAll(player0);
 
 			// Pane
 			BorderPane root = new BorderPane();
@@ -358,22 +351,12 @@ public class Local_PVP_Mode {
 				}
 			});
 
-			player0.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent arg0) {
-					@SuppressWarnings("unused")
-					Player nomode = new Player(null);
-				}
-			});
-
 			// Scene
 			Scene scene = new Scene(root, 1150, 820);
-			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			// stage.setMaximized(true);
+
 			stage.setResizable(false);
 			stage.setScene(scene);
-			stage.setTitle("Singleplayer Mode");
+			stage.setTitle("Local P V P");
 			stage.show();
 
 			TilePane rootControls = new TilePane();
@@ -402,7 +385,7 @@ public class Local_PVP_Mode {
 				if (!keyPressedList.contains(keyName))
 					keyPressedList.add(keyName);
 				if (!keyPressedListE.contains(keyName))
-					keyPressedListE.add(keyName);				    
+					keyPressedListE.add(keyName);
 				if (!keyJustPressedList.contains(keyName))
 					keyJustPressedList.add(keyName);
 				if (!keyJustPressedListE.contains(keyName))
@@ -417,22 +400,20 @@ public class Local_PVP_Mode {
 				if (keyPressedListE.contains(keyName))
 					keyPressedListE.remove(keyName);
 			});
-			
+
 			Sprite muteButton;
 			if (AudioManager.isMute()) {
-				muteButton = new Sprite("art/musicnoteoff.png",1100,50);
-			}
-			else {
-				muteButton = new Sprite("art/musicnote.png",1100,50);
+				muteButton = new Sprite("art/musicnoteoff.png", 1100, 50);
+			} else {
+				muteButton = new Sprite("art/musicnote.png", 1100, 50);
 			}
 			scene.setOnMouseClicked((MouseEvent event) -> {
 				if (event.getX() > 1080 && event.getX() < 1110 && event.getY() > 59 && event.getY() < 95) {
 					System.out.println(event.getY());
-					if (AudioManager.isMute()){
+					if (AudioManager.isMute()) {
 						muteButton.setImage("art/musicnote.png");
 						AudioManager.unmute();
-					}
-					else {
+					} else {
 						muteButton.setImage("art/musicnoteoff.png");
 						AudioManager.mute();
 					}
@@ -458,12 +439,10 @@ public class Local_PVP_Mode {
 
 			AnimationTimer gameloop = new AnimationTimer() {
 
-				double elapsedGameTime = 0;	
-				
+				double elapsedGameTime = 0;
+
 				public void handle(long nanotime) {
-					
-					
-					
+
 					tank.moveLocalWASD(keyPressedList, keyJustPressedList, context, laserListT);
 					enemy.moveLocal(keyPressedListE, keyJustPressedListE, context, laserListE);
 					tank.setBulletMsg(0);
@@ -472,9 +451,8 @@ public class Local_PVP_Mode {
 					keyJustPressedList.clear();
 
 					tank.update(FRAMERATE, map);
-					
+
 					enemy.update(FRAMERATE, map);
-					
 
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
@@ -516,9 +494,7 @@ public class Local_PVP_Mode {
 
 					// Render everything
 					map.renderMap(context);
-					// tank.render(context);
-					// System.out.println("current score:"+tank.getScore());
-					// System.out.println("current hp:"+tank.getHP());
+
 
 					for (PowerUp powerup : powerups) {
 						if (powerup.hp > 1) {
@@ -568,86 +544,103 @@ public class Local_PVP_Mode {
 
 					score1.setText("Score: " + tank.getScore());
 					score2.setText("Score: " + enemy.getScore());
-					
+
 					elapsedGameTime += FRAMERATE;
 					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
-					//System.out.println(elapsedGameTime + "Time passed");
-					
-					
-					//HP bar
+					// System.out.println(elapsedGameTime + "Time passed");
+
+					// HP bar
 					Group rootg = new Group();
 					Rectangle rectangle1 = new Rectangle();
-			        rectangle1.setFill(Paint.valueOf("#FFFFFF"));
-			        rectangle1.setX(0);
-			        rectangle1.setY(50);
-			        rectangle1.setWidth(100.0);
-			        rectangle1.setHeight(15.0);
-			        rectangle1.setStroke(Color.RED);
-			        
-			        Rectangle rectangle2 = new Rectangle();
-			        rectangle2.setFill(Paint.valueOf("#FF0033"));
-			        rectangle2.setX(0);
-			        rectangle2.setY(50);
-			        rectangle2.setWidth(tank.hp);
-			        rectangle2.setHeight(15.0);
-			        rectangle2.setStroke(Color.RED);
-			        rootg.getChildren().addAll(rectangle1,rectangle2);
-			        
-			      //HP bar
+					rectangle1.setFill(Paint.valueOf("#FFFFFF"));
+					rectangle1.setX(0);
+					rectangle1.setY(50);
+					rectangle1.setWidth(100.0);
+					rectangle1.setHeight(15.0);
+					rectangle1.setStroke(Color.RED);
+
+					Rectangle rectangle2 = new Rectangle();
+					rectangle2.setFill(Paint.valueOf("#FF0033"));
+					rectangle2.setX(0);
+					rectangle2.setY(50);
+					rectangle2.setWidth(tank.hp);
+					rectangle2.setHeight(15.0);
+					rectangle2.setStroke(Color.RED);
+					rootg.getChildren().addAll(rectangle1, rectangle2);
+
+					// HP bar
 					Group rootg1 = new Group();
 					Rectangle rectangle3 = new Rectangle();
-			        rectangle3.setFill(Paint.valueOf("#FFFFFF"));
-			        rectangle3.setX(0);
-			        rectangle3.setY(50);
-			        rectangle3.setWidth(100.0);
-			        rectangle3.setHeight(15.0);
-			        rectangle3.setStroke(Color.RED);
-			        
-			        Rectangle rectangle4 = new Rectangle();
-			        rectangle4.setFill(Paint.valueOf("#FF0033"));
-			        rectangle4.setX(0);
-			        rectangle4.setY(50);
-			        rectangle4.setWidth(enemy.hp);
-			        rectangle4.setHeight(15.0);
-			        rectangle4.setStroke(Color.RED);
-			        rootg1.getChildren().addAll(rectangle3,rectangle4);
-			        
-			        // HBox
+					rectangle3.setFill(Paint.valueOf("#FFFFFF"));
+					rectangle3.setX(0);
+					rectangle3.setY(50);
+					rectangle3.setWidth(100.0);
+					rectangle3.setHeight(15.0);
+					rectangle3.setStroke(Color.RED);
+
+					Rectangle rectangle4 = new Rectangle();
+					rectangle4.setFill(Paint.valueOf("#FF0033"));
+					rectangle4.setX(0);
+					rectangle4.setY(50);
+					rectangle4.setWidth(enemy.hp);
+					rectangle4.setHeight(15.0);
+					rectangle4.setStroke(Color.RED);
+					rootg1.getChildren().addAll(rectangle3, rectangle4);
+
+					// HBox
 					HBox hpBar = new HBox();
-					hpBar.getChildren().addAll(hpB,rootg,score1,timer,hpB2,rootg1,score2);
+					hpBar.getChildren().addAll(hpB, rootg, score1, timer, hpB2, rootg1, score2);
 					hpBar.setAlignment(Pos.CENTER);
 					hpBar.setSpacing(40);
-					
+
 					root.setBottom(hpBar);
-					
+
 					hpB.setText("HP: " + tank.hp);
 					hpB2.setText("HP: " + enemy.hp);
 					// Gameover Logic
 					if (tank.hp <= 0) {
-						Sprite youLose = new Sprite("art/YouLose.png", 576, 400);
+						Sprite youLose = new Sprite("art/RedWin.png", 576, 400);
 						gameOver(youLose, context);
 						this.stop();
 					}
 					if (enemy.hp <= 0) {
-						Sprite youWin = new Sprite("art/YouWin.png", 576, 400);
+						Sprite youWin = new Sprite("art/YelloWin.png", 576, 400);
 						gameOver(youWin, context);
 						this.stop();
 					}
-					if(elapsedGameTime > TOTALGAMETIME) {
-						if(tank.getScore() > enemy.getScore()) {
-							Sprite youWin = new Sprite("art/YouWin.png",576, 400);
-							gameOver(youWin,context);
+					if (elapsedGameTime > TOTALGAMETIME) {
+						if (tank.hp < enemy.hp) {
+							Sprite RedWin = new Sprite("art/RedWin.png", 576, 400);
+							gameOver(RedWin, context);
 							this.stop();
 						}
-						else {
-							Sprite youLose = new Sprite("art/YouLose.png",576, 400);
-							gameOver(youLose,context);
+						if (tank.hp > enemy.hp) {
+							Sprite YelloWin = new Sprite("art/YelloWin.png", 576, 400);
+							gameOver(YelloWin, context);
 							this.stop();
 						}
+						if (tank.hp == enemy.hp) {
+
+							if (tank.getScore() > enemy.getScore()) {
+								Sprite YelloWin = new Sprite("art/YelloWin.png", 576, 400);
+								gameOver(YelloWin, context);
+								this.stop();
+							} else if (tank.getScore() < enemy.getScore()) {
+								Sprite RedWin = new Sprite("art/RedWin.png", 576, 400);
+								gameOver(RedWin, context);
+								this.stop();
+							} else {
+								Sprite Draw = new Sprite("art/Draw.png", 576, 400);
+								gameOver(Draw, context);
+								this.stop();
+							}
+
+						}
+
 					}
 				}
 			};
-            Thread.sleep(200);
+
 			gameloop.start();
 			returnM.setOnAction(new EventHandler<ActionEvent>() {
 

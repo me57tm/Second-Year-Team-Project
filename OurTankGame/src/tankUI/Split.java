@@ -3,63 +3,70 @@ package tankUI;
 import client.TankClient;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import server.TankServer;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
+import javafx.scene.layout.StackPane;
 
+
+/**
+ * The network mode distinguishes the interface between the host and guest
+ */
 public class Split {
 
 	public Split() {
 		try {
-
-			Font f = new Font("Segoe Print", 15);
+			
+			Stage s1 =new Stage();
+			s1.setTitle("Tank BattleField");
+			s1.getIcons().add(new Image("images/icon_tank.jpg"));
 
 			Image img  = new Image("images/TankMenu.jpg");
-			ImageView im = new ImageView();
-			im.setImage(img);
-			BackgroundImage bgi = new BackgroundImage(img, null, null, null, null);
-			Background bg = new Background(bgi);
-
-			Button back = new Button("Back");
+			ImageView imgV = new ImageView(img);
+			
+			Label set1 = new Label();
+			set1.setLayoutX(0);
+			set1.setLayoutY(0);
+			
+			Label set2 = new Label();
+			set2.setLayoutX(1000);
+			set2.setLayoutY(1000);
+			
 			Button host = new Button("As Host");
+			host.getStyleClass().add("font");
+			host.setPrefSize(250, 40);
+			host.setLayoutX(375);
+			host.setLayoutY(500);
+			host.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			
 			Button guest = new Button("As Guest");
-			host.setAlignment(Pos.CENTER);
-			guest.setAlignment(Pos.CENTER);
-
-			Label t = new Label("Jion game as a host or guest");
-			t.setFont(f);
-			t.setTextFill(Paint.valueOf("#fffffb"));
-			// BUG，label is under the background
-
-			VBox vb = new VBox();
-			vb.getChildren().addAll(t, host, guest);
-			vb.setAlignment(Pos.CENTER);
-			vb.setSpacing(40);
-
-			BorderPane root = new BorderPane();
-			root.setBottom(vb);
-			root.setBackground(bg);
-			root.setRight(back);
-
-			Stage s1 = new Stage();
-			Scene scene = new Scene(root);
-			s1.setWidth(1160);
-			s1.setHeight(820);
+			guest.getStyleClass().add("font");
+			guest.setPrefSize(250, 40);
+			guest.setLayoutX(375);
+			guest.setLayoutY(600);
+			guest.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			
+			Button back = new Button("Back");
+			back.getStyleClass().add("font");
+			back.setPrefSize(250, 40);
+			back.setLayoutX(375);
+			back.setLayoutY(700);
+			back.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			
+			Group g1 = new Group();
+			g1.getChildren().addAll(set1,set2,host,guest,back);
+			
+			StackPane sp = new StackPane(); 
+			sp.getChildren().addAll(imgV,g1);
+			
+			Scene scene = new Scene(sp,1152,800);
+			s1.setScene(scene);	
 			s1.setResizable(false);
-			s1.setScene(scene);
-			s1.setTitle("As a host or guest");
 			s1.show();
 
 			back.setOnAction(new EventHandler<ActionEvent>() {
@@ -77,13 +84,6 @@ public class Split {
 				@SuppressWarnings("unused")
 				@Override
 				public void handle(ActionEvent arg0) {
-
-					new Thread(() -> {
-						TankServer ts = new TankServer();
-						ts.start();
-					}).start();
-					
-					System.out.println("Server has been started");
 
 					ServerStart ss = new ServerStart();
 					s1.close();

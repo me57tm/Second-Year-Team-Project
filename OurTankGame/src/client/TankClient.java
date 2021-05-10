@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,18 +13,8 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import physics.Tank;
@@ -32,6 +22,9 @@ import tankUI.Auto_window;
 import tankUI.Split;
 import tankUI.Warning;
 
+/**
+ * Enter the name interface before entering the game in multiplayer mode
+ */
 public class TankClient {
 	public int id;
 	static TextField fusername = new TextField();
@@ -45,6 +38,8 @@ public class TankClient {
 		Tooltip tooltip = new Tooltip();
 		tooltip.setText("\nYour password must be\n" + "at least 9 characters in length\n");
 		fusername.setTooltip(tooltip);
+		fusername.setLayoutX(375);
+		fusername.setLayoutY(600);
 
 		// Shadow
 		DropShadow dropshadow = new DropShadow();
@@ -56,56 +51,47 @@ public class TankClient {
 
 		// Button
 		Button back = new Button("Back");
+		back.getStyleClass().add("font");
+		back.setPrefSize(250, 40);
+		back.setLayoutX(355);
+		back.setLayoutY(800);
+		back.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		// image
 		Image img = new Image("images/TankMenu.jpg");
 		ImageView im = new ImageView();
 		im.setImage(img);
-
-		// Background
-		BackgroundImage bgi = new BackgroundImage(img, null, null, null, null);
-		Background bg = new Background(bgi);
-
-		// Border
-		BorderStroke bs = new BorderStroke(Paint.valueOf("#4e72b8"), null, new CornerRadii(10), new BorderWidths(2));
-		Border br = new Border(bs);
+		
+		Label set1 = new Label();
+		set1.setLayoutX(0);
+		set1.setLayoutY(0);
+		
+		Label set2 = new Label();
+		set2.setLayoutX(1000);
+		set2.setLayoutY(1000);
 
 		// Button
 		Button login = new Button("Start");
-		login.setFont(Font.font("Segoe Print"));
-		login.setBorder(br);
+		login.getStyleClass().add("font");
+		login.setPrefSize(250, 40);
+		login.setLayoutX(355);
+		login.setLayoutY(700);
+		login.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
-		// TextField
-		fusername.setBorder(br);
-		Font f1 = new Font("Segoe Print", 15);
-		fusername.setFont(f1);
-
-		// HBox
-		HBox hb = new HBox();
-		VBox vb = new VBox();
 		Label username = new Label("UserName:");
-		username.setFont(f1);
-		username.setTextFill(Paint.valueOf("#fffffb"));
+		username.getStyleClass().add("font");
+		username.setLayoutX(400);
+		username.setLayoutY(500);
+		username.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
-		hb.setAlignment(Pos.CENTER);
-		hb.setSpacing(20);
-		hb.getChildren().addAll(username, fusername, login);
+		Group g = new Group(set1,set2,username, fusername, login,back);
 
-		vb.setAlignment(Pos.CENTER);
-		vb.setSpacing(10);
+		StackPane sp = new StackPane(); 
+		sp.getChildren().addAll(im,g);
 
-		BorderPane root = new BorderPane();
-		root.setBackground(bg);
-		root.setBottom(hb);
-		root.setCenter(vb);
-		root.setRight(back);
-		root.setEffect(dropshadow);
-
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(sp,1152,800);
 		Stage s1 = new Stage();
 		s1.setScene(scene);
-		s1.setTitle("Tank Battle Login");
-		s1.setWidth(1160);
-		s1.setHeight(820);
+		s1.setTitle("Tank BattleField");
 		s1.setResizable(false);
 		s1.show();
 

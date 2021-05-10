@@ -2,7 +2,9 @@ package client;
 
 import java.io.DataInputStream;
 import java.net.DatagramSocket;
-
+/**
+ * Network protocol interface,achieve polymorphism
+ */
 public interface Message {
 
     public static final int TANK_MOVE_MSG= 1;

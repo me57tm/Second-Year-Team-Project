@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import physics.Tank;
 
+/**
+ * The list in the network mode can view the number of players, ID and name
+ */
 public class Player {
 	private final Stage stage = new Stage();
 	String name1 = TankClient.getName();

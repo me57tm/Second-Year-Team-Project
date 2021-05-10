@@ -13,13 +13,12 @@ import javafx.stage.WindowEvent;
 
 public class TankMenu {
 	/**
-	 * Entrance to the entire program
-	 *
+	 * The main interface of the game
 	 */
 	@SuppressWarnings("unused")
 	public TankMenu() {
 		Stage s1 =new Stage();
-		s1.setTitle("Tank Game");
+		s1.setTitle("Tank BattleField");
 		s1.getIcons().add(new Image("images/icon_tank.jpg"));
 		Image img  = new Image("images/TankMenu.jpg");
 		ImageView imgV = new ImageView(img);
@@ -72,6 +71,7 @@ public class TankMenu {
 //			String paragraph = " 'W' moves up, 'S' moves down, 'A' moves left, 'D' moves right and 'J' shoots bullet the side you're facing ";
 //			Auto_window Aw = new Auto_window(5000, paragraph, new String("Introduction"), true);
 			Introduction I = new Introduction();
+			s1.close();
 		});
 		
 		Button b4 = new Button("Quit Game");

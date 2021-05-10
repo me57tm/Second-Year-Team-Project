@@ -10,7 +10,7 @@ import java.net.InetSocketAddress;
 import physics.Tank;
 
 /**
- * 旧坦克向新坦克发送消息的协议
+ * Tank name synchronization protocol when starting the game
  */
 public class tankNameMsg implements Message {
 	private int msgType = Message.TANK_NAME_MSG;

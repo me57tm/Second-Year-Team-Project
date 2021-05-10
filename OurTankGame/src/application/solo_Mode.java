@@ -39,30 +39,13 @@ import physics.PowerUp;
 import physics.Sprite;
 import physics.Tank;
 import physics.Tile;
-import tankUI.Player;
 import tankUI.TankMenu;
-
+/**
+ * Single player mode, players and AI battle
+ */
 public class solo_Mode {
 	private final Stage stage = new Stage();
 	private boolean isWASD;
-
-	static int randomN() {
-
-		Random random = new Random();
-		int n = random.nextInt(10);
-
-		if (n == 1 || n == 3 || n == 5 || n == 7 || n == 9) {
-
-			String str = "-" + random.nextInt(45);
-			int a = Integer.parseInt(str);
-			return a;
-
-		} else {
-			int a = random.nextInt(45);
-			return a;
-
-		}
-	}
 
 	public solo_Mode(int difficulty) {
 
@@ -343,9 +326,8 @@ public class solo_Mode {
 			// Menu
 			MenuBar menuBar = new MenuBar();
 			Menu rq = new Menu("Quit or Return");
-			Menu players = new Menu("Player");
 			Menu Audio = new Menu("Audio");
-			menuBar.getMenus().addAll(players, Audio, rq);
+			menuBar.getMenus().addAll(Audio, rq);
 
 			MenuItem quit = new MenuItem("Quit Game");
 			MenuItem returnM = new MenuItem("Return to Menu");
@@ -364,8 +346,7 @@ public class solo_Mode {
 			MenuItem volume1 = new MenuItem("Music on");
 			Audio.getItems().addAll(volume, volume1);
 
-			MenuItem player0 = new MenuItem("Player List");
-			players.getItems().addAll(player0);
+
 
 			// Pane
 			BorderPane root = new BorderPane();
@@ -389,14 +370,6 @@ public class solo_Mode {
 				}
 			});
 
-			player0.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent arg0) {
-					@SuppressWarnings("unused")
-					Player nomode = new Player(null);
-				}
-			});
 			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 				@Override
@@ -411,8 +384,6 @@ public class solo_Mode {
 
 			// Scene
 			Scene scene = new Scene(root, 1150, 820);
-			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			// stage.setMaximized(true);
 			stage.setResizable(false);
 			stage.setScene(scene);
 			stage.setTitle("Singleplayer Mode");
@@ -427,8 +398,7 @@ public class solo_Mode {
 			Button wasdButton = new Button();
 			wasdButton.setPrefSize(250, 40);
 			wasdButton.setGraphic(view);
-			// wasdButton.setTranslateX(10);
-			// wasdButton.setTranslateY(25);
+
 			wasdButton.setPrefSize(80, 80);
 
 			Image imgArrows = new Image("art/arrows.png");
@@ -436,8 +406,7 @@ public class solo_Mode {
 			Button arrowsButton = new Button();
 			arrowsButton.setPrefSize(100, 40);
 			arrowsButton.setGraphic(viewArrows);
-			// arrowsButton.setTranslateX(100);
-			// arrowsButton.setTranslateY(25);
+
 			arrowsButton.setPrefSize(80, 80);
 
 			rootControls.getChildren().addAll(wasdButton, arrowsButton);
@@ -528,7 +497,7 @@ public class solo_Mode {
 				int times, times2, times3 = 0;
 				int oneOrMinOne, oneOrMinOne2, oneOrMinOne3 = 0;
 
-				int time[] = { 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0 };
+				int time[] = { 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0 };
 				int a = 0;
 				int Time[] = { 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2 };
 				int b = 0;
@@ -544,7 +513,7 @@ public class solo_Mode {
 					if (enemy.hp > 0) {
 						if (checkRotation == 0) {
 							oneOrMinOne = 0;
-							if (Math.random() < 0.01 && enemy.getHP() >= 0) {
+							if (Math.random() < 0.08 && enemy.getHP() >= 0) {
 
 								context.save();
 
@@ -564,19 +533,17 @@ public class solo_Mode {
 //						System.out.println(a);						
 
 							enemy.velocity.setAngle(enemy.rotation);
-							enemy.velocity.setLength(10);
+							enemy.velocity.setLength(50);
 							if (i == 0) {
-								if (randomNumber == 1) {// 1å�³è½¬
+								if (randomNumber == 1) {
 									enemy.rotation += 2;
 									oneOrMinOne = 1;
 									a++;
-								} else if (randomNumber == 2) {// 2å·¦è½¬
+								} else if (randomNumber == 2) {
 									enemy.rotation -= 2;
 									oneOrMinOne = -1;
-									System.out.println("å·¦è½¬a");
-									System.out.println(a);
 									a++;
-								} else if (randomNumber == 0) {// 0ç›´èµ°
+								} else if (randomNumber == 0) {
 									enemy.velocity.setAngle(enemy.rotation);
 									enemy.velocity.setLength(100);
 									a++;
@@ -616,7 +583,7 @@ public class solo_Mode {
 							int i = times2 % 90;
 							double randomNumber2 = Math.random();
 							enemy2.velocity.setAngle(enemy2.rotation);
-							enemy2.velocity.setLength(10);
+							enemy2.velocity.setLength(50);
 							if (i == 0) {
 								if (randomNumber2 < 0.5) {
 									enemy2.rotation += 2;
@@ -661,20 +628,18 @@ public class solo_Mode {
 //								System.out.println(a);						
 
 							enemy3.velocity.setAngle(enemy3.rotation);
-							enemy3.velocity.setLength(10);
+							enemy3.velocity.setLength(50);
 							if (i == 0) {
-								if (randomNumber3 == 1) {// 1å�³è½¬
+								if (randomNumber3 == 1) {
 									enemy3.rotation += 2;
 									oneOrMinOne3 = 1;
 
 									b++;
-								} else if (randomNumber3 == 2) {// 2å·¦è½¬
+								} else if (randomNumber3 == 2) {
 									enemy3.rotation -= 2;
 									oneOrMinOne3 = -1;
-									System.out.println("å·¦è½¬b");
-									System.out.println(b);
 									b++;
-								} else if (randomNumber3 == 0) {// 0ç›´èµ°
+								} else if (randomNumber3 == 0) {
 									enemy3.velocity.setAngle(enemy3.rotation);
 									enemy3.velocity.setLength(100);
 									b++;

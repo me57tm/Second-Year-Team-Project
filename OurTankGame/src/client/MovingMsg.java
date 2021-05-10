@@ -10,7 +10,7 @@ import java.net.InetSocketAddress;
 import physics.Tank;
 
 /**
- * 坦克移动消息协议
+ * Tank movement information interaction during the game,and synchronization of fired information.
  */
 public class MovingMsg implements Message {
 	private int msgType = Message.TANK_MOVE_MSG;

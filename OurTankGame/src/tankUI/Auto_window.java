@@ -12,6 +12,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Warning message when the network mode name is too long
+ */
 public class Auto_window{
 	public Auto_window(long time, String msg, String title, boolean BL){
 		Stage s1 = new Stage();

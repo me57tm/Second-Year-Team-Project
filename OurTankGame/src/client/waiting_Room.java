@@ -17,16 +17,14 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-
+/**
+ * Multiplayer mode waiting for other players to enter the interface
+ */
 public class waiting_Room {
 
 	public waiting_Room(List<Tank> newTanks, int id, NetClient nc) {
 
 		try {
-
-			Font f = new Font("Segoe Print", 15);
 
 			Image img  = new Image("images/TankMenu.jpg");
 			ImageView im = new ImageView();
@@ -36,18 +34,17 @@ public class waiting_Room {
 
 			Label t = new Label("Please waiting");
 			Label t1 = new Label("The rest of player is joining the game");
-			t.setFont(f);
-			t.setTextFill(Paint.valueOf("#fffffb"));
-			t1.setFont(f);
-			t1.setTextFill(Paint.valueOf("#fffffb"));
-
+			t.getStyleClass().add("font");
+			t.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			t1.getStyleClass().add("font");
+			t1.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			VBox vb = new VBox();
 			vb.getChildren().addAll(t, t1);
 			vb.setAlignment(Pos.CENTER);
 			vb.setSpacing(40);
 
 			BorderPane root = new BorderPane();
-			root.setBottom(vb);
+			root.setCenter(vb);
 			root.setBackground(bg);
 
 			Stage s1 = new Stage();
@@ -56,7 +53,7 @@ public class waiting_Room {
 			s1.setHeight(820);
 			s1.setResizable(false);
 			s1.setScene(scene);
-			s1.setTitle("Jion Game");
+			s1.setTitle("Tank BattleField");
 			s1.show();
 			s1.setOnCloseRequest(new EventHandler<WindowEvent>() {
 

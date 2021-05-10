@@ -17,7 +17,7 @@ public class Audio {
 	@SuppressWarnings("unused")
 	public Audio(){
 		Stage s1 =new Stage();
-		s1.setTitle("Tank Game");
+		s1.setTitle("Tank BattleField");
 		s1.getIcons().add(new Image("images/icon_tank.jpg"));
 		Image img  = new Image("images/TankMenu.jpg");
 		ImageView imgV = new ImageView(img);

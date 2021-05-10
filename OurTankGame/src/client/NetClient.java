@@ -4,18 +4,17 @@ import server.TankServer;
 import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 
 /**
- * 网络方法接口
+ * Network method collection
  */
 public class NetClient {
 	private TankClient tc;
-	private int UDP_PORT;// 客户端的UDP端口号
-	private String serverIP;// 服务器IP地址
-	private int serverUDPPort, TANK_DEAD_UDP_PORT;// 服务器转发客户但UDP包的UDP端口 服务器监听坦克死亡的UDP端口
-	private DatagramSocket ds = null;// 客户端的UDP套接字
+	private int UDP_PORT;// UDP port number of the client
+	private String serverIP;// Server IP address
+	private int serverUDPPort;// The UDP port where the server forwards the client but the UDP
+	private DatagramSocket ds = null;// Client's UDP socket
 
 	public void setUDP_PORT(int UDP_PORT) {
 		this.UDP_PORT = UDP_PORT;
@@ -31,7 +30,7 @@ public class NetClient {
 	}
 
 	/**
-	 * 与服务器进行TCP连接
+	 * TCP connection with server
 	 * 
 	 * @param ip server IP
 	 */
@@ -39,18 +38,18 @@ public class NetClient {
 		serverIP = ip;
 		Socket s = null;
 		try {
-			ds = new DatagramSocket(UDP_PORT);// 创建UDP套接字
+			ds = new DatagramSocket(UDP_PORT);// Create UDP socket
 			try {
-				s = new Socket(ip, TankServer.tcpPort);// 创建TCP套接字
+				s = new Socket(ip, TankServer.tcpPort);// Create TCP socket
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			DataOutputStream dos = new DataOutputStream(s.getOutputStream());
-			dos.writeInt(UDP_PORT);// 向服务器发送自己的UDP端口号
+			dos.writeInt(UDP_PORT);// Send your own UDP port number to the server
 			DataInputStream dis = new DataInputStream(s.getInputStream());
-			int id = dis.readInt();// 获得自己的id号
-			this.serverUDPPort = dis.readInt();// 获得服务器转发客户端消息的UDP端口号
-			tc.clientID(id);// 设置坦克的id号
+			int id = dis.readInt();// Get your own id number
+			this.serverUDPPort = dis.readInt();// Obtain the UDP port number used by the server to forward client message
+			tc.clientID(id);// Set the id number of the tank
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -62,25 +61,25 @@ public class NetClient {
 			}
 		}
 
-		new Thread(new OurUDPThread()).start();// 开启客户端UDP线程, 向服务器发送或接收游戏数据
+		new Thread(new OurUDPThread()).start();// Open the client UDP thread to send or receive game data to the server
 
-//		NewTankMsg msg = new NewTankMsg(tc.getMyTank());// 创建坦克出生的消息
-//		send(msg);
 	}
 
 	/**
-	 * 客户端随机获取UDP端口号
-	 * 
-	 * @return
+	 * The client randomly obtains the UDP port number 
 	 */
 	private int getRandomUDPPort() {
 		return 55558 + (int) (Math.random() * 9000);
 	}
-
+	/**
+	 * Interface replication
+	 */
 	public void send(Message msg) {
 		msg.send(ds, serverIP, serverUDPPort);
 	}
-
+	/**
+	 * UDP thread is used for game data exchange
+	 */
 	public class OurUDPThread implements Runnable {
 
 		byte[] buf = new byte[1024];
@@ -97,18 +96,20 @@ public class NetClient {
 				}
 			}
 		}
-
+		/**
+		 * Determine the type of data received from the server.
+		 */
 		private void parse(DatagramPacket dp) {
 			ByteArrayInputStream bais = new ByteArrayInputStream(buf, 0, dp.getLength());
 			DataInputStream dis = new DataInputStream(bais);
 			int msgType = 0;
 			try {
-				msgType = dis.readInt();// 获得消息类型
+				msgType = dis.readInt();// Get message type
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			Message msg = null;
-			switch (msgType) {// 根据消息的类型调用对应消息的解析方法
+			switch (msgType) {// Call the analysis method of the corresponding message according to the type of the message
 
 			case Message.TANK_MOVE_MSG:
 				msg = new MovingMsg(tc);
@@ -127,36 +128,4 @@ public class NetClient {
 		}
 	}
 
-	public void sendClientDisconnectMsg() {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(88);
-		DataOutputStream dos = new DataOutputStream(baos);
-		try {
-			dos.writeInt(UDP_PORT);// 发送客户端的UDP端口号, 从服务器Client集合中注销
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (null != dos) {
-				try {
-					dos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if (null != baos) {
-				try {
-					baos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		byte[] buf = baos.toByteArray();
-		try {
-			DatagramPacket dp = new DatagramPacket(buf, buf.length,
-					new InetSocketAddress(serverIP, TANK_DEAD_UDP_PORT));
-			ds.send(dp);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 }

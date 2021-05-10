@@ -44,7 +44,7 @@ public class TankServer {
 				if(clients.size() < 2) {
 				clients.add(client);// Add to client container
 				}
-				System.out.println("id : " + client.id + " - IP : " + client.IP);
+//				System.out.println("id : " + client.id + " - IP : " + client.IP);
 				DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 				dos.writeInt(ID++);// Assign an id number to the client
 				dos.writeInt(TankServer.udpPort);// Tell the client server's own UDP port number
@@ -60,7 +60,9 @@ public class TankServer {
 			}
 		}
 	}
-
+	/**
+	 * UDP thread is used for real-time game data exchange
+	 */
 	private class OurUDPThread implements Runnable {
 
 		byte[] buf = new byte[1024];
@@ -89,7 +91,9 @@ public class TankServer {
 			}
 		}
 	}
-
+	/**
+	 * Create user objects to facilitate parameter passing
+	 */
 
 	public class Client {
 		String IP;

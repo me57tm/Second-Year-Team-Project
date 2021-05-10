@@ -10,7 +10,7 @@ import java.net.InetSocketAddress;
 import physics.Tank;
 
 /**
- * 旧坦克向新坦克发送消息的协议
+ * Confirmation of tank death information
  */
 public class tankDeadMsg implements Message {
 	private int msgType = Message.DEAD_MSG;
