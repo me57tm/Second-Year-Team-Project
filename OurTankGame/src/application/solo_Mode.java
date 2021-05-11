@@ -421,6 +421,7 @@ public class solo_Mode {
 
 				@Override
 				public void handle(ActionEvent arg0) {
+					AudioManager.play("button", "sound");
 					isWASD = true;
 					stageControls.close();
 					stage.show();
@@ -431,6 +432,7 @@ public class solo_Mode {
 
 				@Override
 				public void handle(ActionEvent arg0) {
+					AudioManager.play("button", "sound");
 					isWASD = false;
 					stageControls.close();
 					stage.show();
