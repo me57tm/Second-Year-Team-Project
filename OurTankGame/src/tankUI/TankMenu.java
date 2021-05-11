@@ -47,6 +47,7 @@ public class TankMenu {
 		b1.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
 		b1.setOnAction(e -> {
+			AudioManager.play("button","sound");
 			StartGame SG = new StartGame();
 			s1.close();
 		});
@@ -60,6 +61,7 @@ public class TankMenu {
 		b2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
 		b2.setOnAction(e -> {
+			AudioManager.play("button","sound");
 			Audio A = new Audio();
 			s1.close();
 		});
@@ -73,6 +75,7 @@ public class TankMenu {
 		b3.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
 		b3.setOnAction(e -> {
+			AudioManager.play("button","sound");
 //			String paragraph = " 'W' moves up, 'S' moves down, 'A' moves left, 'D' moves right and 'J' shoots bullet the side you're facing ";
 //			Auto_window Aw = new Auto_window(5000, paragraph, new String("Introduction"), true);
 			Introduction I = new Introduction();
@@ -87,6 +90,7 @@ public class TankMenu {
 		b4.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
 		b4.setOnAction(e -> {
+			AudioManager.play("button","sound");
 			s1.close();
 			System.exit(0);
 		});

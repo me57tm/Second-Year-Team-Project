@@ -18,6 +18,7 @@ public final class AudioManager {
 		setupSoundTable.put("shoot", "src/sounds/8BitLaser.wav");
 		setupSoundTable.put("explode", "src/sounds/8BitExplosion.wav");
 		setupSoundTable.put("music", "src/sounds/Boomerang_David_Renda.wav");
+		setupSoundTable.put("button", "src/sounds/type-machine.wav");
 		SOUND_TABLE = Collections.unmodifiableMap(setupSoundTable);
 	}
 

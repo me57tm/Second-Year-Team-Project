@@ -1,5 +1,6 @@
 package tankUI;
 
+import audio.AudioManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -58,6 +59,7 @@ public class Introduction
 				@SuppressWarnings("unused")
 				@Override
 				public void handle(ActionEvent arg0) {
+					AudioManager.play("button","sound");
 					TankMenu tk = new TankMenu();
 					s1.close();
 				}

@@ -67,6 +67,7 @@ public class Audio {
 		b4.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
 		b4.setOnAction(e -> {
+			AudioManager.play("button","sound");
 			TankMenu m1 = new TankMenu();
 			//AudioManager.stopAll();
 			s1.close();

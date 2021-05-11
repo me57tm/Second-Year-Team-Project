@@ -1,5 +1,6 @@
 package tankUI;
 
+import audio.AudioManager;
 import client.TankClient;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -69,6 +70,7 @@ public class ServerStart{
 				@SuppressWarnings("unused")
 				@Override
 				public void handle(ActionEvent arg0) {
+					AudioManager.play("button","sound");
 					Split s = new Split();
 					s1.close();
 				}
@@ -79,6 +81,7 @@ public class ServerStart{
 				@SuppressWarnings("unused")
 				@Override
 				public void handle(ActionEvent arg0) {
+					AudioManager.play("button","sound");
 					
 					new Thread(() -> {
 						TankServer ts = new TankServer();

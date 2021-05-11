@@ -1,6 +1,7 @@
 package tankUI;
 
 import application.solo_Mode;
+import audio.AudioManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -48,6 +49,7 @@ public class Singleplayer {
 
 			@Override
 			public void handle(ActionEvent arg0) {
+				AudioManager.play("button","sound");
 				solo_Mode comode = new solo_Mode(1);
 				s1.close();
 			}
@@ -65,6 +67,7 @@ public class Singleplayer {
 
 			@Override
 			public void handle(ActionEvent arg0) {
+				AudioManager.play("button","sound");
 				solo_Mode comode = new solo_Mode(2);
 				s1.close();
 			}
@@ -82,6 +85,7 @@ public class Singleplayer {
 
 			@Override
 			public void handle(ActionEvent arg0) {
+				AudioManager.play("button","sound");
 				solo_Mode comode = new solo_Mode(3);
 				s1.close();
 			}
@@ -95,6 +99,7 @@ public class Singleplayer {
 		b4.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 		b4.setOnAction(e -> {
+			AudioManager.play("button","sound");
 			StartGame S1 = new StartGame();
 			s1.close();
 		});

@@ -1,6 +1,7 @@
 package tankUI;
 
 import application.Local_PVP_Mode;
+import audio.AudioManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -46,6 +47,7 @@ public class StartGame {
 		b1.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
 		b1.setOnAction(e -> {
+			AudioManager.play("button","sound");
 			Singleplayer S1 = new Singleplayer();
 			s1.close();
 		});
@@ -59,6 +61,7 @@ public class StartGame {
 		b2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
 		b2.setOnAction(e -> {
+			AudioManager.play("button","sound");
 			Local_PVP_Mode S1 = new Local_PVP_Mode();
 			s1.close();
 		});
@@ -77,6 +80,7 @@ public class StartGame {
 			@Override
 			public void handle(ActionEvent arg0)
 			{
+				AudioManager.play("button","sound");
 				Split sp = new Split();
 				s1.close();
 			}
@@ -90,6 +94,7 @@ public class StartGame {
 		b4.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
 		b4.setOnAction(e -> {
+			AudioManager.play("button","sound");
 			TankMenu m1 = new TankMenu();
 			s1.close();
 		});
