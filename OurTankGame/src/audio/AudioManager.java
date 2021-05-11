@@ -14,9 +14,9 @@ public final class AudioManager {
 	private static final Map<String,String> SOUND_TABLE;
 	static {
 		Map<String,String> setupSoundTable = new HashMap<String,String>();
-		setupSoundTable.put("test", "sounds/simpleBeep.wav");//This allows us to play sounds by just using 'play("test")' Add more bindings here to add more sounds!
-		setupSoundTable.put("shoot", "sounds/8BitLaser.wav");
-		setupSoundTable.put("explode", "sounds/8BitExplosion.wav");
+		setupSoundTable.put("test", "src/sounds/simpleBeep.wav");//This allows us to play sounds by just using 'play("test")' Add more bindings here to add more sounds!
+		setupSoundTable.put("shoot", "src/sounds/8BitLaser.wav");
+		setupSoundTable.put("explode", "src/sounds/8BitExplosion.wav");
 		setupSoundTable.put("music", "src/sounds/Boomerang_David_Renda.wav");
 		SOUND_TABLE = Collections.unmodifiableMap(setupSoundTable);
 	}
@@ -37,6 +37,7 @@ public final class AudioManager {
 	static public void play(String soundName, String track) {
 		if (!mute) {
 			Sound s;
+			cleanUp();
 			switch (track){
 				case "sound":
 					s = new Sound(SOUND_TABLE.get(soundName),masterVolume*soundVolume,"sound",false);
@@ -50,7 +51,6 @@ public final class AudioManager {
 			}
 			sounds.add(s);
 		}
-		cleanUp();
 	}
 	
 	static public void stopAll() {
@@ -117,6 +117,19 @@ public final class AudioManager {
 			}
 		
 	}
+	
+	public static boolean isPlaying(String soundName) {
+		String soundPath = SOUND_TABLE.get(soundName);
+		boolean out = false;
+		for (Sound s : sounds) {
+			if (s.getPath().equals(soundPath)) {
+				out = true;
+				break;
+			}
+		}
+		return out;
+	}
+	
 	public static void unmute() {
 		AudioManager.mute = false;
 		for (Sound s : sounds) {

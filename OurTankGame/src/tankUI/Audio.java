@@ -22,7 +22,7 @@ public class Audio {
 		Image img  = new Image("images/TankMenu.jpg");
 		ImageView imgV = new ImageView(img);
 		
-		AudioManager.play("music", "music");
+		//AudioManager.play("music", "music");
 		
 		Label set1 = new Label("");
 		set1.setLayoutX(0);
@@ -68,7 +68,7 @@ public class Audio {
 		
 		b4.setOnAction(e -> {
 			TankMenu m1 = new TankMenu();
-			AudioManager.stopAll();
+			//AudioManager.stopAll();
 			s1.close();
 		});
 		s1.setOnCloseRequest(new EventHandler<WindowEvent>() {

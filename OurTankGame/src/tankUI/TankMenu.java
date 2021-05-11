@@ -1,5 +1,6 @@
 package tankUI;
 
+import audio.AudioManager;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -24,6 +25,8 @@ public class TankMenu {
 		ImageView imgV = new ImageView(img);
 		//imgV.setScaleX(2.5);
 		//imgV.setScaleY(2.5);
+		if (!AudioManager.isPlaying("music"))
+			AudioManager.play("music","music");
 		
 		Label set1 = new Label();
 		set1.setLayoutX(0);

@@ -15,6 +15,7 @@ public class Sound{
 	boolean loop;
 	Clip clip;
 	String channel;
+	String path;
 	
 	Sound(String path, float vol){
 		this(path,vol,false);
@@ -23,6 +24,7 @@ public class Sound{
 	Sound (String path, float vol, String channel, boolean loop){
 		this(path,vol,loop);
 		this.channel=channel;
+		this.path = path;
 	}
 
 	Sound(String path, float vol, boolean loop){
@@ -84,4 +86,9 @@ public class Sound{
 	public String getChannel() {
 		return channel;
 	}
+
+	public String getPath() {
+		return path;
+	}
+	
 }
