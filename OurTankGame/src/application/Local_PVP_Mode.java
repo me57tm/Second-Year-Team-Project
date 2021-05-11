@@ -42,7 +42,7 @@ public class Local_PVP_Mode {
 
 	public Local_PVP_Mode() {
 
-		final int TOTALGAMETIME = 120;
+		final int TOTALGAMETIME = 5;
 
 		Map map = new Map();
 

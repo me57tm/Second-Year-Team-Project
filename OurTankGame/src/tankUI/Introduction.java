@@ -12,7 +12,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
+/**
+ * Show players how the control the tank, its goals, etc.
+ */
 public class Introduction
 {
 	public Introduction(){
