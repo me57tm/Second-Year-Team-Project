@@ -73,12 +73,12 @@ public class MovingMsg implements Message {
 					}
 					if (up == 1) {
 						t.velocity.setAngle(t.getRotation());
-						t.velocity.setLength(60 * t.getSpeedModifier());
+						t.velocity.setLength(70 * t.getSpeedModifier());
 						t.setUp(0);
 					}
 					if (down == 1) {
 						t.velocity.setAngle(t.getRotation());
-						t.velocity.setLength(-60 * t.getSpeedModifier());
+						t.velocity.setLength(-70 * t.getSpeedModifier());
 						t.setDown(0);
 					}
 					if (up == 0 && down ==0 ) {

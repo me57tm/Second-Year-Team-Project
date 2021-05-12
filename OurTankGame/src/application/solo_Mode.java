@@ -506,9 +506,9 @@ public class solo_Mode {
 				int times, times2, times3 = 0;
 				int oneOrMinOne, oneOrMinOne2, oneOrMinOne3 = 0;
 
-				int time[] = {2,0};
+				int time[] = {2,0,0,0,0};
 				int a = 0;
-				int Time[] = {2,0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+				int Time[] = {0,2,0,0,0,0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 				int b = 0;
 				double elapsedGameTime = 0;
 				double frameTime = 0;
