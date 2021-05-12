@@ -54,6 +54,7 @@ public class waiting_Room {
 			s1.setResizable(false);
 			s1.setScene(scene);
 			s1.setTitle("Tank BattleField");
+			s1.getIcons().add(new Image("images/icon_tank.jpg"));
 			s1.show();
 			s1.setOnCloseRequest(new EventHandler<WindowEvent>() {
 

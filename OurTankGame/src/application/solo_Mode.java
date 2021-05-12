@@ -7,26 +7,21 @@ import audio.AudioManager;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -46,11 +41,10 @@ import tankUI.TankMenu;
  */
 public class solo_Mode {
 	private final Stage stage = new Stage();
-	private boolean isWASD;
 
-	public solo_Mode(int difficulty) {
+	public solo_Mode(int difficulty,boolean isWASD) {
 
-		final int TOTALGAMETIME = 80;
+		final int TOTALGAMETIME = 90;
 
 		Map map = new Map();
 
@@ -388,64 +382,66 @@ public class solo_Mode {
 			stage.setResizable(false);
 			stage.setScene(scene);
 			stage.setTitle("Singleplayer Mode");
+			stage.getIcons().add(new Image("images/icon_tank.jpg"));
+			stage.show();
 
-			TilePane rootControls = new TilePane();
-			rootControls.setPadding(new Insets(20));
-			rootControls.setAlignment(Pos.BASELINE_CENTER);
-			
-			Image menuImg  = new Image("images/TankMenu.jpg");
-			ImageView menuImgV = new ImageView(menuImg);
-
-			// Choose your keyboard preferences
-			Image img = new Image("art/wasd.png");
-			ImageView view = new ImageView(img);
-			Button wasdButton = new Button();
-			wasdButton.setPrefSize(250, 40);
-			wasdButton.setGraphic(view);
-			wasdButton.setStyle("-fx-background-color: transparent;");
-			wasdButton.setPrefSize(80, 80);
-
-			Image imgArrows = new Image("art/arrows.png");
-			ImageView viewArrows = new ImageView(imgArrows);
-			Button arrowsButton = new Button();
-			arrowsButton.setPrefSize(100, 40);
-			arrowsButton.setGraphic(viewArrows);
-			arrowsButton.setStyle("-fx-background-color: transparent;");
-			arrowsButton.setPrefSize(80, 80);
-
-			rootControls.getChildren().addAll(wasdButton, arrowsButton);
-			rootControls.setAlignment(Pos.CENTER);
-			StackPane sp = new StackPane(); 
-			sp.getChildren().addAll(menuImgV,rootControls);
-			Scene sceneControls = new Scene(sp, 1152,800);
-			Stage stageControls = new Stage();
-			stageControls.setScene(sceneControls);
-			stageControls.getIcons().add(new Image("images/icon_tank.jpg"));
-			stageControls.setTitle("Choose your controls:");
-
-			stageControls.show();
-
-			wasdButton.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent arg0) {
-					AudioManager.play("button", "sound");
-					isWASD = true;
-					stageControls.close();
-					stage.show();
-				}
-			});
-
-			arrowsButton.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent arg0) {
-					AudioManager.play("button", "sound");
-					isWASD = false;
-					stageControls.close();
-					stage.show();
-				}
-			});
+//			TilePane rootControls = new TilePane();
+//			rootControls.setPadding(new Insets(20));
+//			rootControls.setAlignment(Pos.BASELINE_CENTER);
+//			
+//			Image menuImg  = new Image("images/TankMenu.jpg");
+//			ImageView menuImgV = new ImageView(menuImg);
+//
+//			// Choose your keyboard preferences
+//			Image img = new Image("art/wasd.png");
+//			ImageView view = new ImageView(img);
+//			Button wasdButton = new Button();
+//			wasdButton.setPrefSize(250, 40);
+//			wasdButton.setGraphic(view);
+//			wasdButton.setStyle("-fx-background-color: transparent;");
+//			wasdButton.setPrefSize(80, 80);
+//
+//			Image imgArrows = new Image("art/arrows.png");
+//			ImageView viewArrows = new ImageView(imgArrows);
+//			Button arrowsButton = new Button();
+//			arrowsButton.setPrefSize(100, 40);
+//			arrowsButton.setGraphic(viewArrows);
+//			arrowsButton.setStyle("-fx-background-color: transparent;");
+//			arrowsButton.setPrefSize(80, 80);
+//
+//			rootControls.getChildren().addAll(wasdButton, arrowsButton);
+//			rootControls.setAlignment(Pos.CENTER);
+//			StackPane sp = new StackPane(); 
+//			sp.getChildren().addAll(menuImgV,rootControls);
+//			Scene sceneControls = new Scene(sp, 1152,800);
+//			Stage stageControls = new Stage();
+//			stageControls.setScene(sceneControls);
+//			stageControls.getIcons().add(new Image("images/icon_tank.jpg"));
+//			stageControls.setTitle("Choose your controls:");
+//
+//			stageControls.show();
+//
+//			wasdButton.setOnAction(new EventHandler<ActionEvent>() {
+//
+//				@Override
+//				public void handle(ActionEvent arg0) {
+//					AudioManager.play("button", "sound");
+//					isWASD = true;
+//					stageControls.close();
+//					stage.show();
+//				}
+//			});
+//
+//			arrowsButton.setOnAction(new EventHandler<ActionEvent>() {
+//
+//				@Override
+//				public void handle(ActionEvent arg0) {
+//					AudioManager.play("button", "sound");
+//					isWASD = false;
+//					stageControls.close();
+//					stage.show();
+//				}
+//			});
 
 			Canvas canvas = new Canvas(1150, 770);
 			GraphicsContext context = canvas.getGraphicsContext2D();

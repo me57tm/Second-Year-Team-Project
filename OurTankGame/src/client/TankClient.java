@@ -77,7 +77,7 @@ public class TankClient {
 		login.setLayoutY(700);
 		login.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
-		Label username = new Label("UserName:");
+		Label username = new Label("Username:");
 		username.getStyleClass().add("font");
 		username.setLayoutX(400);
 		username.setLayoutY(500);
@@ -91,8 +91,9 @@ public class TankClient {
 		Scene scene = new Scene(sp,1152,800);
 		Stage s1 = new Stage();
 		s1.setScene(scene);
-		s1.setTitle("Tank BattleField");
 		s1.setResizable(false);
+		s1.setTitle("Tank BattleField");
+		s1.getIcons().add(new Image("images/icon_tank.jpg"));
 		s1.show();
 
 		back.setOnAction(new EventHandler<ActionEvent>() {
@@ -126,7 +127,7 @@ public class TankClient {
 					// tips = new Auto_window(2000, dialog, new String("tips"), false);
 					player1 = new Tank("art/tank64.png", 160d, 160d);
 					player2 = new Tank("art/tank-red.png", 992, 608);
-
+                    player2.setRotation(180);
 					nc.connect("127.0.0.1");
 
 					if (id < 102) {

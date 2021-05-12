@@ -17,6 +17,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -42,7 +43,7 @@ public class Local_PVP_Mode {
 
 	public Local_PVP_Mode() {
 
-		final int TOTALGAMETIME = 5;
+		final int TOTALGAMETIME = 120;
 
 		Map map = new Map();
 
@@ -270,14 +271,16 @@ public class Local_PVP_Mode {
 
 		ArrayList<PowerUp> toRemove = new ArrayList<>();
 		ArrayList<PowerUp> powerups = new ArrayList<>();
+		
 		PowerUp speedPowerup = new PowerUp("Speed", 150, 500);
 		powerups.add(speedPowerup);
-		PowerUp coin = new PowerUp("Score", 480, 64);
-		powerups.add(coin);
 		PowerUp battery = new PowerUp("Energy", 96, 672);
 		powerups.add(battery);
+		PowerUp coin = new PowerUp("Score", 480, 64);
+		powerups.add(coin);
 
 		Tank enemy = new Tank("art/tank-red.png", 992, 608);
+		enemy.setRotation(180);
 
 		DropShadow dropshadow = new DropShadow();
 		dropshadow.setRadius(10);
@@ -293,14 +296,16 @@ public class Local_PVP_Mode {
 			score1.setFont(Font.font("Segoe Print"));
 			Label hpB = new Label("HP(yellow): " + tank.getHP());
 			hpB.setFont(Font.font("Segoe Print"));
-
-			Label timer = new Label("Time Left: " + TOTALGAMETIME);
-			timer.setFont(Font.font("Segoe Print"));
-
+			
 			Label score2 = new Label("Score: " + enemy.getScore());
 			score2.setFont(Font.font("Segoe Print"));
 			Label hpB2 = new Label("HP(red): " + enemy.getHP());
 			hpB2.setFont(Font.font("Segoe Print"));
+
+			Label timer = new Label("Time Left: " + TOTALGAMETIME);
+			timer.setFont(Font.font("Segoe Print"));
+
+		
 
 			// HBox
 			HBox hpBar = new HBox();
@@ -357,6 +362,7 @@ public class Local_PVP_Mode {
 			stage.setResizable(false);
 			stage.setScene(scene);
 			stage.setTitle("Local P V P");
+			stage.getIcons().add(new Image("images/icon_tank.jpg"));
 			stage.show();
 
 			TilePane rootControls = new TilePane();
@@ -409,7 +415,6 @@ public class Local_PVP_Mode {
 			}
 			scene.setOnMouseClicked((MouseEvent event) -> {
 				if (event.getX() > 1080 && event.getX() < 1110 && event.getY() > 59 && event.getY() < 95) {
-					System.out.println(event.getY());
 					if (AudioManager.isMute()) {
 						muteButton.setImage("art/musicnote.png");
 						AudioManager.unmute();

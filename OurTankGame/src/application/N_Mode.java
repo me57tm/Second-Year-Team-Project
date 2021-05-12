@@ -2,7 +2,6 @@ package application;
 
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.Random;
 import audio.AudioManager;
 import client.MovingMsg;
 import client.NetClient;
@@ -20,6 +19,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -34,7 +34,7 @@ import javafx.stage.WindowEvent;
 import physics.Bullet;
 import physics.Layer;
 import physics.Map;
-//import physics.PowerUp;
+import physics.PowerUp;
 import physics.Sprite;
 import physics.Tank;
 import physics.Tile;
@@ -49,7 +49,7 @@ public class N_Mode {
 
 	public N_Mode(List<Tank> newTanks, int id, NetClient nc) {
 
-
+		final int TOTALGAMETIME = 200;
 
 		Map map = new Map();
 
@@ -281,6 +281,15 @@ public class N_Mode {
 		enemy.setSpeedModifier(2);
 		enemy.setMap(map);
 
+		ArrayList<PowerUp> toRemove = new ArrayList<>();
+		ArrayList<PowerUp> powerups = new ArrayList<>();
+
+		PowerUp speedPowerup = new PowerUp("Speed", 560, 370);
+		powerups.add(speedPowerup);
+		PowerUp battery1 = new PowerUp("Energy", 992, 160d);
+		powerups.add(battery1);
+		PowerUp battery2 = new PowerUp("Energy", 185d, 650);
+		powerups.add(battery2);
 
 		DropShadow dropshadow = new DropShadow();
 		dropshadow.setRadius(10);
@@ -299,6 +308,14 @@ public class N_Mode {
 			hpB.setFont(Font.font("Segoe Print"));
 			hpB2.setFont(Font.font("Segoe Print"));
 
+			Label score1 = new Label("Score: " + tank.getScore());
+			score1.setFont(Font.font("Segoe Print"));
+
+			Label score2 = new Label("Score: " + enemy.getScore());
+			score2.setFont(Font.font("Segoe Print"));
+
+			Label timer = new Label("Time Left: " + TOTALGAMETIME);
+			timer.setFont(Font.font("Segoe Print"));
 
 			// HBox
 			HBox hpBar = new HBox();
@@ -310,7 +327,7 @@ public class N_Mode {
 			Menu rq = new Menu("Quit or Return");
 			Menu players = new Menu("Player");
 			Menu Audio = new Menu("Audio");
-			menuBar.getMenus().addAll(players, Audio,rq);
+			menuBar.getMenus().addAll(players, Audio, rq);
 
 			MenuItem quit = new MenuItem("Quit Game");
 			MenuItem returnM = new MenuItem("Return to Menu");
@@ -367,6 +384,7 @@ public class N_Mode {
 			stage.setResizable(false);
 			stage.setScene(scene);
 			stage.setTitle("PVP mode");
+			stage.getIcons().add(new Image("images/icon_tank.jpg"));
 			stage.show();
 
 			TilePane rootControls = new TilePane();
@@ -442,10 +460,10 @@ public class N_Mode {
 			ArrayList<Bullet> laserListE = new ArrayList<Bullet>();
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 
-
 			final double FRAMERATE = 1 / 60d;
 
 			AnimationTimer gameloop = new AnimationTimer() {
+				double elapsedGameTime = 0;
 
 				public void handle(long nanotime) {
 
@@ -460,8 +478,9 @@ public class N_Mode {
 					for (Bullet laser1 : laserListE) {
 						laser1.update(FRAMERATE, map);
 						tank.collide(laser1);
-
-
+						for (PowerUp powerup : powerups) {
+							powerup.collide(laser1);
+						}
 					}
 
 					for (int n = 0; n < laserListT.size(); n++) {
@@ -470,9 +489,15 @@ public class N_Mode {
 						laser.update(FRAMERATE, map);
 
 						enemy.collide(laser);
-
+						for (PowerUp powerup : powerups) {
+							powerup.collide(laser);
+						}
 					}
-
+					for (PowerUp powerup : powerups) {
+//						powerup.update(FRAMERATE, map);
+						powerup.collide(tank);
+						powerup.collide(enemy);
+					}
 
 					// Remove Bullets that have collided with something
 					for (Bullet b : laserListT)
@@ -488,6 +513,15 @@ public class N_Mode {
 					// Render everything
 					map.renderMap(context);
 
+					for (PowerUp powerup : powerups) {
+						if (powerup.hp > 1) {
+							powerup.render(context);
+						} else {
+							toRemove.add(powerup);
+						}
+					}
+					powerups.removeAll(toRemove);
+
 					if (tank.hp > 0) {
 						tank.render(context);
 					}
@@ -501,7 +535,6 @@ public class N_Mode {
 						laser.render(context);
 					}
 					muteButton.render(context);
-
 
 					// Game over Logic
 					if (id % 2 == 0) {
@@ -534,6 +567,11 @@ public class N_Mode {
 					rectangle2.setStroke(Color.RED);
 					rootg.getChildren().addAll(rectangle1, rectangle2);
 
+					elapsedGameTime += FRAMERATE;
+					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
+
+					score1.setText("Score: " + tank.getScore());
+					score2.setText("Score: " + enemy.getScore());
 					// HP bar
 					Group rootg1 = new Group();
 					Rectangle rectangle3 = new Rectangle();
@@ -559,7 +597,11 @@ public class N_Mode {
 
 					// HBox
 					HBox hpBar = new HBox();
-					hpBar.getChildren().addAll(hpB, rootg, hpB2, rootg1);
+					if (id % 2 == 0) {
+						hpBar.getChildren().addAll(hpB, rootg, score1, timer, hpB2, rootg1, score2);
+					} else {
+						hpBar.getChildren().addAll(hpB, rootg, score2, timer, hpB2, rootg1, score1);
+					}
 					hpBar.setAlignment(Pos.CENTER);
 					hpBar.setSpacing(40);
 
@@ -567,13 +609,31 @@ public class N_Mode {
 
 					if (tank.hp <= 0) {
 						Sprite youLose = new Sprite("art/YouLose.png", 576, 400);
-						gameOveOnline(youLose, context);
+						gameOver(youLose, context);
 						this.stop();
 					}
 					if (enemy.hp <= 0) {
 						Sprite youWin = new Sprite("art/YouWin.png", 576, 400);
-						gameOveOnline(youWin, context);
+						gameOver(youWin, context);
 						this.stop();
+					}
+					if (elapsedGameTime > TOTALGAMETIME) {
+						if (tank.hp < enemy.hp) {
+							Sprite RedWin = new Sprite("art/YouLose.png", 576, 400);
+							gameOver(RedWin, context);
+							this.stop();
+						}
+						if (tank.hp > enemy.hp) {
+							Sprite YelloWin = new Sprite("art/YouWIn.png", 576, 400);
+							gameOver(YelloWin, context);
+							this.stop();
+						}
+						if (tank.hp == enemy.hp) {
+							Sprite Draw = new Sprite("art/Draw.png", 576, 400);
+							gameOver(Draw, context);
+							this.stop();
+						}
+
 					}
 
 				}
@@ -596,7 +656,7 @@ public class N_Mode {
 		}
 	}
 
-	public void gameOveOnline(Sprite message, GraphicsContext context) {
+	public void gameOver(Sprite message, GraphicsContext context) {
 
 		context.setFill(new Color(0, 0, 0, 0.017));
 		new AnimationTimer() {

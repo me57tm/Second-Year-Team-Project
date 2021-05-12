@@ -52,6 +52,7 @@ public class Introduction
 			s1.setScene(scene);
 			s1.setTitle("Tank Game");
 			s1.setResizable(false);
+			s1.getIcons().add(new Image("images/icon_tank.jpg"));
 			s1.show();
 			
 			back.setOnAction(new EventHandler<ActionEvent>() {
