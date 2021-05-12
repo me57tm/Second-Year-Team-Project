@@ -460,7 +460,7 @@ public class N_Mode {
 			ArrayList<Bullet> laserListE = new ArrayList<Bullet>();
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 
-			final double FRAMERATE = 1 / 60d;
+			final double FRAMERATE = 1 / 120d;
 
 			AnimationTimer gameloop = new AnimationTimer() {
 				double elapsedGameTime = 0;

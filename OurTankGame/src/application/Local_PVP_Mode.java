@@ -440,7 +440,7 @@ public class Local_PVP_Mode {
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
-			final double FRAMERATE = 1 / 60d;
+			final double FRAMERATE = 1 / 120d;
 
 			AnimationTimer gameloop = new AnimationTimer() {
 
