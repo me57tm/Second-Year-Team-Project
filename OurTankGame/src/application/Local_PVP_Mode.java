@@ -44,6 +44,9 @@ public class Local_PVP_Mode {
 	public Local_PVP_Mode() {
 
 		final int TOTALGAMETIME = 120;
+		
+		AudioManager.stop("music");
+		AudioManager.play("fightMusic","music");
 
 		Map map = new Map();
 
@@ -440,13 +443,19 @@ public class Local_PVP_Mode {
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
-			final double FRAMERATE = 1 / 120d;
+			//final double frameTime = 1 / 120d;
 
 			AnimationTimer gameloop = new AnimationTimer() {
 
 				double elapsedGameTime = 0;
+				double frameTime = 0;
+				double initialTime = -1;
+				final double NANO_TO_S = 1_000_000_000d;
 
 				public void handle(long nanotime) {
+					if (initialTime == -1) initialTime = nanotime / NANO_TO_S;
+					frameTime = (nanotime / NANO_TO_S) - (elapsedGameTime + initialTime);
+					elapsedGameTime += frameTime;
 
 					tank.moveLocalWASD(keyPressedList, keyJustPressedList, context, laserListT);
 					enemy.moveLocal(keyPressedListE, keyJustPressedListE, context, laserListE);
@@ -455,13 +464,13 @@ public class Local_PVP_Mode {
 					// after processing user input, clear keyJustPressedList
 					keyJustPressedList.clear();
 
-					tank.update(FRAMERATE, map);
+					tank.update(frameTime, map);
 
-					enemy.update(FRAMERATE, map);
+					enemy.update(frameTime, map);
 
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
-						laser1.update(FRAMERATE, map);
+						laser1.update(frameTime, map);
 						tank.collide(laser1);
 						for (PowerUp powerup : powerups) {
 							powerup.collide(laser1);
@@ -471,7 +480,7 @@ public class Local_PVP_Mode {
 					for (int n = 0; n < laserListT.size(); n++) {
 						Bullet laser = laserListT.get(n);
 
-						laser.update(FRAMERATE, map);
+						laser.update(frameTime, map);
 
 						enemy.collide(laser);
 
@@ -481,7 +490,7 @@ public class Local_PVP_Mode {
 					}
 
 					for (PowerUp powerup : powerups) {
-						powerup.update(FRAMERATE, map);
+						powerup.update(frameTime, map);
 						powerup.collide(tank);
 						powerup.collide(enemy);
 					}
@@ -550,7 +559,7 @@ public class Local_PVP_Mode {
 					score1.setText("Score: " + tank.getScore());
 					score2.setText("Score: " + enemy.getScore());
 
-					elapsedGameTime += FRAMERATE;
+					//elapsedGameTime += frameTime;
 					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
 					// System.out.println(elapsedGameTime + "Time passed");
 

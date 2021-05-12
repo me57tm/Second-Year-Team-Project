@@ -27,6 +27,7 @@ public class TankMenu {
 		ImageView imgV = new ImageView(img);
 		//imgV.setScaleX(2.5);
 		//imgV.setScaleY(2.5);
+		AudioManager.stop("fightMusic");
 		if (!AudioManager.isPlaying("music"))
 			AudioManager.play("music","music");
 		

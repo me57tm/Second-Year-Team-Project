@@ -45,6 +45,9 @@ public class solo_Mode {
 	public solo_Mode(int difficulty,boolean isWASD) {
 
 		final int TOTALGAMETIME = 90;
+		
+		AudioManager.stop("music");
+		AudioManager.play("fightMusic","music");
 
 		Map map = new Map();
 
@@ -496,7 +499,7 @@ public class solo_Mode {
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
-			final double FRAMERATE = 1 / 120d;
+			//final double FRAMERATE = 1 / 60d;
 
 			AnimationTimer gameloop = new AnimationTimer() {
 
@@ -508,9 +511,15 @@ public class solo_Mode {
 				int Time[] = {2,0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 				int b = 0;
 				double elapsedGameTime = 0;
+				double frameTime = 0;
+				double initialTime = -1;
+				final double NANO_TO_S = 1_000_000_000d;
 
 				public void handle(long nanotime) {
-					
+					if (initialTime == -1) initialTime = nanotime / NANO_TO_S;
+					frameTime = (nanotime / NANO_TO_S) - (elapsedGameTime + initialTime);
+					elapsedGameTime += frameTime;
+					//System.out.println(frameTime);
 					
 					
 					// enemy1 fixed
@@ -676,15 +685,15 @@ public class solo_Mode {
 					// after processing user input, clear keyJustPressedList
 					keyJustPressedList.clear();
 
-					tank.update(FRAMERATE, map);
+					tank.update(frameTime, map);
 					hpB.setText("HP: " + tank.hp);
-					enemy.update(FRAMERATE, map);
-					enemy2.update(FRAMERATE, map);
-					enemy3.update(FRAMERATE, map);
+					enemy.update(frameTime, map);
+					enemy2.update(frameTime, map);
+					enemy3.update(frameTime, map);
 
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
-						laser1.update(FRAMERATE, map);
+						laser1.update(frameTime, map);
 						tank.collide(laser1);
 						for (PowerUp powerup : powerups) {
 							powerup.collide(laser1);
@@ -694,7 +703,7 @@ public class solo_Mode {
 					for (int n = 0; n < laserListT.size(); n++) {
 						Bullet laser = laserListT.get(n);
 
-						laser.update(FRAMERATE, map);
+						laser.update(frameTime, map);
 
 						enemy.collide(laser);
 						enemy2.collide(laser);
@@ -706,7 +715,7 @@ public class solo_Mode {
 					}
 
 					for (PowerUp powerup : powerups) {
-						powerup.update(FRAMERATE, map);
+						powerup.update(frameTime, map);
 						powerup.collide(tank);
 						powerup.collide(enemy);
 						powerup.collide(enemy2);
@@ -784,7 +793,7 @@ public class solo_Mode {
 					}
 					score.setText("Score: " + tank.getScore());
 
-					elapsedGameTime += FRAMERATE;
+					//elapsedGameTime += frameTime;
 					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
 					// System.out.println(elapsedGameTime + "Time passed");
 

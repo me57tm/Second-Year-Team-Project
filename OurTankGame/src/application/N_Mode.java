@@ -50,6 +50,9 @@ public class N_Mode {
 	public N_Mode(List<Tank> newTanks, int id, NetClient nc) {
 
 		final int TOTALGAMETIME = 200;
+		
+		AudioManager.stop("music");
+		AudioManager.play("fightMusic","music");
 
 		Map map = new Map();
 
@@ -460,12 +463,18 @@ public class N_Mode {
 			ArrayList<Bullet> laserListE = new ArrayList<Bullet>();
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 
-			final double FRAMERATE = 1 / 120d;
+			//final double frameTime = 1 / 120d;
 
 			AnimationTimer gameloop = new AnimationTimer() {
 				double elapsedGameTime = 0;
+				double frameTime = 0;
+				double initialTime = -1;
+				final double NANO_TO_S = 1_000_000_000d;
 
 				public void handle(long nanotime) {
+					if (initialTime == -1) initialTime = nanotime / NANO_TO_S;
+					frameTime = (nanotime / NANO_TO_S) - (elapsedGameTime + initialTime);
+					elapsedGameTime += frameTime;
 
 					tank.moveOnline(keyPressedList, keyJustPressedList, context, laserListT);
 					enemy.enemyFireOnline(context, laserListE);
@@ -476,7 +485,7 @@ public class N_Mode {
 
 					// Collision Detection for Bullets
 					for (Bullet laser1 : laserListE) {
-						laser1.update(FRAMERATE, map);
+						laser1.update(frameTime, map);
 						tank.collide(laser1);
 						for (PowerUp powerup : powerups) {
 							powerup.collide(laser1);
@@ -486,7 +495,7 @@ public class N_Mode {
 					for (int n = 0; n < laserListT.size(); n++) {
 						Bullet laser = laserListT.get(n);
 
-						laser.update(FRAMERATE, map);
+						laser.update(frameTime, map);
 
 						enemy.collide(laser);
 						for (PowerUp powerup : powerups) {
@@ -494,7 +503,7 @@ public class N_Mode {
 						}
 					}
 					for (PowerUp powerup : powerups) {
-//						powerup.update(FRAMERATE, map);
+//						powerup.update(frameTime, map);
 						powerup.collide(tank);
 						powerup.collide(enemy);
 					}
@@ -567,7 +576,7 @@ public class N_Mode {
 					rectangle2.setStroke(Color.RED);
 					rootg.getChildren().addAll(rectangle1, rectangle2);
 
-					elapsedGameTime += FRAMERATE;
+					//elapsedGameTime += frameTime;
 					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
 
 					score1.setText("Score: " + tank.getScore());
