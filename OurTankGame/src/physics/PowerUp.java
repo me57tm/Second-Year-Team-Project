@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class PowerUp extends Sprite {
 	protected String type;
-	protected double expiryTime = 5f;
+	protected double expiryTime = 10f;
 	
 	public PowerUp(String type,double x,double y) {
 		super();
@@ -14,7 +14,6 @@ public class PowerUp extends Sprite {
 			setImage("art/powerup.png");
 			break;
 		case "Score":
-			this.expiryTime = 10f;
 			setImage("art/coin-export1.png");
 			break;
 		case "Energy":

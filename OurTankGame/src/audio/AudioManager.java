@@ -13,12 +13,12 @@ public final class AudioManager {
 	private static ArrayList<Sound> sounds = new ArrayList<Sound>();
 	private static final Map<String,String> SOUND_TABLE;
 	static {
-		Map<String,String> setupSoundTable = new HashMap<String,String>();
-		setupSoundTable.put("test", "src/sounds/simpleBeep.wav");//This allows us to play sounds by just using 'play("test")' Add more bindings here to add more sounds!
-		setupSoundTable.put("shoot", "src/sounds/8BitLaser.wav");
-		setupSoundTable.put("explode", "src/sounds/8BitExplosion.wav");
+		Map<String,String> setupSoundTable = new HashMap<String,String>();//This allows us to play sounds by just using 'play("test")' Add more bindings here to add more sounds!
+		setupSoundTable.put("test", "src/sounds/simpleBeep.wav");//Generated using ChipTone https://sfbgames.itch.io/chiptone
+		setupSoundTable.put("shoot", "src/sounds/8BitLaser.wav");//Generated using ChipTone https://sfbgames.itch.io/chiptone
+		setupSoundTable.put("explode", "src/sounds/8BitExplosion.wav");//Generated using ChipTone https://sfbgames.itch.io/chiptone
 		setupSoundTable.put("music", "src/sounds/Boomerang_David_Renda.wav");
-		setupSoundTable.put("button", "src/sounds/type-machine.wav");
+		setupSoundTable.put("button", "src/sounds/type-machine.wav");//https://freesound.org/people/Danelle150055Venter/sounds/326357/
 		SOUND_TABLE = Collections.unmodifiableMap(setupSoundTable);
 	}
 
@@ -27,6 +27,10 @@ public final class AudioManager {
 		return;
 	}
 
+	/*Plays a sound with using name of the sound
+	 * 
+	 * 
+	 */
 	static public void play(String soundName) {
 		if (!mute) {
 			Sound s = new Sound(SOUND_TABLE.get(soundName),masterVolume);
@@ -35,6 +39,9 @@ public final class AudioManager {
 		cleanUp();
 	}
 
+	/*Plays a sound to a specific track
+	 * 
+	 */
 	static public void play(String soundName, String track) {
 		if (!mute) {
 			Sound s;
@@ -53,7 +60,9 @@ public final class AudioManager {
 			sounds.add(s);
 		}
 	}
-	
+	/*
+	 * Stops all sound from playing
+	 */
 	static public void stopAll() {
 		for (Sound s:sounds) {
 			s.stop();
@@ -61,6 +70,9 @@ public final class AudioManager {
 		sounds.clear();
 	}
 	
+	/*
+	 * removes sounds that are not playing from the list for garbage collection
+	 */
 	static public void cleanUp() {
 		if (!mute) sounds.removeIf(s -> (!s.isPlaying()));
 	}
@@ -111,6 +123,9 @@ public final class AudioManager {
 		return mute;
 	}
 
+	/*Mutes all audio
+	 * 
+	 */
 	public static void mute() {
 		AudioManager.mute = true;
 			for (Sound s : sounds) {
@@ -131,6 +146,9 @@ public final class AudioManager {
 		return out;
 	}
 	
+	/*
+	 * Unmutes audio
+	 */
 	public static void unmute() {
 		AudioManager.mute = false;
 		for (Sound s : sounds) {
@@ -138,7 +156,9 @@ public final class AudioManager {
 		}
 	}
 	
-	
+	/*
+	 * toggles the mute statet
+	 */
 	public static void toggleMute() {
 		if (mute) unmute();
 		else mute();

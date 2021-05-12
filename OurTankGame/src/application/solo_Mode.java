@@ -25,6 +25,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -391,6 +392,9 @@ public class solo_Mode {
 			TilePane rootControls = new TilePane();
 			rootControls.setPadding(new Insets(20));
 			rootControls.setAlignment(Pos.BASELINE_CENTER);
+			
+			Image menuImg  = new Image("images/TankMenu.jpg");
+			ImageView menuImgV = new ImageView(menuImg);
 
 			// Choose your keyboard preferences
 			Image img = new Image("art/wasd.png");
@@ -398,7 +402,7 @@ public class solo_Mode {
 			Button wasdButton = new Button();
 			wasdButton.setPrefSize(250, 40);
 			wasdButton.setGraphic(view);
-
+			wasdButton.setStyle("-fx-background-color: transparent;");
 			wasdButton.setPrefSize(80, 80);
 
 			Image imgArrows = new Image("art/arrows.png");
@@ -406,13 +410,17 @@ public class solo_Mode {
 			Button arrowsButton = new Button();
 			arrowsButton.setPrefSize(100, 40);
 			arrowsButton.setGraphic(viewArrows);
-
+			arrowsButton.setStyle("-fx-background-color: transparent;");
 			arrowsButton.setPrefSize(80, 80);
 
 			rootControls.getChildren().addAll(wasdButton, arrowsButton);
-			Scene sceneControls = new Scene(rootControls, 600, 200);
+			rootControls.setAlignment(Pos.CENTER);
+			StackPane sp = new StackPane(); 
+			sp.getChildren().addAll(menuImgV,rootControls);
+			Scene sceneControls = new Scene(sp, 1152,800);
 			Stage stageControls = new Stage();
 			stageControls.setScene(sceneControls);
+			stageControls.getIcons().add(new Image("images/icon_tank.jpg"));
 			stageControls.setTitle("Choose your controls:");
 
 			stageControls.show();
