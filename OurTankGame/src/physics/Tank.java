@@ -87,18 +87,34 @@ public class Tank extends Sprite {
 
 	public void enemyFireOnline(GraphicsContext context, ArrayList<Bullet> laserListE) {
 		if (bulletMsg == 1) {
-			if (elapsedTime - lastShot > 0.75 && this.hp > 0) {
-				Bullet laser = new Bullet("imagesProjectAI/Blue.png", this);
-				AudioManager.play("shoot");
+			if (id % 2 == 0) {
+				if (elapsedTime - lastShot > 0.75 && this.hp > 0) {
+					Bullet laser = new Bullet("imagesProjectAI/Blue.png", this);
+					AudioManager.play("shoot");
 
-				laser.position.set(this.position.x, this.position.y);
-				laser.velocity.setLength(200);
-				laser.velocity.setAngle(this.rotation);
-				laserListE.add(laser);
-				lastShot = elapsedTime;
+					laser.position.set(this.position.x, this.position.y);
+					laser.velocity.setLength(200);
+					laser.velocity.setAngle(this.rotation);
+					laserListE.add(laser);
+					lastShot = elapsedTime;
 
+				}
+				bulletMsg = 0;
 			}
-			bulletMsg = 0;
+			if(id % 2 != 0) {
+				if (elapsedTime - lastShot > 0.75 && this.hp > 0) {
+					Bullet laser = new Bullet("imagesProjectAI/red-circle.png", this);
+					AudioManager.play("shoot");
+
+					laser.position.set(this.position.x, this.position.y);
+					laser.velocity.setLength(200);
+					laser.velocity.setAngle(this.rotation);
+					laserListE.add(laser);
+					lastShot = elapsedTime;
+
+				}
+				bulletMsg = 0;
+			}
 		}
 	}
 

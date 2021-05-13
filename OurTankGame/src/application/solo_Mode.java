@@ -36,18 +36,19 @@ import physics.Sprite;
 import physics.Tank;
 import physics.Tile;
 import tankUI.TankMenu;
+
 /**
  * Single player mode, players and AI battle
  */
 public class solo_Mode {
 	private final Stage stage = new Stage();
 
-	public solo_Mode(int difficulty,boolean isWASD) {
+	public solo_Mode(int difficulty, boolean isWASD) {
 
 		final int TOTALGAMETIME = 90;
-		
+
 		AudioManager.stop("music");
-		AudioManager.play("fightMusic","music");
+		AudioManager.play("fightMusic", "music");
 
 		Map map = new Map();
 
@@ -344,8 +345,6 @@ public class solo_Mode {
 			MenuItem volume1 = new MenuItem("Music on");
 			Audio.getItems().addAll(volume, volume1);
 
-
-
 			// Pane
 			BorderPane root = new BorderPane();
 			root.setTop(menuBar);
@@ -499,82 +498,80 @@ public class solo_Mode {
 			ArrayList<Bullet> oldBullets = new ArrayList<Bullet>();
 			// ArrayList<Sprite> asteroidList = new ArrayList<Sprite>();
 
-			//final double FRAMERATE = 1 / 60d;
+			// final double FRAMERATE = 1 / 60d;
 
 			AnimationTimer gameloop = new AnimationTimer() {
 
 				int times, times2, times3 = 0;
 				int oneOrMinOne, oneOrMinOne2, oneOrMinOne3 = 0;
 
-				int time[] = {2,0,0,0,0};
+				int time[] = {2};
 				int a = 0;
-				int Time[] = {0,2,0,0,0,0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
-				int b = 0;
+//				int Time[] = { 0, 2, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+//				int b = 0;
 				double elapsedGameTime = 0;
 				double frameTime = 0;
 				double initialTime = -1;
 				final double NANO_TO_S = 1_000_000_000d;
 
 				public void handle(long nanotime) {
-					if (initialTime == -1) initialTime = nanotime / NANO_TO_S;
+					if (initialTime == -1)
+						initialTime = nanotime / NANO_TO_S;
 					frameTime = (nanotime / NANO_TO_S) - (elapsedGameTime + initialTime);
 					elapsedGameTime += frameTime;
-					//System.out.println(frameTime);
-					
-					
+					// System.out.println(frameTime);
+
 					// enemy1 fixed
 					double checkRotation = enemy.rotation % 90;
 					if (enemy.hp > 0) {
-					      if (checkRotation == 0) {
-					       oneOrMinOne = 0;
-					       times++;
-					       int i = times % 210;
-					       int randomNumber = time[a];
-					       enemy.velocity.setAngle(enemy.rotation);
-					       enemy.velocity.setLength(45*enemy.getSpeedModifier());
-					       if (i == 0) {
-					        if (randomNumber == 1) {
-					         enemy.rotation += 2;
-					         oneOrMinOne = 1;
-					         a++;
-					        } else if (randomNumber == 2) {
-					         enemy.rotation -= 2;
-					         oneOrMinOne = -1;
-					         a++;
-					        } else if (randomNumber == 0) {
-					         enemy.velocity.setAngle(enemy.rotation);
-					         enemy.velocity.setLength(45*enemy.getSpeedModifier());
-					         a++;
-					        }
-					       }
-					      }
-					      if (Math.random() < 0.08 && enemy.getHP() >= 0) {
+						if (checkRotation == 0) {
+							oneOrMinOne = 0;
+							times++;
+							int i = times % 210;
+							int randomNumber = time[a];
+							enemy.velocity.setAngle(enemy.rotation);
+							enemy.velocity.setLength(60 * enemy.getSpeedModifier());
+							if (i == 0) {
+								if (randomNumber == 1) {
+									enemy.rotation += 2;
+									oneOrMinOne = 1;
+									a++;
+								} else if (randomNumber == 2) {
+									enemy.rotation -= 2;
+									oneOrMinOne = -1;
+									a++;
+								} else if (randomNumber == 0) {
+									enemy.velocity.setAngle(enemy.rotation);
+									enemy.velocity.setLength(60 * enemy.getSpeedModifier());
+									a++;
+								}
+							}
+						}
+						if (Math.random() < 0.08 && enemy.getHP() >= 0) {
 
-					       context.save();
+							context.save();
 
-					       Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
-					       // modified the position a bit so it looks like it shoots from the turret
-					       laserE.position.set(enemy.position.x, enemy.position.y);
-					       laserE.velocity.setLength(200);
-					       laserE.velocity.setAngle(enemy.rotation);
-					       laserListE.add(laserE);
-					      }
-					      if (oneOrMinOne == 1) {
-					       enemy.rotation += 2;
-					       enemy.velocity.setLength(0);
-					      }
-					      if (oneOrMinOne == -1) {
-					       enemy.rotation -= 2;
-					       enemy.velocity.setLength(0);
-					      }
-					      if (a == time.length) {
-					       a = 0;
-					      }
-					     }
+							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy);
+							// modified the position a bit so it looks like it shoots from the turret
+							laserE.position.set(enemy.position.x, enemy.position.y);
+							laserE.velocity.setLength(200);
+							laserE.velocity.setAngle(enemy.rotation);
+							laserListE.add(laserE);
+						}
+						if (oneOrMinOne == 1) {
+							enemy.rotation += 2;
+							enemy.velocity.setLength(0);
+						}
+						if (oneOrMinOne == -1) {
+							enemy.rotation -= 2;
+							enemy.velocity.setLength(0);
+						}
+						if (a == time.length) {
+							a = 0;
+						}
+					}
 
-					
-					
-					//Enemy2 random
+					// Enemy2 random
 					if (enemy2.hp > 0) {
 						// enemy2
 						double checkRotation2 = enemy2.rotation % 90;
@@ -585,8 +582,8 @@ public class solo_Mode {
 							int i = times2 % 45;
 							double randomNumber2 = Math.random();
 							enemy2.velocity.setAngle(enemy2.rotation);
-							enemy2.velocity.setLength(45*enemy2.getSpeedModifier());
-							
+							enemy2.velocity.setLength(80* enemy2.getSpeedModifier());
+
 							if (i == 0) {
 								if (randomNumber2 < 0.5) {
 									enemy2.velocity.setLength(0);
@@ -619,47 +616,39 @@ public class solo_Mode {
 					}
 
 					if (enemy3.hp > 0) {
-
+						// enemy2
 						double checkRotation3 = enemy3.rotation % 90;
-						// System.out.println(enemy.rotation);
 						if (checkRotation3 == 0) {
 							oneOrMinOne3 = 0;
-							if (Math.random() < 0.03 && enemy3.getHP() >= 0) {
-
-								context.save();
-
-								Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy3);
-								// modified the position a bit so it looks like it shoots from the turret
-								laserE.position.set(enemy3.position.x, enemy3.position.y);
-								laserE.velocity.setLength(200);
-								laserE.velocity.setAngle(enemy3.rotation);
-								laserListE.add(laserE);
-							}
 
 							times3++;
-							int i = times3 % 210;
-							int randomNumber3 = Time[b];					
+							int i = times3 % 45;
+							double randomNumber3 = Math.random();
 							enemy3.velocity.setAngle(enemy3.rotation);
-							enemy3.velocity.setLength(50*enemy3.getSpeedModifier());
-							
+							enemy3.velocity.setLength(60 * enemy3.getSpeedModifier());
+
 							if (i == 0) {
-								if (randomNumber3 == 1) {
+								if (randomNumber3 < 0.5) {
 									enemy3.velocity.setLength(0);
 									enemy3.rotation += 2;
 									oneOrMinOne3 = 1;
-
-									b++;
-								} else if (randomNumber3 == 2) {
+								} else if (randomNumber3 > 0.5) {
 									enemy3.velocity.setLength(0);
 									enemy3.rotation -= 2;
 									oneOrMinOne3 = -1;
-									b++;
-								} else if (randomNumber3 == 0) {
-									enemy3.velocity.setAngle(enemy3.rotation);
-									enemy3.velocity.setLength(50*enemy3.getSpeedModifier());
-									b++;
 								}
 							}
+						}
+						if (Math.random() < 0.1 && enemy3.getHP() >= 0) {
+
+							context.save();
+
+							Bullet laserE = new Bullet("imagesProjectAI/red-circle.png", enemy3);
+							// modified the position a bit so it looks like it shoots from the turret
+							laserE.position.set(enemy3.position.x, enemy3.position.y);
+							laserE.velocity.setLength(200);
+							laserE.velocity.setAngle(enemy3.rotation);
+							laserListE.add(laserE);
 						}
 						if (oneOrMinOne3 == 1) {
 							enemy3.rotation += 2;
@@ -667,10 +656,8 @@ public class solo_Mode {
 						if (oneOrMinOne3 == -1) {
 							enemy3.rotation -= 2;
 						}
-						if (b == Time.length) {
-							b = 0;
-						}
 					}
+
 
 					// If bool is true, WASD was chosen
 					if (isWASD) {
@@ -793,11 +780,10 @@ public class solo_Mode {
 					}
 					score.setText("Score: " + tank.getScore());
 
-					//elapsedGameTime += frameTime;
+					// elapsedGameTime += frameTime;
 					timer.setText("Time Left:" + (TOTALGAMETIME - (int) elapsedGameTime));
 					// System.out.println(elapsedGameTime + "Time passed");
 
-				
 					// HP bar
 					Group rootg = new Group();
 					Rectangle rectangle1 = new Rectangle();
@@ -824,7 +810,7 @@ public class solo_Mode {
 					hpBar.setSpacing(40);
 
 					root.setBottom(hpBar);
-					
+
 					// Gameover Logic
 					if (tank.hp <= 0) {
 						Sprite youLose = new Sprite("art/YouLose.png", 576, 400);
@@ -835,7 +821,7 @@ public class solo_Mode {
 						Sprite youWin = new Sprite("art/YouWin.png", 576, 400);
 						gameOver(youWin, context);
 						this.stop();
-					}else if(elapsedGameTime > TOTALGAMETIME){
+					} else if (elapsedGameTime > TOTALGAMETIME) {
 						Sprite youLose = new Sprite("art/YouLose.png", 576, 400);
 						gameOver(youLose, context);
 						this.stop();

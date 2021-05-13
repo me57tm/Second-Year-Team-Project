@@ -73,6 +73,7 @@ public class NetClient {
 	}
 	/**
 	 * Interface replication
+	 * @param msg Message type.
 	 */
 	public void send(Message msg) {
 		msg.send(ds, serverIP, serverUDPPort);

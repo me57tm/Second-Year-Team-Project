@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+
 import java.util.Random;
 import audio.AudioManager;
 import javafx.animation.AnimationTimer;
@@ -37,7 +38,10 @@ import physics.Sprite;
 import physics.Tank;
 import physics.Tile;
 import tankUI.TankMenu;
-
+/**
+ * Local two-player battle mode, where two people share a computer and use different key position battle modes.
+ * One party uses WASD and the other party uses arrow keys.One side shoots with J and the other shoots with space 
+ */
 public class Local_PVP_Mode {
 	private final Stage stage = new Stage();
 
