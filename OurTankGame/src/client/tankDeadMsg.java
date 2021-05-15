@@ -10,7 +10,7 @@ import java.net.InetSocketAddress;
 import physics.Tank;
 
 /**
- * Confirmation of tank death information
+ * Confirmation of tank death information.There is no time at the moment, which is equivalent to a template for network function scalability
  */
 public class tankDeadMsg implements Message {
 	private int msgType = Message.DEAD_MSG;

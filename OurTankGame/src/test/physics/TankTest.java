@@ -1,16 +1,10 @@
 package test.physics;
 
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
 import org.junit.Test;
 
-import audio.AudioManager;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.canvas.GraphicsContext;
 import physics.Bullet;
-import physics.Sprite;
 import physics.Tank;
 
 public class TankTest {

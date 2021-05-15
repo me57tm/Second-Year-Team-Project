@@ -13,7 +13,7 @@ import physics.Tank;
  * Tank movement information interaction during the game,and synchronization of fired information.
  */
 public class MovingMsg implements Message {
-	private int msgType = Message.TANK_MOVE_MSG;
+	private int msgType = Message.MOVEING_MSG;
 	private int id, compass, up, down;
 	private double fire;
 	private TankClient tc;

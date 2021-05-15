@@ -14,12 +14,12 @@ public final class AudioManager {
 	private static final Map<String,String> SOUND_TABLE;
 	static {
 		Map<String,String> setupSoundTable = new HashMap<String,String>();//This allows us to play sounds by just using 'play("test")' Add more bindings here to add more sounds!
-		setupSoundTable.put("test", "sounds/simpleBeep.wav");//Generated with ChipTone: https://sfbgames.itch.io/chiptone
-		setupSoundTable.put("shoot", "sounds/8BitLaser.wav");//Generated with ChipTone: https://sfbgames.itch.io/chiptone
-		setupSoundTable.put("explode", "sounds/8BitExplosion.wav");//Generated with ChipTone: https://sfbgames.itch.io/chiptone
-		setupSoundTable.put("fightMusic", "sounds/Boomerang_David_Renda.wav");//in the name: https://www.fesliyanstudios.com/royalty-free-music/download/boomerang/751
-		setupSoundTable.put("button", "sounds/type-machine.wav");//https://freesound.org/people/Danelle150055Venter/sounds/326357/
-		setupSoundTable.put("music", "sounds/7.wav");//
+		setupSoundTable.put("test", "src/sounds/simpleBeep.wav");//Generated with ChipTone: https://sfbgames.itch.io/chiptone
+		setupSoundTable.put("shoot", "src/sounds/8BitLaser.wav");//Generated with ChipTone: https://sfbgames.itch.io/chiptone
+		setupSoundTable.put("explode", "src/sounds/8BitExplosion.wav");//Generated with ChipTone: https://sfbgames.itch.io/chiptone
+		setupSoundTable.put("fightMusic", "src/sounds/Boomerang_David_Renda.wav");//in the name: https://www.fesliyanstudios.com/royalty-free-music/download/boomerang/751
+		setupSoundTable.put("button", "src/sounds/type-machine.wav");//https://freesound.org/people/Danelle150055Venter/sounds/326357/
+		setupSoundTable.put("music", "src/sounds/7.wav");//
 		SOUND_TABLE = Collections.unmodifiableMap(setupSoundTable);
 	}
 

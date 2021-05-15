@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import javafx.embed.swing.JFXPanel;
-import javafx.stage.Stage;
 import physics.Layer;
 import physics.Map;
 import physics.Sprite;

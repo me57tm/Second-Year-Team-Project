@@ -128,7 +128,7 @@ public class TankClient {
 					player1 = new Tank("art/tank64.png", 160d, 160d);
 					player2 = new Tank("art/tank-red.png", 992, 608);
                     player2.setRotation(180);
-					nc.connect("127.0.0.1");
+					nc.connectToServer("127.0.0.1");
 
 					if (id < 102) {
 						if ((id & 1) == 0 ? true : false) {

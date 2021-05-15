@@ -387,64 +387,6 @@ public class solo_Mode {
 			stage.getIcons().add(new Image("images/icon_tank.jpg"));
 			stage.show();
 
-//			TilePane rootControls = new TilePane();
-//			rootControls.setPadding(new Insets(20));
-//			rootControls.setAlignment(Pos.BASELINE_CENTER);
-//			
-//			Image menuImg  = new Image("images/TankMenu.jpg");
-//			ImageView menuImgV = new ImageView(menuImg);
-//
-//			// Choose your keyboard preferences
-//			Image img = new Image("art/wasd.png");
-//			ImageView view = new ImageView(img);
-//			Button wasdButton = new Button();
-//			wasdButton.setPrefSize(250, 40);
-//			wasdButton.setGraphic(view);
-//			wasdButton.setStyle("-fx-background-color: transparent;");
-//			wasdButton.setPrefSize(80, 80);
-//
-//			Image imgArrows = new Image("art/arrows.png");
-//			ImageView viewArrows = new ImageView(imgArrows);
-//			Button arrowsButton = new Button();
-//			arrowsButton.setPrefSize(100, 40);
-//			arrowsButton.setGraphic(viewArrows);
-//			arrowsButton.setStyle("-fx-background-color: transparent;");
-//			arrowsButton.setPrefSize(80, 80);
-//
-//			rootControls.getChildren().addAll(wasdButton, arrowsButton);
-//			rootControls.setAlignment(Pos.CENTER);
-//			StackPane sp = new StackPane(); 
-//			sp.getChildren().addAll(menuImgV,rootControls);
-//			Scene sceneControls = new Scene(sp, 1152,800);
-//			Stage stageControls = new Stage();
-//			stageControls.setScene(sceneControls);
-//			stageControls.getIcons().add(new Image("images/icon_tank.jpg"));
-//			stageControls.setTitle("Choose your controls:");
-//
-//			stageControls.show();
-//
-//			wasdButton.setOnAction(new EventHandler<ActionEvent>() {
-//
-//				@Override
-//				public void handle(ActionEvent arg0) {
-//					AudioManager.play("button", "sound");
-//					isWASD = true;
-//					stageControls.close();
-//					stage.show();
-//				}
-//			});
-//
-//			arrowsButton.setOnAction(new EventHandler<ActionEvent>() {
-//
-//				@Override
-//				public void handle(ActionEvent arg0) {
-//					AudioManager.play("button", "sound");
-//					isWASD = false;
-//					stageControls.close();
-//					stage.show();
-//				}
-//			});
-
 			Canvas canvas = new Canvas(1150, 770);
 			GraphicsContext context = canvas.getGraphicsContext2D();
 			// Change setCenter to setLeft

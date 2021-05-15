@@ -17,8 +17,8 @@ import java.util.List;
 public class TankServer {
 
 	public static int ID = 100;// TankClient ID and tank ID
-	public static final int tcpPort = 55555;// TCP port number
-	public static final int udpPort = 55556;// UDP port number for forwarding client data
+	public static final int tcpPort = 28965;// TCP port number
+	public static final int udpPort = 28966;// UDP port number for forwarding client data
 	private List<Client> clients = new ArrayList<>();// Client collection
 
 

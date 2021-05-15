@@ -7,7 +7,7 @@ import java.net.DatagramSocket;
  */
 public interface Message {
 
-    public static final int TANK_MOVE_MSG= 1;
+    public static final int MOVEING_MSG= 1;
     public static final int TANK_NAME_MSG = 2;
     public static final int DEAD_MSG = 3;
 

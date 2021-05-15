@@ -34,7 +34,7 @@ public class NetClient {
 	 * 
 	 * @param ip server IP
 	 */
-	public void connect(String ip) {
+	public void connectToServer(String ip) {
 		serverIP = ip;
 		Socket s = null;
 		try {
@@ -112,7 +112,7 @@ public class NetClient {
 			Message msg = null;
 			switch (msgType) {// Call the analysis method of the corresponding message according to the type of the message
 
-			case Message.TANK_MOVE_MSG:
+			case Message.MOVEING_MSG:
 				msg = new MovingMsg(tc);
 				msg.parse(dis);
 				break;
