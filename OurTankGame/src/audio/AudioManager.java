@@ -28,6 +28,10 @@ public final class AudioManager {
 		return;
 	}
 
+	/**
+	 * Play a sound using its name
+	 * @param soundName The name of the sound to be played
+	 */
 	static public void play(String soundName) {
 		if (!mute) {
 			Sound s = new Sound(SOUND_TABLE.get(soundName),masterVolume);
@@ -36,6 +40,11 @@ public final class AudioManager {
 		cleanUp();
 	}
 
+	/**
+	 * Play a sound to a specific track
+	 * @param soundName The name of the sound to be played
+	 * @param track The track on which to play the sound
+	 */
 	static public void play(String soundName, String track) {
 		if (!mute) {
 			Sound s;
@@ -54,7 +63,9 @@ public final class AudioManager {
 			sounds.add(s);
 		}
 	}
-	
+	/**
+	 * Stops all sound
+	 */
 	static public void stopAll() {
 		for (Sound s:sounds) {
 			s.stop();
@@ -62,6 +73,10 @@ public final class AudioManager {
 		sounds.clear();
 	}
 	
+	/**
+	 * Stop a specific sound using its name
+	 * @param soundName The name of the sound to be stopped
+	 */
 	static public void stop(String soundName) {
 		String soundPath = SOUND_TABLE.get(soundName);
 		for (Sound s:sounds) {
@@ -70,6 +85,10 @@ public final class AudioManager {
 		}
 	}
 	
+	/**
+	 * Remove sounds from the audio manager that are not playing
+	 * is done automatically when a new sound is played
+	 */
 	static public void cleanUp() {
 		if (!mute) sounds.removeIf(s -> (!s.isPlaying()));
 	}
@@ -120,6 +139,9 @@ public final class AudioManager {
 		return mute;
 	}
 
+	/**
+	 * Mutes all sound. The sound is still "playing" and will resume when the manager is un-muted
+	 */
 	public static void mute() {
 		AudioManager.mute = true;
 			for (Sound s : sounds) {
@@ -128,6 +150,11 @@ public final class AudioManager {
 		
 	}
 	
+	/**
+	 * Checks to see if a specific sound is playing or not
+	 * @param soundName The name of the sound checked
+	 * @return Whether or not this sound is playing
+	 */
 	public static boolean isPlaying(String soundName) {
 		String soundPath = SOUND_TABLE.get(soundName);
 		boolean out = false;
@@ -140,6 +167,9 @@ public final class AudioManager {
 		return out;
 	}
 	
+	/**
+	 * Resumes all sound.
+	 */
 	public static void unmute() {
 		AudioManager.mute = false;
 		for (Sound s : sounds) {
