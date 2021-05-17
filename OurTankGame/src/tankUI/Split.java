@@ -27,7 +27,7 @@ public class Split {
 			s1.setTitle("Tank BattleField");
 			s1.getIcons().add(new Image("images/icon_tank.jpg"));
 
-			Image img  = new Image("images/TankMenu.jpg");
+			Image img  = new Image("images/split.png");
 			ImageView imgV = new ImageView(img);
 			
 			Label set1 = new Label();
