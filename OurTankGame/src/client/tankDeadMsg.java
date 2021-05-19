@@ -27,7 +27,7 @@ public class tankDeadMsg implements Message {
 	}
 
 	@Override
-	public void send(DatagramSocket ds, String IP, int UDP_Port) {
+	public void sendToServer(DatagramSocket ds, String IP, int UDP_Port) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(100);
 		DataOutputStream dos = new DataOutputStream(baos);
 		try {
@@ -49,7 +49,7 @@ public class tankDeadMsg implements Message {
 	}
 
 	@Override
-	public void parse(DataInputStream dis) {
+	public void dealFromServer(DataInputStream dis) {
 
 		try {
 			int id = dis.readInt();
